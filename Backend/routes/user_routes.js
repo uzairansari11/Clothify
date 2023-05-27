@@ -7,7 +7,7 @@ userRouter.post("/register",userRegister)
 
 userRouter.post("/login",userLogin)
 
-userRouter.get("/serach",userSearch)
+userRouter.get("/",userSearch)
 
 
 
