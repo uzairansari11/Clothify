@@ -10,7 +10,6 @@ const getCart = async (req, res) => {
 };
 
 const postCart = async (req, res) => {
-	console.log(req.body, "from cart post");
 	const {
 		productName,
 		productCategory,
@@ -44,7 +43,7 @@ const postCart = async (req, res) => {
 				discount,
 				quantity,
 				pic,
-				user: req.user._id, // Set the users field to the user ID
+				user: req.user._id, 
 			});
 
 			await cartDetails.save();
@@ -61,7 +60,6 @@ const postCart = async (req, res) => {
 const updateCart = async (req, res) => {
 	const payload = req.body;
 	const productId = req.params.id;
-	console.log(payload);
 	try {
 		const updatedItem = await CartModel.findByIdAndUpdate(
 			{ _id: productId, user: req.user.id },
