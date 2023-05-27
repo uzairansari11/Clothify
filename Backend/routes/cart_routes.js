@@ -5,6 +5,7 @@ const {
 	updateCart,
 	deleteCart,
 } = require("../controller/cart_controller");
+const { authorizedMiddleware } = require("../middleware/authorizedMiddleware");
 
 const cartRouter = express.Router();
 
