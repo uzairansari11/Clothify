@@ -8,6 +8,7 @@ const { productRouter } = require("./routes/product_routes");
 const { cartRouter } = require("./routes/cart_routes");
 const { authorizedMiddleware } = require("./middleware/authorizedMiddleware");
 const { orderRouter } = require("./routes/order_routes");
+const { WishlistRouter } = require("./routes/wishlist_routes");
 
 const app = express();
 app.use(cors())
@@ -20,6 +21,8 @@ app.use('/product',productRouter)
 app.use("/cart",authorizedMiddleware,cartRouter)
 
 app.use("/order",authorizedMiddleware,orderRouter)
+
+app.use("/wishlist",authorizedMiddleware,WishlistRouter)
 
 app.listen(process.env.PORT, async () => {
 	try {
