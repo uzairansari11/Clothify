@@ -1,15 +1,69 @@
 const { ProductModel } = require("../model/product_model");
 
 const getProduct = async (req, res) => {
-	try {
-		const allProduct = await ProductModel.find().limit(2).sort({ price: 1 });
-		res.status(200).json(allProduct);
-	} catch (error) {
-		res
-			.status(500)
-			.json({ error: "An error occurred while posting the  new  product" });
-	}
+  try {
+    const query = req.query;
+    const filter = {};
+
+    // Build the filter dynamically based on query parameters
+    for (const key in query) {
+      if (key !== "page" && key !== "limit" && key !== "sortField" && key !== "sortOrder" && key !== "search") {
+        if (query[key].includes("lte")) {
+          const value = query[key].replace("lte", "");
+          filter[key] = { $lte: value };
+        } else if (query[key].includes("gte")) {
+          const value = query[key].replace("gte", "");
+          filter[key] = { $gte: value };
+        } else if (query[key].includes("lt")) {
+          const value = query[key].replace("lt", "");
+          filter[key] = { $lt: value };
+        } else {
+          filter[key] = query[key];
+        }
+      }
+    }
+
+    // Add search functionality
+    if (query.search) {
+      const searchQuery = new RegExp(query.search, "i");
+      filter.$or = [
+        { ProductName: searchQuery }
+        // { description: searchQuery },
+      ];
+    }
+
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const sortField = query.sortField || "price";
+    const sortOrder = query.sortOrder || "asc";
+    const sort = {};
+    sort[sortField] = sortOrder === "desc" ? -1 : 1;
+
+    const queryOptions = {
+      skip,
+      limit,
+      sort,
+    };
+
+    const [results, totalCount] = await Promise.all([
+      ProductModel.find(filter, null, queryOptions),
+      ProductModel.countDocuments(filter),
+    ]);
+
+    res.status(200).json({
+      results,
+      totalCount,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving products" });
+  }
 };
+
+
 
 const postProduct = async (req, res) => {
 	const {
