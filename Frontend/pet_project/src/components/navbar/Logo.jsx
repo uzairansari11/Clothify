@@ -5,8 +5,9 @@ const Logo = () => {
 		<Image
 			src={"/images/Airbnb_Logo.png"}
 			alt="Logo"
-			width={{ base: "90px", md: "100px", lg: "120px" }}
+			width={{ base: "100px", md: "100px", lg: "120px" }}
 			cursor={"pointer"}
+			margin={'auto'}
 		/>
 	);
 };

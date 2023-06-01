@@ -14,6 +14,7 @@ import {
 import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import { signupFunction } from "../utils/signup";
 import { useNavigate } from "react-router-dom";
+import { UnlockIcon } from "@chakra-ui/icons";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -49,6 +50,7 @@ const Signup = () => {
           status: "warning",
           duration: 9000,
           isClosable: true,
+          icon:<UnlockIcon />
         });
         setIsLoading(false);
       }
