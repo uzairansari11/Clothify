@@ -61,7 +61,7 @@ const userLogin = asyncHandler(async (req, res) => {
       return res.status(400).json({ error: "Wrong password" });
     }
 
-    const { password: _, mobile, _id, isAdmin, ...userData } = user.toObject();
+    const { password: _, mobile,  ...userData } = user.toObject();
 
     const token = jwt.sign({ userID: user._id }, process.env.SECRET_KEY, {
       expiresIn: "10d",

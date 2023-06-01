@@ -47,13 +47,13 @@ const getProduct = async (req, res) => {
       sort,
     };
 
-    const [results, totalCount] = await Promise.all([
+    const [data, totalCount] = await Promise.all([
       ProductModel.find(filter, null, queryOptions),
       ProductModel.countDocuments(filter),
     ]);
 
     res.status(200).json({
-      results,
+      data,
       totalCount,
     });
   } catch (error) {
