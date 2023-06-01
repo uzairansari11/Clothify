@@ -15,7 +15,6 @@ import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { loginFunction } from "../utils/login";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  
   /*------------------------- All states --------------------------------*/
 
   const [email, setEmail] = useState("");
@@ -24,8 +23,8 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const toast = useToast();
-  const Navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   /*------------------------- All states end-------------------------- */
 
   /*-------------------- Logical parts------------------------------- */
@@ -37,26 +36,26 @@ const Login = () => {
       const userDetails = { email, password };
       let res = await loginFunction(userDetails);
 
-      if (res) {
+      if (res === true) {
         toast({
           title: "Login Success.",
           status: "success",
           duration: 9000,
           isClosable: true,
-          textAlign: "center",
         });
         setIsLogin(true);
+        setIsLoading(false);
       } else {
         toast({
-          title: "Login failed.",
-          status: "error",
+          title: "Login failed",
+          description: `${res}`,
+          status: "warning",
           duration: 9000,
           isClosable: true,
-          textAlign: "center",
         });
+        setIsLoading(false);
       }
     }
-    setIsLoading(false);
   };
 
   const handleTogglePassword = () => {
@@ -64,7 +63,7 @@ const Login = () => {
   };
   useEffect(() => {
     if (isLogin) {
-      return Navigate("/");
+      return navigate("/", { replace: true });
     }
   }, [isLogin]);
 

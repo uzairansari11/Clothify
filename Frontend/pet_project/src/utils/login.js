@@ -9,10 +9,9 @@ export const loginFunction = async (payload) => {
       const userData = res.data;
       Cookies.set("uzair_app_token", JSON.stringify(userData), { expires: 7 });
       return true;
-    } else {
-      return false;
     }
   } catch (error) {
-    return false;
+    console.log(error.response)
+    return error.response.data.error;
   }
 };

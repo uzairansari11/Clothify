@@ -9,9 +9,11 @@ import {
   InputGroup,
   InputRightElement,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import { signupFunction } from "../utils/signup";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -20,27 +22,45 @@ const Signup = () => {
   const [mobile, setMobile] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isCreated, setIsCreated] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulating signup logic with a delay
+    setIsLoading(true);
+
     if (email && password && mobile && name) {
       const userData = { email, password, name, mobile };
       let res = await signupFunction(userData);
-      console.log(res);
-    }
+      if (res === true) {
+        toast({
+          title: "User Created Successfully",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsCreated(true);
 
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      // Add your actual signup logic here
-    }, 2000);
+        setIsLoading(false);
+      } else {
+        toast({
+          title: "User Can't Be Created",
+          description: `${res}`,
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsLoading(false);
+      }
+    }
   };
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-
+  if (isCreated) {
+    navigate("/login", { replace: true });
+  }
   return (
     <Flex
       align="center"

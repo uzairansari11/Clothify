@@ -41,7 +41,7 @@ const userRegister = asyncHandler(async (req, res) => {
   }
 });
 
-const userLogin = async (req, res) => {
+const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -74,8 +74,7 @@ const userLogin = async (req, res) => {
       .status(400)
       .json({ error: "An error occurred while logging in the user" });
   }
-};
-
+})
 const userSearch = async (req, res) => {};
 
 module.exports = { userRegister, userLogin, userSearch };

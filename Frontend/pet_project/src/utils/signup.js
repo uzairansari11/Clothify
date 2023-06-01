@@ -9,10 +9,8 @@ export const signupFunction = async (payload) => {
 
     if (res.status === 200) {
       return true;
-    } else {
-      return false;
     }
   } catch (error) {
-    return false;
+    return error.response.data.error;
   }
 };
