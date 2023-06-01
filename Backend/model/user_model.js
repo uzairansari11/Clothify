@@ -15,15 +15,9 @@ const userSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		picture: {
-			type: String,
-			default:
-				"https://w0.peakpx.com/wallpaper/208/752/HD-wallpaper-whatsapp-dp-cartoon.jpg",
-		},
 		mobile: {
 			type: Number,
 			required: true,
-			unique: true,
 		},
 		isAdmin: {
 			type: Boolean,
