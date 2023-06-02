@@ -1,5 +1,5 @@
 {
-  "name": "pet_project",
+  "name": "clothify",
   "version": "1.0.0",
   "description": "This website allows anyone to sell their pet by uploading details and pictures of the pet. The site also includes a food section, where users can find food specifically for their pets, as well as an accessories section for finding pet-related accessories.",
   "main": "index.js",
