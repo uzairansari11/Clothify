@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -9,13 +9,13 @@ import {
   Text,
   Button,
   useColorModeValue,
-} from '@chakra-ui/react';
-// { categories, brands }
+} from "@chakra-ui/react";
+
 const FilterComponent = () => {
-  const categories=["dog","cat","tom"]
-  const brands=["tommy","selector"]
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedBrand, setSelectedBrand] = useState('');
+  const categories = ["dog", "cat", "tom"];
+  const brands = ["tommy", "selector"];
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState(false);
 
   const handleCategoryChange = (event) => {
@@ -31,27 +31,36 @@ const FilterComponent = () => {
   };
 
   const handleReset = () => {
-    setSelectedCategory('');
-    setSelectedBrand('');
+    setSelectedCategory("");
+    setSelectedBrand("");
     setSelectedDiscount(false);
   };
 
-  const buttonColor = useColorModeValue('teal', 'teal.300');
-  const textColor = useColorModeValue('white', 'gray.800');
+  const buttonColor = useColorModeValue("teal", "teal.300");
+  const textColor = useColorModeValue("white", "gray.800");
 
   return (
     <Box p="4" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Flex flexWrap="wrap" justifyContent="space-between">
+      <Flex
+        flexWrap={["wrap", "wrap", "nowrap"]}
+        justifyContent="space-between"
+        flexDirection={["row", "row", "column"]}
+      >
         <FormControl mb="4">
           <FormLabel>Sort by Price:</FormLabel>
-          <Select placeholder="Select option">
+          <Select placeholder="Select option" colorScheme="teal">
             <option value="lowToHigh">Low to High</option>
             <option value="highToLow">High to Low</option>
           </Select>
         </FormControl>
         <FormControl mb="4">
           <FormLabel>Filter by Category:</FormLabel>
-          <Select value={selectedCategory} onChange={handleCategoryChange} placeholder="Select option">
+          <Select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            placeholder="Select option"
+            colorScheme="teal"
+          >
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -61,7 +70,12 @@ const FilterComponent = () => {
         </FormControl>
         <FormControl mb="4">
           <FormLabel>Filter by Brand:</FormLabel>
-          <Select value={selectedBrand} onChange={handleBrandChange} placeholder="Select option">
+          <Select
+            value={selectedBrand}
+            onChange={handleBrandChange}
+            placeholder="Select option"
+            colorScheme="teal"
+          >
             {brands.map((brand) => (
               <option key={brand} value={brand}>
                 {brand}
@@ -74,6 +88,7 @@ const FilterComponent = () => {
           <Checkbox
             isChecked={selectedDiscount}
             onChange={handleDiscountChange}
+            colorScheme="teal"
           >
             Show Only Discounted Products
           </Checkbox>
@@ -82,15 +97,13 @@ const FilterComponent = () => {
           <Button
             colorScheme={buttonColor}
             onClick={handleReset}
-            mb="4"
+            mb={["4", "4", "0"]}
+            mt="4"
           >
             Reset
           </Button>
         </Box>
       </Flex>
-      <Text color={textColor}>
-        Displaying products based on selected filters...
-      </Text>
     </Box>
   );
 };

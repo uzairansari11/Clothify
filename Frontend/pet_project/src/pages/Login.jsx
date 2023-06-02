@@ -14,9 +14,8 @@ import {
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { loginFunction } from "../utils/login";
 import { useNavigate } from "react-router-dom";
-const Login = () => {
-  /*------------------------- All states --------------------------------*/
 
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,10 +23,6 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
-
-  /*------------------------- All states end-------------------------- */
-
-  /*-------------------- Logical parts------------------------------- */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +35,7 @@ const Login = () => {
         toast({
           title: "Login Success.",
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         setIsLogin(true);
@@ -50,7 +45,7 @@ const Login = () => {
           title: "Login failed",
           description: `${res}`,
           status: "warning",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         setIsLoading(false);
@@ -61,13 +56,13 @@ const Login = () => {
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
   useEffect(() => {
     if (isLogin) {
       return navigate("/", { replace: true });
     }
   }, [isLogin]);
 
-  /*------------------------- Logical part end ---------------------------*/
   return (
     <Flex
       align="center"
@@ -80,11 +75,11 @@ const Login = () => {
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"
-        backgroundColor="whiteAlpha.900"
+        backgroundColor="white"
         borderRadius="md"
         boxShadow="lg"
       >
-        <Heading as="h2" size="lg" textAlign="center" mb="6">
+        <Heading as="h2" size="lg" textAlign="center" mb="6" color="teal.500">
           Login to Pet App
         </Heading>
         <form onSubmit={handleSubmit}>
@@ -94,8 +89,9 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             mb="4"
+            size="lg"
           />
-          <InputGroup>
+          <InputGroup size="lg">
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -111,6 +107,7 @@ const Login = () => {
                 onClick={handleTogglePassword}
                 icon={showPassword ? <FiEyeOff /> : <FiEye />}
                 aria-label={showPassword ? "Hide password" : "Show password"}
+                variant="unstyled"
               />
             </InputRightElement>
           </InputGroup>
@@ -122,8 +119,8 @@ const Login = () => {
             leftIcon={<FiLogIn />}
             isLoading={isLoading}
             loadingText="Logging In..."
-            loadingspinner={<Spinner color="white" size="sm" />}
-            isDisabled={email == "" || password == ""}
+            spinner={<Spinner color="white" size="sm" />}
+            isDisabled={email === "" || password === ""}
           >
             Login
           </Button>

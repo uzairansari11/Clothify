@@ -1,8 +1,28 @@
-import { Box } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItemOption,
+  MenuList,
+} from "@chakra-ui/react";
 import React from "react";
-import { HamburgerIcon } from "@chakra-ui/icons";
-const HamburgerOptions = () => {
-  return <HamburgerIcon w={{ base: 4, md: 8 }} h={{ base: 4, md: 8 }} />;
+import { Link as ReactLink } from "react-router-dom";
+const Menuitem = ({ children }) => {
+  return (
+    <Menu closeOnSelect={false}>
+      <MenuButton>{children}</MenuButton>
+
+      <MenuList maxWidth={{ base: "40px", md: "150px" }}>
+        <ReactLink to="/login">
+          <MenuItemOption textAlign={"center"}>Login</MenuItemOption>
+        </ReactLink>
+        <MenuDivider />
+        <ReactLink to="/signup">
+          <MenuItemOption textAlign={"center"}>Signup</MenuItemOption>
+        </ReactLink>
+      </MenuList>
+    </Menu>
+  );
 };
 
-export default HamburgerOptions;
+export default Menuitem;
