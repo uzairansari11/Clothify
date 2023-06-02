@@ -7,7 +7,13 @@ const getProduct = async (req, res) => {
 
     // Build the filter dynamically based on query parameters
     for (const key in query) {
-      if (key !== "page" && key !== "limit" && key !== "sortField" && key !== "sortOrder" && key !== "search") {
+      if (
+        key !== "page" &&
+        key !== "limit" &&
+        key !== "sortField" &&
+        key !== "sortOrder" &&
+        key !== "search"
+      ) {
         if (query[key].includes("lte")) {
           const value = query[key].replace("lte", "");
           filter[key] = { $lte: value };
@@ -27,7 +33,7 @@ const getProduct = async (req, res) => {
     if (query.search) {
       const searchQuery = new RegExp(query.search, "i");
       filter.$or = [
-        { ProductName: searchQuery }
+        { ProductName: searchQuery },
         // { description: searchQuery },
       ];
     }
@@ -63,89 +69,88 @@ const getProduct = async (req, res) => {
   }
 };
 
-
-
 const postProduct = async (req, res) => {
-	const {
-		ProductName,
-		productCategory,
-		productType,
-		brand,
-		price,
-		discount,
-		pic,
-		description,
-		expiry,
-		rating,
-		lifeStage,
-		weight,
-	} = req.body;
+  const {
+    title,
+    category,
+    subcategory,
+    brand,
+    price,
+    discount,
+    images,
+    description,
+    rating,
+    total_rating,
+    sizes,
 
-	if (
-		!ProductName ||
-		!productCategory ||
-		!productType ||
-		!brand ||
-		!price ||
-		discount === undefined ||
-		pic.length == 0 ||
-		!description ||
-		!expiry ||
-		rating === undefined ||
-		!lifeStage ||
-		!weight
-	) {
-		return res.status(400).json({ error: "Please provide all the details" });
-	}
+    quantity,
+  } = req.body;
 
-	try {
-		let productDetails = await new ProductModel(req.body);
-		productDetails.save();
-		res.status(200).json(productDetails);
-	} catch (error) {
-		res
-			.status(500)
-			.json({ error: "An error occurred while posting the  new  product" });
-	}
+  if (
+    !title ||
+    !category ||
+    !subcategory ||
+    !brand ||
+    !price ||
+    discount === undefined ||
+    images.length == 0 ||
+    !description ||
+    rating === undefined ||
+    !total_rating ||
+    !sizes ||
+    !quantity
+  ) {
+    return res.status(400).json({ error: "Please provide all the details" });
+  }
+
+  try {
+    let productDetails = await new ProductModel(req.body);
+    productDetails.save();
+    res.status(200).json(productDetails);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while posting the  new  product" });
+  }
 };
 const updateProduct = async (req, res) => {
-	const { id } = req.params;
-	const payload = req.body;
-	try {
-		const updatedProduct = await ProductModel.findByIdAndUpdate(
-			{ _id: id },
-			payload,
-			{
-				new: true,
-			},
-		);
-		if (!updatedProduct) {
-			res.status(404).json({ error: "Product not found" });
-		} else {
-			res.status(200).json(updatedProduct);
-		}
-	} catch (error) {
-		res
-			.status(500)
-			.json({ error: "An error occurred while updating the   product" });
-	}
+  const { id } = req.params;
+  const payload = req.body;
+  try {
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      { _id: id },
+      payload,
+      {
+        new: true,
+      }
+    );
+    if (!updatedProduct) {
+      res.status(404).json({ error: "Product not found" });
+    } else {
+      res.status(200).json(updatedProduct);
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the   product" });
+  }
 };
 
 const deleteProduct = async (req, res) => {
-	const { id } = req.params;
-	const payload = req.body;
-	try {
-		const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
-		if (!deletedProduct) {
-			res.status(404).json({ error: "Product not found" });
-		} else {
-			res.status(200).json({ message: "Product deleted successfully" });
-		}
-	} catch (error) {
-		res
-			.status(500)
-			.json({ error: "An error occurred while deleting the   product" });
-	}
+  const { id } = req.params;
+  const payload = req.body;
+  try {
+    const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
+    if (!deletedProduct) {
+      res.status(404).json({ error: "Product not found" });
+    } else {
+      res.status(200).json({ message: "Product deleted successfully" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the   product" });
+  }
 };
 
 module.exports = { getProduct, postProduct, updateProduct, deleteProduct };

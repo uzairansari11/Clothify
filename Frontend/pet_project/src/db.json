@@ -1,0 +1,1263 @@
+{
+  "product": [
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Classic Oxford Shirt",
+      "description": "Elevate your style with this classic oxford shirt for men. Crafted from high-quality cotton fabric, it offers comfort and durability. The timeless design features a button-down collar and a single chest pocket. Whether for a formal occasion or a smart-casual look, this oxford shirt is a versatile choice that pairs well with trousers or jeans.",
+      "brand": "Brooks Brothers",
+      "price": 89.99,
+      "discount": 15,
+      "rating": 4.7,
+      "total_rating": 120,
+      "images": [
+        "https://images.bewakoof.com/t1080/cream-men-s-half-sleeves-shirt-348535-1655834980-1.jpg",
+        "https://images.bewakoof.com/t1080/cream-men-s-half-sleeves-shirt-348535-1655834985-2.jpg",
+        "https://images.bewakoof.com/t1080/cream-men-s-half-sleeves-shirt-348535-1655834990-3.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 50
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "Graphic Print T-Shirt",
+      "description": "Make a statement with this trendy graphic print t-shirt for men. The soft and breathable fabric ensures all-day comfort, while the eye-catching graphic adds a touch of personality to your outfit. Pair it with jeans or shorts for a casual and cool look. Whether for a day out with friends or a relaxed weekend, this graphic print t-shirt is a stylish choice.",
+      "brand": "Nike",
+      "price": 29.99,
+      "discount": 0,
+      "rating": 4.5,
+      "total_rating": 80,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1662130112_1367320.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1662130119_6086441.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1662130129_9566034.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 60
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Slim Fit Denim Jeans",
+      "description": "Step up your denim game with these slim fit jeans for men. The high-quality denim fabric offers a comfortable and flattering fit, while the modern slim cut adds a stylish edge. Pair them with a t-shirt or shirt for a versatile and on-trend look. Whether for a casual day or a night out, these slim fit jeans are a must-have staple in your wardrobe.",
+      "brand": "Levi's",
+      "price": 79.99,
+      "discount": 10,
+      "rating": 4.3,
+      "total_rating": 70,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-skinny-fit-jeans-567489-1672832060-5.jpg",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-skinny-fit-jeans-567489-1672832040-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-skinny-fit-jeans-567489-1672832045-2.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Checked Button-Up Shirt",
+      "description": "Add a touch of sophistication to your wardrobe with this checked button-up shirt for men. The lightweight fabric keeps you comfortable throughout the day, while the classic checked pattern adds a timeless appeal. Pair it with chinos or jeans for a versatile and stylish outfit. Whether for a casual office look or a weekend brunch, this checked shirt is a wardrobe essential.",
+      "brand": "Ralph Lauren",
+      "price": 99.99,
+      "discount": 20,
+      "rating": 4.8,
+      "total_rating": 150,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-black-horizontal-striped-slim-fit-shirt-563205-1671685770-1.JPG",
+        "https://images.bewakoof.com/t1080/men-s-black-horizontal-striped-slim-fit-shirt-563205-1671685775-2.JPG",
+        "https://images.bewakoof.com/t1080/men-s-black-horizontal-striped-slim-fit-shirt-563205-1671685770-1.JPG"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "Basic Crew Neck T-Shirt",
+      "description": "Keep it simple and stylish with this basic crew neck t-shirt for men. The soft and lightweight fabric ensures a comfortable fit, while the classic design makes it a versatile piece for any occasion. Pair it with shorts or jeans for a casual and effortless look. Whether for a day at the beach or a casual outing, this basic t-shirt is a wardrobe staple.",
+      "brand": "H&M",
+      "price": 14.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 50,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1684476636_3277387.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1682772094_1107706.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1682772094_1113648.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 80
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Straight Leg Denim Jeans",
+      "description": "Achieve a classic and timeless look with these straight leg denim jeans for men. The durable denim fabric ensures long-lasting wear, while the straight leg cut offers a comfortable fit. Pair them with a shirt or jacket for a versatile and stylish outfit. Whether for a casual day at work or a night out, these straight leg jeans are a reliable choice.",
+      "brand": "Wrangler",
+      "price": 69.99,
+      "discount": 10,
+      "rating": 4.6,
+      "total_rating": 90,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-brown-slim-fit-jeans-567484-1672832249-5.jpg",
+        "https://images.bewakoof.com/t1080/men-s-brown-slim-fit-jeans-567484-1672832229-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-brown-slim-fit-jeans-567484-1672832239-3.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 55
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Striped Oxford Shirt",
+      "description": "Enhance your wardrobe with this striped oxford shirt for men. The premium cotton fabric ensures a soft and comfortable feel, while the classic striped pattern adds a touch of sophistication. Pair it with dress pants or jeans for a versatile and polished look. Whether for a business meeting or a special occasion, this striped oxford shirt is a refined choice.",
+      "brand": "Tommy Hilfiger",
+      "price": 119.99,
+      "discount": 0,
+      "rating": 4.9,
+      "total_rating": 180,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-olive-green-self-designed-slim-fit-shirt-587048-1680782796-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-olive-green-self-designed-slim-fit-shirt-587048-1680782802-2.jpg",
+        "https://images.bewakoof.com/t1080/men-s-olive-green-self-designed-slim-fit-shirt-587048-1680782818-5.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "V-Neck Basic T-Shirt",
+      "description": "Add a versatile and comfortable piece to your wardrobe with this V-neck basic t-shirt for men. The soft and breathable fabric ensures a relaxed fit, while the V-neckline adds a modern touch. Pair it with jeans or shorts for a casual and laid-back look. Whether for a day out with friends or a weekend getaway, this V-neck t-shirt is a must-have.",
+      "brand": "Gap",
+      "price": 19.99,
+      "discount": 0,
+      "rating": 4.4,
+      "total_rating": 70,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1676442572_3301433.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1676442572_7275740.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1676442572_8247928.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 70
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Slim Straight Denim Jeans",
+      "description": "Upgrade your denim collection with these slim straight denim jeans for men. The stretchy and comfortable fabric ensures a great fit, while the slim straight leg offers a modern and sleek silhouette. Pair them with a button-up shirt or a sweater for a stylish and versatile outfit. Whether for a casual day or a night on the town, these jeans are a go-to choice.",
+      "brand": "Calvin Klein",
+      "price": 89.99,
+      "discount": 15,
+      "rating": 4.7,
+      "total_rating": 120,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-567480-1672832409-5.jpg",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-567480-1672832386-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-567480-1672832403-4.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 45
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Denim Button-Up Shirt",
+      "description": "Achieve a rugged and casual look with this denim button-up shirt for men. The durable denim fabric offers a comfortable and lived-in feel, while the button-up design allows for versatile styling options. Pair it with chinos or jeans for a relaxed yet stylish outfit. Whether for a weekend adventure or a casual gathering, this denim shirt is a wardrobe staple.",
+      "brand": "American Eagle",
+      "price": 79.99,
+      "discount": 10,
+      "rating": 4.3,
+      "total_rating": 70,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-red-abstract-printed-slim-fit-shirt-534486-1659955161-5.jpg",
+        "https://images.bewakoof.com/t1080/men-s-red-abstract-printed-slim-fit-shirt-534486-1659955140-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-red-abstract-printed-slim-fit-shirt-534486-1659955151-3.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "Pocket Detail T-Shirt",
+      "description": "Add a touch of style to your casual looks with this pocket detail t-shirt for men. The soft and breathable fabric ensures all-day comfort, while the unique pocket design adds a trendy twist. Pair it with jeans or shorts for a laid-back and cool outfit. Whether for a day at the beach or a night out with friends, this pocket detail t-shirt is a versatile choice.",
+      "brand": "Zara",
+      "price": 24.99,
+      "discount": 0,
+      "rating": 4.5,
+      "total_rating": 80,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1685541018_3797226.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1685541018_3750732.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1685541018_9758320.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 60
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Bootcut Denim Jeans",
+      "description": "Get a timeless and classic look with these bootcut denim jeans for men. The high-quality denim fabric offers durability and comfort, while the bootcut style adds a touch of vintage flair. Pair them with a t-shirt or a dress shirt for a versatile and stylish outfit. Whether for a casual day or a night out, these bootcut jeans are a wardrobe essential.",
+      "brand": "Diesel",
+      "price": 109.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 50,
+      "images": [
+        "https://images.bewakoof.com/t1080/meghz-men-s-blue-washed-slim-fit-jeansdmd1163am-579133-1675836758-4.jpg",
+        "https://images.bewakoof.com/t1080/meghz-men-s-blue-washed-slim-fit-jeansdmd1163am-579133-1675836748-2.jpg",
+        "https://images.bewakoof.com/t1080/meghz-men-s-blue-washed-slim-fit-jeansdmd1163am-579133-1675836753-3.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 80
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Printed Short Sleeve Shirt",
+      "description": "Stay on-trend with this printed short sleeve shirt for men. The lightweight and breathable fabric make it perfect for warm weather, while the unique print adds a pop of personality to your outfit. Pair it with shorts or chinos for a stylish and casual look. Whether for a tropical vacation or a summer party, this printed short sleeve shirt is a must-have.",
+      "brand": "Topman",
+      "price": 49.99,
+      "discount": 0,
+      "rating": 4.6,
+      "total_rating": 90,
+      "images": [
+        "https://images.bewakoof.com/t1080/fly69-men-s-blue-striped-slim-fit-shirt-575267-1674653851-1.JPG",
+        "https://images.bewakoof.com/t1080/fly69-men-s-blue-striped-slim-fit-shirt-575267-1674653851-1.JPG",
+        "https://images.bewakoof.com/t1080/fly69-men-s-blue-striped-slim-fit-shirt-575267-1674653861-3.JPG"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 55
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "Striped Polo T-Shirt",
+      "description": "Add a touch of sophistication to your casual wardrobe with this striped polo t-shirt for men. The high-quality fabric offers comfort and durability, while the striped design adds a classic and timeless appeal. Pair it with jeans or shorts for a smart-casual look. Whether for a weekend brunch or a golf outing, this striped polo t-shirt is a stylish choice.",
+      "brand": "Lacoste",
+      "price": 79.99,
+      "discount": 10,
+      "rating": 4.9,
+      "total_rating": 180,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1683180975_6909514.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1682772584_4763877.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1682772584_5218185.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Relaxed Fit Denim Jeans",
+      "description": "Opt for comfort and style with these relaxed fit denim jeans for men. The relaxed fit offers a laid-back and comfortable feel, while the high-quality denim ensures durability. Pair them with a t-shirt or a hoodie for a casual and effortless look. Whether for a day of running errands or a weekend getaway, these relaxed fit jeans are a reliable choice.",
+      "brand": "GAP",
+      "price": 69.99,
+      "discount": 15,
+      "rating": 4.7,
+      "total_rating": 120,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-582164-1677677121-2.JPG",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-582164-1677677116-1.JPG",
+        "https://images.bewakoof.com/t1080/men-s-blue-washed-slim-fit-jeans-582164-1677677126-3.JPG"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Chambray Button-Up Shirt",
+      "description": "Add a touch of casual sophistication with this chambray button-up shirt for men. The lightweight and breathable fabric make it suitable for various seasons, while the button-up design allows for easy layering. Pair it with jeans or chinos for a versatile and stylish look. Whether for a casual office day or a weekend outing, this chambray shirt is a wardrobe essential.",
+      "brand": "J.Crew",
+      "price": 89.99,
+      "discount": 20,
+      "rating": 4.8,
+      "total_rating": 150,
+      "images": [
+        "https://images.bewakoof.com/t1080/bushirt-men-s-cadet-brown-printed-slim-fit-shirt-575249-1674643424-1.jpg",
+        "https://images.bewakoof.com/t1080/bushirt-men-s-cadet-brown-printed-slim-fit-shirt-575249-1674643429-2.jpg",
+        "https://images.bewakoof.com/t1080/bushirt-men-s-cadet-brown-printed-slim-fit-shirt-575249-1674643434-3.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Men",
+      "subcategory": "T-Shirts",
+      "title": "Henley Long Sleeve T-Shirt",
+      "description": "Upgrade your casual wardrobe with this henley long sleeve t-shirt for men. The soft and breathable fabric ensures all-day comfort, while the classic henley neckline adds a stylish touch. Pair it with jeans or chinos for a versatile and effortless look. Whether for a casual day at work or a weekend gathering, this henley t-shirt is a reliable choice.",
+      "brand": "Banana Republic",
+      "price": 34.99,
+      "discount": 0,
+      "rating": 4.4,
+      "total_rating": 70,
+      "images": [
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1684760981_4616619.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1683371833_2361202.jpg?format=webp&w=640&dpr=1.5",
+        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1683371833_7323804.jpg?format=webp&w=640&dpr=1.5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 70
+    },
+    {
+      "category": "Men",
+      "subcategory": "Jeans",
+      "title": "Skinny Fit Denim Jeans",
+      "description": "Get a sleek and modern look with these skinny fit denim jeans for men. The stretchy and comfortable fabric offers a flattering fit, while the skinny leg design adds a trendy appeal. Pair them with a dress shirt or a blazer for a polished and stylish outfit. Whether for a night out or a formal event, these skinny fit jeans are a fashionable choice.",
+      "brand": "Hudson",
+      "price": 99.99,
+      "discount": 10,
+      "rating": 4.3,
+      "total_rating": 70,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-blue-slim-fit-distressed-jeans-521327-1658319746-5.JPG",
+        "https://images.bewakoof.com/t1080/men-s-blue-slim-fit-distressed-jeans-521327-1658319751-6.JPG",
+        "https://images.bewakoof.com/t1080/men-s-blue-slim-fit-distressed-jeans-521327-1658319735-3.JPG"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Men",
+      "subcategory": "Shirts",
+      "title": "Flannel Plaid Shirt",
+      "description": "Stay cozy and stylish with this flannel plaid shirt for men. The soft and warm flannel fabric makes it perfect for the colder months, while the classic plaid pattern adds a rugged and timeless look. Pair it with jeans or chinos for a casual and comfortable outfit. Whether for a weekend getaway or a bonfire night, this flannel plaid shirt is a wardrobe staple.",
+      "brand": "Carhartt",
+      "price": 79.99,
+      "discount": 0,
+      "rating": 4.5,
+      "total_rating": 80,
+      "images": [
+        "https://images.bewakoof.com/t1080/men-s-green-camouflage-shirt-516813-1663745156-1.jpg",
+        "https://images.bewakoof.com/t1080/men-s-green-camouflage-shirt-516813-1663745163-2.jpg",
+        "https://images.bewakoof.com/t1080/men-s-green-camouflage-shirt-516813-1663745175-4.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 60
+    },
+    {
+      "category": "Women",
+      "subcategory": "Top",
+      "brand": "Zara",
+      "title": "Floral Print Blouse",
+      "description": "Add a touch of elegance to your wardrobe with this floral print blouse. The lightweight fabric and relaxed fit make it perfect for any season. Whether you're going for a casual or dressed-up look, this blouse is a versatile choice.",
+      "price": 39.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 50,
+      "images": [
+        "https://static.zara.net/photos///2023/I/0/1/p/5770/036/052/2/w/750/5770036052_1_1_1.jpg?ts=1685541304123",
+        "https://static.zara.net/photos///2023/I/0/1/p/5770/036/052/2/w/750/5770036052_2_2_1.jpg?ts=1685541307971",
+        "https://static.zara.net/photos///2023/I/0/1/p/5770/036/052/2/w/750/5770036052_6_2_1.jpg?ts=1685447739544"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Women",
+      "subcategory": "T-Shirt",
+      "brand": "Nike",
+      "title": "Graphic Logo T-Shirt",
+      "description": "Stay comfortable and stylish with this graphic logo t-shirt. The soft and breathable fabric ensures all-day comfort, while the eye-catching logo adds a sporty vibe. Pair it with your favorite jeans or shorts for a casual and trendy look.",
+      "price": 24.99,
+      "discount": 15,
+      "rating": 4.7,
+      "total_rating": 120,
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/99a3d946-d49a-4dad-b15c-6b45b6926bc2/dri-fit-tennis-tee-wxSDd5.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c941ab66-a407-4c4f-88fd-5dd4d03ec3fa/dri-fit-tennis-tee-wxSDd5.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2e91919d-ec65-4c45-ab52-d40dbdb54c20/dri-fit-tennis-tee-wxSDd5.png"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Women",
+      "subcategory": "Shirt",
+      "brand": "Ralph Lauren",
+      "title": "Classic Button-Up Shirt",
+      "description": "Get a timeless and sophisticated look with this classic button-up shirt. Made from high-quality cotton, it offers comfort and durability. The versatile design makes it suitable for both casual and formal occasions. Pair it with trousers or jeans for a polished outfit.",
+      "price": 79.99,
+      "discount": 20,
+      "rating": 4.5,
+      "total_rating": 90,
+      "images": [
+        "https://www.rlmedia.io/is/image/PoloGSI/s7-1470538_alternate1?$rl_df_pdp_5_7$",
+        "https://www.rlmedia.io/is/image/PoloGSI/s7-1470538_alternate4?$rl_df_pdp_5_7$",
+        "https://www.rlmedia.io/is/image/PoloGSI/s7-1470538_alternate3?$rl_df_pdp_5_7$"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Women",
+      "subcategory": "Jeans",
+      "brand": "Levi's",
+      "title": "Skinny Fit Jeans",
+      "description": "Get the perfect fit and style with these skinny fit jeans. Made from stretchy denim fabric, they offer comfort and flexibility. The slimming silhouette makes them suitable for various occasions. Pair them with your favorite tops for a fashionable look.",
+      "price": 89.99,
+      "discount": 10,
+      "rating": 4.8,
+      "total_rating": 150,
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC08580-Edit_800x.jpg?v=1675251177",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC08585_f6d55027-f95d-442d-930d-335993f5bd8b_800x.jpg?v=1675251391",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC08600-Edit_800x.jpg?v=1675251391"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Women",
+      "subcategory": "Kurti",
+      "brand": "Sabyasachi",
+      "title": "Embroidered Kurti",
+      "description": "Make a style statement with this embroidered kurti. Crafted with intricate details and vibrant colors, it showcases traditional craftsmanship. The comfortable fabric and relaxed fit ensure all-day comfort. Pair it with leggings or jeans for a chic ethnic look.",
+      "price": 129.99,
+      "discount": 0,
+      "rating": 4.6,
+      "total_rating": 80,
+      "images": [
+        "https://img.tatacliq.com/images/i7/437Wx649H/MP000000009394290_437Wx649H_202105221640141.jpeg",
+        "https://img.tatacliq.com/images/i7/437Wx649H/MP000000009394290_437Wx649H_202104201749453.jpeg",
+        "https://img.tatacliq.com/images/i7/437Wx649H/MP000000009394290_437Wx649H_202104201749442.jpeg"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 15
+    },
+    {
+      "category": "Women",
+      "subcategory": "Top",
+      "brand": "H&M",
+      "title": "Striped Crop Top",
+      "description": "Get a trendy look with this striped crop top. The lightweight fabric and relaxed fit provide comfort, while the vibrant stripes add a stylish touch. Pair it with high-waisted jeans or a skirt for a chic and youthful outfit.",
+      "price": 19.99,
+      "discount": 0,
+      "rating": 4.4,
+      "total_rating": 60,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F8b%2F94%2F8b94e980e10b376e4dcf30f33c851a64b0680e2a.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F54%2Fd8%2F54d843d6a5df8a8db4d7413bcd107c3b531fde81.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F34%2F58%2F3458e4cfcccf8d4bc86316b6f928eee7d5d67bcc.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bladies_divided_new_clothes%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/fullscreen]"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Women",
+      "subcategory": "T-Shirt",
+      "brand": "Adidas",
+      "title": "Logo Print T-Shirt",
+      "description": "Stay comfortable and stylish with this logo print t-shirt. The soft cotton fabric and regular fit ensure a relaxed feel. The iconic brand logo adds a sporty edge, making it a perfect choice for casual wear.",
+      "price": 29.99,
+      "discount": 10,
+      "rating": 4.6,
+      "total_rating": 90,
+      "images": [
+        "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/5e87f03a9f9340bb8c48aef200a899c4_9366/Centre_Stage_Cutout_Top_Black_II6085_21_model.jpg",
+        "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/47cb9a082b654f1f8042aef200a8d3de_9366/Centre_Stage_Cutout_Top_Black_II6085_01_laydown.jpg",
+        "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/daa2ead062704fb981e3aef200a8b8cb_9366/Centre_Stage_Cutout_Top_Black_II6085_41_detail.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Women",
+      "subcategory": "Shirt",
+      "brand": "Tommy Hilfiger",
+      "title": "Striped Button-Up Shirt",
+      "description": "Achieve a timeless and polished look with this striped button-up shirt. The high-quality fabric ensures comfort and durability. The classic stripes add a touch of sophistication, making it suitable for both professional and casual settings.",
+      "price": 69.99,
+      "discount": 15,
+      "rating": 4.8,
+      "total_rating": 110,
+      "images": [
+        "https://shoptommy.scene7.com/is/image/ShopTommy/76J3857_DQY_DE2?wid=720&hei=960&fmt=pjpeg&qlt=85%2C0&resMode=sharp2&op_usm=0.9%2C1.0%2C8%2C0&iccEmbed=0",
+        "https://shoptommy.scene7.com/is/image/ShopTommy/76J3857_DQY_DE1?wid=720&hei=960&fmt=pjpeg&qlt=85%2C0&resMode=sharp2&op_usm=0.9%2C1.0%2C8%2C0&iccEmbed=0",
+        "https://shoptommy.scene7.com/is/image/ShopTommy/76J3857_DQY_BCK?wid=720&hei=960&fmt=pjpeg&qlt=85%2C0&resMode=sharp2&op_usm=0.9%2C1.0%2C8%2C0&iccEmbed=0"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Women",
+      "subcategory": "Jeans",
+      "brand": "Guess",
+      "title": "Bootcut Jeans",
+      "description": "Add a stylish and flattering pair of jeans to your collection with these bootcut jeans. The stretchy denim fabric offers a comfortable fit, while the classic bootcut silhouette elongates the legs. Pair them with heels or boots for a chic and versatile look.",
+      "price": 99.99,
+      "discount": 0,
+      "rating": 4.7,
+      "total_rating": 80,
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/Shailee00820-Edit_800x.jpg?v=1663746560",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/Shailee00877-Edit_800x.jpg?v=1663746560",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/Shailee00853-Edit_800x.jpg?v=1663746560"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Women",
+      "subcategory": "Kurti",
+      "brand": "Anita Dongre",
+      "title": "Printed Silk Kurti",
+      "description": "Make a fashion statement with this printed silk kurti. The vibrant print and luxurious silk fabric exude elegance. The comfortable and relaxed fit make it ideal for festive occasions or cultural events.",
+      "price": 149.99,
+      "discount": 0,
+      "rating": 4.4,
+      "total_rating": 60,
+      "images": [
+        "https://assets.ajio.com/medias/sys_master/root/20221209/1ZnD/6392568ef997ddfdbdc97b18/-1117Wx1400H-465412525-green-MODEL.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20221209/A6et/63925695f997ddfdbdc97be4/-473Wx593H-465412525-green-MODEL7.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20221209/A6et/63925695f997ddfdbdc97be4/-473Wx593H-465412525-green-MODEL7.jpg"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 15
+    },
+    {
+      "category": "Women",
+      "subcategory": "Top",
+      "brand": "Forever 21",
+      "title": "Ruffled Sleeveless Top",
+      "description": "Get a feminine and playful look with this ruffled sleeveless top. The lightweight fabric and ruffled details add a touch of charm. Pair it with high-waisted jeans or a skirt for a cute and summery outfit.",
+      "price": 29.99,
+      "discount": 10,
+      "rating": 4.3,
+      "total_rating": 70,
+      "images": [
+        "https://assets.ajio.com/medias/sys_master/root/20221010/UxXx/63445ae7aeb269659c366116/-473Wx593H-465125250-pink-MODEL4.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20221010/5v9P/63445ae7aeb269659c366141/-1117Wx1400H-465125250-pink-MODEL2.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20221010/aH1F/63445ae7aeb269659c36611a/-473Wx593H-465125250-pink-MODEL5.jpg"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Women",
+      "subcategory": "T-Shirt",
+      "brand": "Puma",
+      "title": "Round-Neck Logo T-Shirt",
+      "description": "Stay comfortable and stylish with this V-neck logo t-shirt. The soft cotton fabric and relaxed fit ensure a cozy feel. The iconic brand logo adds a sporty touch, making it a perfect choice for everyday wear.",
+      "price": 34.99,
+      "discount": 10,
+      "rating": 4.5,
+      "total_rating": 90,
+      "images": [
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/676838/06/fnd/IND/fmt/png/Graphic-Women's-Crew-Neck-Sweatshirt",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_1350,h_1350/global/676838/06/mod01/fnd/IND/fmt/png/Graphic-Women's-Crew-Neck-Sweatshirt",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/676838/06/mod02/fnd/IND/fmt/png/Graphic-Women's-Crew-Neck-Sweatshirt"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Women",
+      "subcategory": "Shirt",
+      "brand": "GAP",
+      "title": "Denim Button-Up Shirt",
+      "description": "Achieve a cool and casual look with this denim button-up shirt. The soft denim fabric offers comfort, while the classic design adds a touch of versatility. Pair it with jeans or a skirt for a laid-back and stylish outfit.",
+      "price": 49.99,
+      "discount": 20,
+      "rating": 4.6,
+      "total_rating": 110,
+      "images": [
+        "https://www.gap.com/webcontent/0053/113/182/cn53113182.jpg",
+        "https://www.gap.com/webcontent/0053/113/261/cn53113261.jpg",
+        "https://www.gap.com/webcontent/0053/117/135/cn53117135.jpg"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Women",
+      "subcategory": "Jeans",
+      "brand": "Wrangler",
+      "title": "High-Waisted Skinny Jeans",
+      "description": "Flaunt your curves with these high-waisted skinny jeans. The stretchy denim fabric hugs your body for a flattering fit. The high-waisted design adds a trendy touch, making them a must-have for any fashion-conscious woman.",
+      "price": 79.99,
+      "discount": 0,
+      "rating": 4.8,
+      "total_rating": 150,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F7e%2Fca%2F7eca0a8b8732f938d12367faabe4d40f7d149e6c.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F0f%2Ff7%2F0ff7b98776f8b90e59a62f97171a9cd3963ed44e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F34%2F80%2F34807d0cd758701668890bcc061f12d3e7dc50bb.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Women",
+      "subcategory": "Kurti",
+      "brand": "Biba",
+      "title": "Anarkali Kurti",
+      "description": "Dress up in this elegant anarkali kurti. The flowing silhouette and intricate embroidery create a stunning look. Made from high-quality fabric, it offers comfort and style. Pair it with leggings or palazzo pants for a regal and ethnic ensemble.",
+      "price": 139.99,
+      "discount": 15,
+      "rating": 4.7,
+      "total_rating": 100,
+      "images": [
+        "https://images.bewakoof.com/t1080/aks-black-gold-printed-tiered-anarkali-404969-1655938050-1.jpg",
+        "https://images.bewakoof.com/t1080/aks-black-gold-printed-tiered-anarkali-404969-1655938066-4.jpg",
+        "https://images.bewakoof.com/t1080/aks-black-gold-printed-tiered-anarkali-404969-1655938056-2.jpg"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 15
+    },
+    {
+      "category": "Women",
+      "subcategory": "Top",
+      "brand": "Zara",
+      "title": "Off-Shoulder Crop Top",
+      "description": "Show off your trendy side with this off-shoulder crop top. The lightweight fabric and stylish design make it perfect for summer days. Pair it with high-waisted jeans or a skirt for a fashionable and flirty look.",
+      "price": 24.99,
+      "discount": 0,
+      "rating": 4.5,
+      "total_rating": 80,
+      "images": [
+        "https://assets.ajio.com/medias/sys_master/root/20220825/PRhs/6306b6fef997dd394c2218dc/-1117Wx1400H-464880909-white-MODEL.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220825/4cyS/6306b6fef997dd394c2218ff/-1117Wx1400H-464880909-white-MODEL2.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220825/7anb/6306b6fef997dd394c221913/-1117Wx1400H-464880909-white-MODEL3.jpg"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Women",
+      "subcategory": "T-Shirt",
+      "brand": "Nike",
+      "title": "Graphic Print T-Shirt",
+      "description": "Stay comfortable and stylish during workouts with this graphic print t-shirt. The moisture-wicking fabric and relaxed fit ensure optimal performance. The eye-catching design adds a sporty and energetic vibe.",
+      "price": 39.99,
+      "discount": 10,
+      "rating": 4.7,
+      "total_rating": 90,
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/d9c0a0e7-6f68-4740-9f02-2ff63766fdb6/sportswear-club-fleece-gingham-logo-crew-neck-sweatshirt-JVxLNz.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/770baa16-f0b3-479e-912e-da3df3aa094b/sportswear-club-fleece-gingham-logo-crew-neck-sweatshirt-JVxLNz.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1f2db0a7-f2ba-4ecb-a5a3-6cf579f7af86/sportswear-club-fleece-gingham-logo-crew-neck-sweatshirt-JVxLNz.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Women",
+      "subcategory": "Shirt",
+      "brand": "Ralph Lauren",
+      "title": "Linen Button-Up Shirt",
+      "description": "Achieve a sophisticated and breezy look with this linen button-up shirt. The lightweight and breathable fabric make it perfect for warmer days. Pair it with shorts or trousers for a chic and effortless outfit.",
+      "price": 79.99,
+      "discount": 15,
+      "rating": 4.6,
+      "total_rating": 110,
+      "images": [
+        "https://i.etsystatic.com/11651126/r/il/3edbe8/4797915871/il_1588xN.4797915871_oj36.jpg",
+        "https://i.etsystatic.com/11651126/r/il/215337/4749654246/il_1588xN.4749654246_9h7o.jpg",
+        "https://i.etsystatic.com/11651126/r/il/a41d59/4749654248/il_1588xN.4749654248_5ol6.jpg"
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Women",
+      "subcategory": "Jeans",
+      "brand": "Levi's",
+      "title": "Straight Leg Jeans",
+      "description": "Get a timeless and versatile pair of jeans with these straight leg jeans. The sturdy denim fabric offers durability, while the straight leg silhouette provides a classic and flattering fit. Pair them with sneakers or heels for a casual or dressed-up look.",
+      "price": 89.99,
+      "discount": 0,
+      "rating": 4.8,
+      "total_rating": 150,
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC07805-Edit_800x.jpg?v=1670659941",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC07778-Edit_800x.jpg?v=1670659941",
+        "https://cdn.shopify.com/s/files/1/0028/9806/7554/products/DSC07773-Edit_800x.jpg?v=1670659941"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Women",
+      "subcategory": "Kurti",
+      "brand": "Biba",
+      "title": "Cotton Printed Kurti",
+      "description": "Step out in style with this cotton printed kurti. The vibrant prints and comfortable fabric make it a perfect choice for everyday wear. Pair it with leggings or jeans for a trendy and effortless look.",
+      "price": 59.99,
+      "discount": 0,
+      "rating": 4.3,
+      "total_rating": 70,
+      "images": [
+        "https://img3.junaroad.com/uiproducts/19848143/zoom_0-1684158819.jpg",
+        "https://img3.junaroad.com/uiproducts/19848143/zoom_3-1684158819.jpg",
+        "https://img3.junaroad.com/uiproducts/19848143/zoom_2-1684158819.jpg"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "quantity": 15
+    },
+    {
+      "category": "Kids",
+      "subcategory": "T-Shirt",
+      "brand": "Adidas",
+      "title": "Graphic Print T-Shirt",
+      "description": "Let your little one show off their style with this graphic print t-shirt. The soft and comfortable fabric ensures all-day comfort, while the vibrant design adds a fun and playful touch.",
+      "price": 19.99,
+      "discount": 0,
+      "rating": 4.5,
+      "total_rating": 50,
+      "images": [
+        "https://assets.ajio.com/medias/sys_master/root/20220530/dOth/6294da0bf997dd03e24705c4/-1117Wx1400H-464401210-black-MODEL4.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220530/kGLG/6294da0bf997dd03e247057c/-1117Wx1400H-464401210-black-MODEL.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220530/VrlI/6294da0bf997dd03e24705c5/-1117Wx1400H-464401210-black-MODEL3.jpg"
+      ],
+      "sizes": [
+        "2T",
+        "3T",
+        "4T"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "GapKids",
+      "title": "Plaid Button-Up Shirt",
+      "description": "Dress your child in style with this plaid button-up shirt. The soft and breathable fabric ensures comfort, while the classic plaid pattern adds a touch of sophistication.",
+      "price": 29.99,
+      "discount": 10,
+      "rating": 4.2,
+      "total_rating": 40,
+      "images": [
+        "https://m.media-amazon.com/images/I/81A7JFf9+YL._AC_UY741_.jpg",
+        "https://m.media-amazon.com/images/I/81U0+C2X9XL._AC_UX569_.jpg",
+        "https://m.media-amazon.com/images/I/81Rp--4f9WL._AC_UY741_.jpg"
+      ],
+      "sizes": [
+        "4",
+        "5",
+        "6"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "Levi's Kids",
+      "title": "Slim Fit Jeans",
+      "description": "Give your child a trendy and comfortable look with these slim fit jeans. The durable denim fabric and slim fit silhouette make them perfect for everyday wear.",
+      "price": 39.99,
+      "discount": 0,
+      "rating": 4.6,
+      "total_rating": 60,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F8f%2F7f%2F8f7f3b6f9c20d4c6a652ab3a6db79fa8a6c98919.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fc2%2Fd8%2Fc2d874940dd0706854b35352eafa844ebe4a96ba.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F70%2F32%2F7032734d11af6c5c7fe7642561444b08b93427fb.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"
+      ],
+      "sizes": [
+        "5",
+        "6",
+        "7"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Kids",
+      "subcategory": "T-Shirt",
+      "brand": "Nike Kids",
+      "title": "Sports Logo T-Shirt",
+      "description": "Keep your child active and comfortable with this sports logo t-shirt. The moisture-wicking fabric and sporty design make it ideal for sports activities or casual wear.",
+      "price": 24.99,
+      "discount": 0,
+      "rating": 4.3,
+      "total_rating": 35,
+      "images": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/112187f6-7db1-49de-b3a9-d0b2631b1330/sportswear-older-t-shirt-47jg9f.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/6ab7b233-4815-49c0-a6be-974baf04c8d7/sportswear-older-t-shirt-47jg9f.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/97e287c8-2924-48ff-a092-45e21a0f873b/sportswear-older-t-shirt-47jg9f.png"
+      ],
+      "sizes": [
+        "3T",
+        "4T",
+        "5T"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "H&M Kids",
+      "title": "Striped Button-Up Shirt",
+      "description": "Get your child ready for any occasion with this striped button-up shirt. The stylish striped pattern and comfortable fabric make it a versatile piece for both formal and casual wear.",
+      "price": 34.99,
+      "discount": 15,
+      "rating": 4.4,
+      "total_rating": 45,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F8e%2F6d%2F8e6d7ea9b746abae31e67a91b1641bfc2ad3edbd.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fc6%2Ff5%2Fc6f5a0d161b5d5df6e86d18ff6459c3f1a42cf62.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fa8%2F19%2Fa819f101278277cd3b32f01eb0105084544f49b1.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/fullscreen]"
+      ],
+      "sizes": [
+        "6",
+        "7",
+        "8"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "Old Navy Kids",
+      "title": "Bootcut Jeans",
+      "description": "Give your child a stylish and comfortable look with these bootcut jeans. The stretchy denim fabric and bootcut design offer a flattering fit and ease of movement.",
+      "price": 29.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 55,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F56%2F88%2F56889ff6611402a670f602bfaf32966176a11815.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bkids_clothing_trousersjeans_jeans%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/main]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F51%2Fa1%2F51a1a78ba3e75a2037378d58f49271956a0a0789.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bkids_clothing_trousersjeans_jeans%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/fullscreen]",
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fae%2Fee%2Faeee4f865b5bed845be6dfd55aca92c67bcb051e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bkids_clothing_trousersjeans_jeans%5D%2Ctype%5BDESCRIPTIVEDETAIL%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]"
+      ],
+      "sizes": [
+        "7",
+        "8",
+        "10"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Kids",
+      "subcategory": "T-Shirt",
+      "brand": "Puma Kids",
+      "title": "Logo Print T-Shirt",
+      "description": "Let your child showcase their athletic style with this logo print t-shirt. The soft and breathable fabric ensures comfort, while the bold logo adds a sporty and energetic vibe.",
+      "price": 19.99,
+      "discount": 0,
+      "rating": 4.6,
+      "total_rating": 60,
+      "images": [
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/586960/92/mod03/fnd/IND/fmt/png/Essentials-Logo-Unisex-T-Shirt",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/586960/92/mod01/fnd/IND/fmt/png/Essentials-Logo-Unisex-T-Shirt",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_1350,h_1350/global/586960/92/fnd/IND/fmt/png/Essentials-Logo-Unisex-T-Shirt"
+      ],
+      "sizes": [
+        "4T",
+        "5T",
+        "6"
+      ],
+      "quantity": 40
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "Carter's",
+      "title": "Chambray Button-Up Shirt",
+      "description": "Dress your child in style with this chambray button-up shirt. The soft and lightweight fabric ensures all-day comfort, while the versatile design makes it perfect for both casual and dressy occasions.",
+      "price": 24.99,
+      "discount": 10,
+      "rating": 4.4,
+      "total_rating": 50,
+      "images": [
+        "https://target.scene7.com/is/image/Target/GUEST_c61a5460-3cf4-4b44-9c7e-00a72b97d544?wid=1000&hei=1000&qlt=80&fmt=webp",
+        "https://target.scene7.com/is/image/Target/GUEST_4916ded1-97ce-43b4-8423-09c3d2c4de44?wid=1000&hei=1000&qlt=80&fmt=webp",
+        "https://target.scene7.com/is/image/Target/GUEST_8f72cab7-2694-418c-b815-8718754b3289?wid=1000&hei=1000&qlt=80&fmt=webp"
+      ],
+      "sizes": [
+        "3",
+        "4",
+        "5"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "GAP Kids",
+      "title": "Skinny Jeans",
+      "description": "Give your child a fashionable and comfortable look with these skinny jeans. The stretchy denim fabric and skinny fit silhouette provide a trendy and flattering style.",
+      "price": 34.99,
+      "discount": 0,
+      "rating": 4.7,
+      "total_rating": 70,
+      "images": [
+        "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fba%2F23%2Fba239fe8a20c759cd698622b1ae0f2bc41868d7e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F78%2F98%2F78985435b0e6587694142bd191f1ae01091309e4.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
+        "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fa0%2F37%2Fa037448a4c7bb4b18ddf030bc16cddec370ed0b4.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"
+      ],
+      "sizes": [
+        "4",
+        "5",
+        "6"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Kids",
+      "subcategory": "T-Shirt",
+      "brand": "Puma Kids",
+      "title": "Round Neck T-Shirt",
+      "description": "Get your child ready for sports and activities with this performance t-shirt. The moisture-wicking fabric and comfortable fit ensure optimal performance and all-day comfort.",
+      "price": 29.99,
+      "discount": 15,
+      "rating": 4.5,
+      "total_rating": 65,
+      "images": [
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/670134/25/mod03/fnd/IND/fmt/png/Small-World-T-Shirt-Kids",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_1350,h_1350/global/670134/25/mod01/fnd/IND/fmt/png/Small-World-T-Shirt-Kids",
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/670134/25/fnd/IND/fmt/png/Small-World-T-Shirt-Kids"
+      ],
+      "sizes": [
+        "5",
+        "6",
+        "7"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "Tommy Hilfiger Kids",
+      "title": "Striped Polo Shirt",
+      "description": "Dress your child in classic style with this striped polo shirt. The soft and breathable fabric offers comfort, while the timeless striped design adds a touch of sophistication.",
+      "price": 39.99,
+      "discount": 0,
+      "rating": 4.3,
+      "total_rating": 40,
+      "images": [
+        "https://cdn.fcglcdn.com/brainbees/images/products/438x531/12747975d.webp",
+        "https://cdn.fcglcdn.com/brainbees/images/products/438x531/12747975c.webp",
+        "https://cdn.fcglcdn.com/brainbees/images/products/56x69/12747975b.webp"
+      ],
+      "sizes": [
+        "8",
+        "10",
+        "12"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "H&M Kids",
+      "title": "Distressed Jeans",
+      "description": "Give your child a trendy and edgy look with these distressed jeans. The distressed details and comfortable fit make them perfect for adding a touch of coolness to any outfit.",
+      "price": 34.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 50,
+      "images": [
+        "https://images.bestsellerclothing.in/data/only-kids/04-feb-2023/279441501_g0.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/only-kids/04-feb-2023/279441501_g1.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/only-kids/04-feb-2023/279441501_g3.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto"
+      ],
+      "sizes": [
+        "6",
+        "7",
+        "8"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "Carter's",
+      "title": "Denim Button-Up Shirt",
+      "description": "Give your child a cool and casual look with this denim button-up shirt. The soft and durable denim fabric offers comfort and style, making it perfect for everyday wear.",
+      "price": 24.99,
+      "discount": 10,
+      "rating": 4.5,
+      "total_rating": 60,
+      "images": [
+        "https://i.etsystatic.com/38353909/r/il/51dd8c/4602895493/il_1588xN.4602895493_tk1i.jpg",
+        "https://i.etsystatic.com/38353909/r/il/6e6b40/4555509970/il_1588xN.4555509970_g79f.jpg",
+        "https://i.etsystatic.com/38353909/r/il/11cc68/4555510176/il_1588xN.4555510176_cjxt.jpg"
+      ],
+      "sizes": [
+        "3",
+        "4",
+        "5"
+      ],
+      "quantity": 35
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "Levi's Kids",
+      "title": "Relaxed Fit Jeans",
+      "description": "Give your child a comfortable and relaxed look with these jeans. The relaxed fit and soft denim fabric provide all-day comfort, making them perfect for casual outings.",
+      "price": 29.99,
+      "discount": 0,
+      "rating": 4.3,
+      "total_rating": 45,
+      "images": [
+        "https://images.bestsellerclothing.in/data/only-kids/14-mar-2023/289874301_g0.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/only-kids/14-mar-2023/289874301_g1.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/only-kids/14-mar-2023/289874301_g3.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto"
+      ],
+      "sizes": [
+        "5",
+        "6",
+        "7"
+      ],
+      "quantity": 25
+    },
+    {
+      "category": "Kids",
+      "subcategory": "T-Shirt",
+      "brand": "Nike Kids",
+      "title": "Athletic Performance T-Shirt",
+      "description": "Get your child ready for sports and active play with this athletic performance t-shirt. The moisture-wicking fabric and comfortable fit ensure optimal performance and breathability.",
+      "price": 24.99,
+      "discount": 0,
+      "rating": 4.6,
+      "total_rating": 50,
+      "images": [
+        "https://assets.ajio.com/medias/sys_master/root/20220602/LEM9/6298d0bff997dd03e25c888b/-1117Wx1400H-469184727-black-MODEL.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220602/4pqR/6298db58f997dd03e25cbdc4/-1117Wx1400H-469184727-black-MODEL4.jpg",
+        "https://assets.ajio.com/medias/sys_master/root/20220602/4pqR/6298db58f997dd03e25cbdc4/-1117Wx1400H-469184727-black-MODEL4.jpg"
+      ],
+      "sizes": [
+        "3T",
+        "4T",
+        "5T"
+      ],
+      "quantity": 30
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Shirt",
+      "brand": "Polo Ralph Lauren Kids",
+      "title": "Gingham Check Shirt",
+      "description": "Dress your child in timeless style with this gingham check shirt. The soft and breathable fabric offers comfort, while the classic check pattern adds a touch of sophistication.",
+      "price": 34.99,
+      "discount": 15,
+      "rating": 4.4,
+      "total_rating": 40,
+      "images": [
+        "https://i.etsystatic.com/18179495/r/il/25b134/4244421106/il_1588xN.4244421106_cy68.jpg",
+        "https://i.etsystatic.com/18179495/r/il/ace2a7/4214854479/il_1588xN.4214854479_aly3.jpg",
+        "https://i.etsystatic.com/18179495/r/il/3186ee/4214854383/il_1588xN.4214854383_jmyr.jpg"
+      ],
+      "sizes": [
+        "6",
+        "7",
+        "8"
+      ],
+      "quantity": 20
+    },
+    {
+      "category": "Kids",
+      "subcategory": "Jeans",
+      "brand": "GAP Kids",
+      "title": "Straight Leg Jeans",
+      "description": "Give your child a versatile and comfortable look with these straight leg jeans. The durable denim fabric and classic straight leg design make them perfect for any occasion.",
+      "price": 39.99,
+      "discount": 0,
+      "rating": 4.2,
+      "total_rating": 55,
+      "images": [
+        "https://images.bestsellerclothing.in/data/JJ/19-jan-2023/101915702_g0.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/JJ/19-jan-2023/101915702_g1.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
+        "https://images.bestsellerclothing.in/data/JJ/19-jan-2023/101915702_g3.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto"
+      ],
+      "sizes": [
+        "7",
+        "8",
+        "10"
+      ],
+      "quantity": 25
+    }
+  ]
+}

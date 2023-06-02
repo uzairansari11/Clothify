@@ -11,50 +11,50 @@ const getCart = async (req, res) => {
 
 const postCart = async (req, res) => {
 	const {
-		productName,
-		productCategory,
-		productType,
+		title,
+		category,
+		subcategory,
 		brand,
 		price,
 		discount,
 		quantity,
-		pic,
+		images,
 	} = req.body;
 
 	if (
-		!productName ||
-		!productCategory ||
-		!productType ||
-		!brand ||
-		!price ||
-		discount == undefined ||
-		quantity == undefined ||
-		pic.length == 0
-	) {
-		return res.status(400).json({ error: "Please provide all the details" });
-	} else {
-		try {
-			let cartDetails = await new CartModel({
-				productName,
-				productCategory,
-				productType,
-				brand,
-				price,
-				discount,
-				quantity,
-				pic,
-				user: req.user._id, 
-			});
+    !title ||
+    !category ||
+    !subcategory ||
+    !brand ||
+    !price ||
+    discount == undefined ||
+    quantity == undefined ||
+    images.length == 0
+  ) {
+    return res.status(400).json({ error: "Please provide all the details" });
+  } else {
+    try {
+      let cartDetails = await new CartModel({
+        title,
+        category,
+        subcategory,
+        brand,
+        price,
+        discount,
+        quantity,
+        images,
+        user: req.user._id,
+      });
 
-			await cartDetails.save();
-			res.status(200).json(cartDetails);
-		} catch (error) {
-			console.log(error);
-			res
-				.status(500)
-				.json({ error: "An error occurred while posting the  new  product" });
-		}
-	}
+      await cartDetails.save();
+      res.status(200).json(cartDetails);
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while posting the  new  product" });
+    }
+  }
 };
 
 const updateCart = async (req, res) => {

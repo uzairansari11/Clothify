@@ -79,7 +79,7 @@ const Signup = () => {
         borderRadius="md"
         boxShadow="lg"
       >
-        <Heading as="h2" size="lg" textAlign="center" mb="6">
+        <Heading as="h2" size="lg" textAlign="center" mb="6" color="teal.500">
           Sign Up for Pet App
         </Heading>
         <form onSubmit={handleSubmit}>
