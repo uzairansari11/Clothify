@@ -37,7 +37,7 @@ const Footer = () => {
         <Tooltip label="Twitter" hasArrow placement="top">
           <IconButton
             as="a"
-            href="https://twitter.com"
+            href="https://twitter.com/uzairansari_11"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Twitter"
@@ -51,7 +51,7 @@ const Footer = () => {
         <Tooltip label="Instagram" hasArrow placement="top">
           <IconButton
             as="a"
-            href="https://instagram.com"
+            href="https://www.instagram.com/____uzairrrr____/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -65,7 +65,7 @@ const Footer = () => {
         <Tooltip label="Facebook" hasArrow placement="top">
           <IconButton
             as="a"
-            href="https://facebook.com"
+            href="https://www.facebook.com/profile.php?id=100052309576182"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"

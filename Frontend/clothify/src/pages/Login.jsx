@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   Heading,
+  Text,
   Input,
   Button,
   IconButton,
@@ -14,6 +15,7 @@ import {
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { loginFunction } from "../utils/login";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -68,9 +70,11 @@ const Login = () => {
       align="center"
       justify="center"
       height="100vh"
-      backgroundImage="url('pet-background.jpg')"
-      backgroundSize="cover"
+      backgroundImage="url('/images/loginbg.jpg')"
+      backgroundSize={ "cover"}
+    
       backgroundPosition="center"
+      objectFit={"cover"}
     >
       <Box
         width={{ base: "90%", sm: "400px" }}
@@ -78,10 +82,33 @@ const Login = () => {
         backgroundColor="white"
         borderRadius="md"
         boxShadow="lg"
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            delay: 0.2,
+            duration: 0.6,
+          },
+        }}
+        initial={{ y: -100, opacity: 0 }}
       >
-        <Heading as="h2" size="lg" textAlign="center" mb="6" color="teal.500">
-          Login to Pet App
+        <Heading
+          as={motion.h2}
+          size="xl"
+          textAlign="center"
+          mb="6"
+          color="teal.500"
+          fontFamily={"cursive"}
+          fontSize={"xl"}
+          fontWeight={"extrabold"}
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+        >
+          Welcome to Clothify
         </Heading>
+        <Text textAlign="center" mb="6" color="gray.600">
+          Where fashion meets style, and elegance becomes you.
+        </Text>
         <form onSubmit={handleSubmit}>
           <Input
             type="email"
@@ -121,6 +148,10 @@ const Login = () => {
             loadingText="Logging In..."
             spinner={<Spinner color="white" size="sm" />}
             isDisabled={email === "" || password === ""}
+            _hover={{
+              transform: "translateY(-2px)",
+              boxShadow: "lg",
+            }}
           >
             Login
           </Button>

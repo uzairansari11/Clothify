@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   Heading,
+  Text,
   Input,
   Button,
   IconButton,
@@ -15,6 +16,7 @@ import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import { signupFunction } from "../utils/signup";
 import { useNavigate } from "react-router-dom";
 import { UnlockIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -26,6 +28,7 @@ const Signup = () => {
   const [isCreated, setIsCreated] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -33,6 +36,7 @@ const Signup = () => {
     if (email && password && mobile && name) {
       const userData = { email, password, name, mobile };
       let res = await signupFunction(userData);
+
       if (res === true) {
         toast({
           title: "User Created Successfully",
@@ -41,7 +45,6 @@ const Signup = () => {
           isClosable: true,
         });
         setIsCreated(true);
-
         setIsLoading(false);
       } else {
         toast({
@@ -50,7 +53,7 @@ const Signup = () => {
           status: "warning",
           duration: 9000,
           isClosable: true,
-          icon:<UnlockIcon />
+          icon: <UnlockIcon />,
         });
         setIsLoading(false);
       }
@@ -60,15 +63,17 @@ const Signup = () => {
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
   if (isCreated) {
     navigate("/login", { replace: true });
   }
+
   return (
     <Flex
       align="center"
       justify="center"
       height="100vh"
-      backgroundImage="url('signup-background.jpg')"
+      backgroundImage="url('/images/signupbg.jpg')"
       backgroundSize="cover"
       backgroundPosition="center"
     >
@@ -78,10 +83,33 @@ const Signup = () => {
         backgroundColor="whiteAlpha.900"
         borderRadius="md"
         boxShadow="lg"
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            delay: 0.2,
+            duration: 0.6,
+          },
+        }}
+        initial={{ y: -100, opacity: 0 }}
       >
-        <Heading as="h2" size="lg" textAlign="center" mb="6" color="teal.500">
-          Sign Up for Pet App
+        <Heading
+          as={motion.h2}
+          size="lg"
+          textAlign="center"
+          mb="6"
+          color="teal.500"
+          fontFamily={"cursive"}
+          fontSize={"xl"}
+          fontWeight={"extrabold"}
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+        >
+          Sign Up for Clothify
         </Heading>
+        <Text textAlign="center" mb="6" color="gray.600">
+          Discover the latest trends, express your style, and redefine fashion.
+        </Text>
         <form onSubmit={handleSubmit}>
           <Input
             type="text"
@@ -135,8 +163,12 @@ const Signup = () => {
             leftIcon={<FiUserPlus />}
             isLoading={isLoading}
             loadingText="Signing Up..."
-            loadingspinner={<Spinner color="white" size="sm" />}
+            spinner={<Spinner color="white" size="sm" />}
             isDisabled={!name || !email || !password || !mobile}
+            _hover={{
+              transform: "translateY(-2px)",
+              boxShadow: "lg",
+            }}
           >
             Sign Up
           </Button>
