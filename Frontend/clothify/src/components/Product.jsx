@@ -1,21 +1,22 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CardItem from "./card/CardItem";
 import data from "../db.json";
 import { Box, Grid } from "@chakra-ui/react";
 import FilterComponent from "./Filter";
 
 const Product = () => {
-  let finaldata = data.product
+  let finaldata = data.product;
 
   return (
     <Box display="flex" flexDirection={{ base: "column", md: "row" }}>
       <Box
         width={{ base: "100%", md: "20%" }}
-        position={{ base: "static", md: "fixed" }}
+        position={{ base: "fixed", md: "fixed" }}
         height={{ base: "auto", md: "100vh" }}
         overflowY={{ base: "auto", md: "scroll" }}
+        zIndex={100}
         // Hide scrollbar
+     
         sx={{
           "&::-webkit-scrollbar": {
             width: "0.4em",
@@ -31,7 +32,7 @@ const Product = () => {
       <Box
         width="100%"
         paddingLeft={{ base: 0, md: "20px" }}
-        marginTop={{ base: "70px", md: 0 }}
+        marginTop={{ base: "100px", md: 0 }}
         paddingBottom="50px"
         marginLeft={{ base: 0, md: "20%" }}
         overflow="auto"
