@@ -4,16 +4,19 @@ import Navbar from "./components/navbar/Navbar";
 
 import Routing from "./routing/Routing";
 import Footer from "./components/footer/Footer";
+import { useLocation, useParams } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="App">
       <Navbar />
-      <Box mt={{ base: 10, md:20 }}>
+      <Box mt={{ base: 10, md: 20 }}>
         {" "}
         <Routing />
       </Box>
-      <Footer />
+      {!location.pathname == "/cart" ? <Footer /> : ""}
     </div>
   );
 }

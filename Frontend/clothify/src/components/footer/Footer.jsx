@@ -13,10 +13,17 @@ import {
   FaInstagram,
   FaFacebook,
   FaUserCircle,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { AiFillSafetyCertificate } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 const Footer = () => {
+  const hoverEffect = {
+    scale: 1.1,
+    transition: { duration: 0.2 },
+  };
+
   return (
     <Box
       bg="teal.500"
@@ -25,11 +32,19 @@ const Footer = () => {
       px={4}
       textAlign="center"
       fontSize="sm"
+
+      bottom={0}
+      width="100%"
     >
       <Flex justifyContent="center" alignItems="center" mb={4}>
-        <Text fontWeight="bold" fontSize="lg" mr={2}>
+        <motion.Text
+          fontWeight="bold"
+          fontSize="lg"
+          mr={2}
+          whileHover={hoverEffect}
+        >
           Clothify
-        </Text>
+        </motion.Text>
         <Text>|</Text>
         <Text ml={2}>Fashion Redefined</Text>
       </Flex>
@@ -46,6 +61,7 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
+            whileHover={hoverEffect}
           />
         </Tooltip>
         <Tooltip label="Instagram" hasArrow placement="top">
@@ -60,6 +76,7 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
+            whileHover={hoverEffect}
           />
         </Tooltip>
         <Tooltip label="Facebook" hasArrow placement="top">
@@ -74,17 +91,33 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
+            whileHover={hoverEffect}
+          />
+        </Tooltip>
+        <Tooltip label="WhatsApp" hasArrow placement="top">
+          <IconButton
+            as="a"
+            href="https://wa.me/7271880500" // Replace with your WhatsApp number
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            icon={<FaWhatsapp />}
+            colorScheme="white"
+            variant="ghost"
+            fontSize="20px"
+            mx={1}
+            whileHover={hoverEffect}
           />
         </Tooltip>
       </Flex>
       <Flex justifyContent="center" alignItems="center" mb={4}>
-        <Link href="/about" mx={2} color="white">
+        <Link href="/about" mx={2} color="white" _hover={{ cursor: "pointer" }}>
           About Us
         </Link>
-        <Link href="/contact" mx={2} color="white">
+        <Link href="/contact" mx={2} color="white" whileHover={hoverEffect}>
           Contact Us
         </Link>
-        <Link href="/terms" mx={2} color="white">
+        <Link href="/terms" mx={2} color="white" whileHover={hoverEffect}>
           Terms of Service
         </Link>
         <Divider my={2} borderColor="white" />
@@ -98,6 +131,7 @@ const Footer = () => {
               variant="ghost"
               fontSize="20px"
               mr={2}
+              whileHover={hoverEffect}
             />
           </Tooltip>
           <Text>Owned by Uzair Ansari</Text>
@@ -112,6 +146,7 @@ const Footer = () => {
               variant="ghost"
               fontSize="20px"
               mr={2}
+              whileHover={hoverEffect}
             />
           </Tooltip>
           <Text>Secure Online Shopping</Text>
