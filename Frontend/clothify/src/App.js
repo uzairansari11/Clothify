@@ -1,10 +1,9 @@
-import { Box } from "@chakra-ui/react";
 import "./App.css";
+import { Box } from "@chakra-ui/react";
 import Navbar from "./components/navbar/Navbar";
-
 import Routing from "./routing/Routing";
 import Footer from "./components/footer/Footer";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, } from "react-router-dom";
 
 function App() {
   const location = useLocation();
@@ -16,7 +15,7 @@ function App() {
         {" "}
         <Routing />
       </Box>
-      {!location.pathname == "/cart" ? <Footer /> : ""}
+      {location.pathname === "/cart" ? "" : <Footer />}
     </div>
   );
 }

@@ -4,8 +4,8 @@ import data from "../db.json";
 import { Box, Grid } from "@chakra-ui/react";
 import FilterComponent from "./Filter";
 
-const Product = () => {
-  let finaldata = data.product;
+const Product = ({ filterData }) => {
+  let finaldata = data.product.filter((ele) => ele.category === filterData);
 
   return (
     <Box display="flex" flexDirection={{ base: "column", md: "row" }}>
@@ -16,7 +16,7 @@ const Product = () => {
         overflowY={{ base: "auto", md: "scroll" }}
         zIndex={100}
         // Hide scrollbar
-     
+
         sx={{
           "&::-webkit-scrollbar": {
             width: "0.4em",
