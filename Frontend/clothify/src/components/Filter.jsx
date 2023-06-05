@@ -23,7 +23,7 @@ import { BsAlexa } from "react-icons/bs";
 
 const FilterComponent = () => {
   const categories = ["dog", "cat", "tom"];
-  const brands = ["tommy", "selector", "tommy", "selector"];
+  const brands = [ "selector", "tommy", ];
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState([]);
   const [selectedDiscountRange, setSelectedDiscountRange] = useState([0, 100]);

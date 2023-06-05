@@ -16,7 +16,6 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import { AiFillSafetyCertificate } from "react-icons/ai";
-import { motion } from "framer-motion";
 
 const Footer = () => {
   const hoverEffect = {
@@ -32,20 +31,13 @@ const Footer = () => {
       px={4}
       textAlign="center"
       fontSize="sm"
-
-      bottom={0}
       width="100%"
     >
       <Flex justifyContent="center" alignItems="center" mb={4}>
-        <motion.Text
-          fontWeight="bold"
-          fontSize="lg"
-          mr={2}
-          whileHover={hoverEffect}
-        >
+        <Text fontWeight="bold" fontSize="lg" mr={2} whileHover={hoverEffect}>
           Clothify
-        </motion.Text>
-        <Text>|</Text>
+        </Text>
+        <Text> | </Text>
         <Text ml={2}>Fashion Redefined</Text>
       </Flex>
       <Flex justifyContent="center" alignItems="center" mb={4}>
@@ -91,7 +83,7 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
-            whileHover={hoverEffect}
+            _hover={hoverEffect}
           />
         </Tooltip>
         <Tooltip label="WhatsApp" hasArrow placement="top">
@@ -106,7 +98,7 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
-            whileHover={hoverEffect}
+            _hover={hoverEffect}
           />
         </Tooltip>
       </Flex>
@@ -114,10 +106,10 @@ const Footer = () => {
         <Link href="/about" mx={2} color="white" _hover={{ cursor: "pointer" }}>
           About Us
         </Link>
-        <Link href="/contact" mx={2} color="white" whileHover={hoverEffect}>
+        <Link href="/contact" mx={2} color="white" _hover={hoverEffect}>
           Contact Us
         </Link>
-        <Link href="/terms" mx={2} color="white" whileHover={hoverEffect}>
+        <Link href="/terms" mx={2} color="white" _hover={hoverEffect}>
           Terms of Service
         </Link>
         <Divider my={2} borderColor="white" />
@@ -131,7 +123,7 @@ const Footer = () => {
               variant="ghost"
               fontSize="20px"
               mr={2}
-              whileHover={hoverEffect}
+              _hover={hoverEffect}
             />
           </Tooltip>
           <Text>Owned by Uzair Ansari</Text>
@@ -146,7 +138,7 @@ const Footer = () => {
               variant="ghost"
               fontSize="20px"
               mr={2}
-              whileHover={hoverEffect}
+              _hover={hoverEffect}
             />
           </Tooltip>
           <Text>Secure Online Shopping</Text>

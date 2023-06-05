@@ -13,10 +13,7 @@ import {
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 
 const CartItem = ({
-  category,
-  subcategory,
   title,
-  description,
   brand,
   price,
   discount,
