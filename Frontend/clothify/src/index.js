@@ -9,13 +9,13 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ChakraProvider>
+  <Provider store={store}>
     <BrowserRouter>
-      <Provider store={store}>
+      <ChakraProvider>
         <App />
-      </Provider>
+      </ChakraProvider>
     </BrowserRouter>
-  </ChakraProvider>
+  </Provider>
 );
 
 reportWebVitals();

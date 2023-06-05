@@ -8,8 +8,10 @@ import Options from "./ProductOptions";
 import AvatarNavbar from "./AvatarNavbar";
 import HamburgerOptions from "./Hamburger";
 import OtherOptions from "./OtherOptions";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const authDetails = useSelector((store) => store.authReducer);
   return (
     <Box
       backgroundColor={"white"}
@@ -52,8 +54,8 @@ const Navbar = () => {
           </Box>
 
           <Box width={{ base: "auto", md: "5%" }}>
-            <Menuitem>
-              <AvatarNavbar />
+            <Menuitem isAuth={authDetails.isAuth}>
+              <AvatarNavbar authDetails={authDetails} />
             </Menuitem>
           </Box>
           <Box display={{ base: "flex", lg: "none" }} alignItems={"center"}>

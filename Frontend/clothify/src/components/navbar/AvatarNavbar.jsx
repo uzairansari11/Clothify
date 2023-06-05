@@ -1,14 +1,14 @@
 import { Avatar, Box, Stack, Tooltip } from "@chakra-ui/react";
 import React from "react";
 
-const AvatarNavbar = ({ name = "N A" }) => {
+const AvatarNavbar = (props) => {
   return (
     <Stack direction="row" align="center" spacing={2} cursor="pointer">
       <Box as="span" display="inline-block">
-        <Tooltip label={name}>
+        <Tooltip label={props?.authDetails?.userDetails?.name}>
           <Avatar
             size={{ base: "xs", md: "sm" }}
-            name={name}
+            name={props?.authDetails?.userDetails?.name}
             bg="teal.500"
             boxShadow="md"
           />

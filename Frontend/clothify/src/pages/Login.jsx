@@ -13,9 +13,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
-import { loginFunction } from "../utils/login";
+import { loginFunction } from "../utils/coockies";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginFunction } from "../redux/authentication/action";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,33 +27,34 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
     if (email && password) {
       const userDetails = { email, password };
-      let res = await loginFunction(userDetails);
-
-      if (res === true) {
-        toast({
-          title: "Login Success.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        setIsLogin(true);
-        setIsLoading(false);
-      } else {
-        toast({
-          title: "Login failed",
-          description: `${res}`,
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        setIsLoading(false);
-      }
+      dispatch(handleLoginFunction(userDetails)).then((res) => {
+        if (res === true) {
+          toast({
+            title: "Login Success.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          setIsLogin(true);
+          setIsLoading(false);
+        } else {
+          toast({
+            title: "Login failed",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+          setIsLoading(false);
+        }
+      });
     }
   };
 
@@ -71,8 +74,7 @@ const Login = () => {
       justify="center"
       height="100vh"
       backgroundImage="url('/images/loginbg.jpg')"
-      backgroundSize={ "cover"}
-    
+      backgroundSize={"cover"}
       backgroundPosition="center"
       objectFit={"cover"}
     >
