@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Box mt={{ base: 10, md: 20 }}>
+      <Box mt={{ base: 12, md: 20 }}>
         {" "}
         <Routing />
       </Box>

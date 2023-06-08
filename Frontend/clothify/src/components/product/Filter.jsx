@@ -23,7 +23,7 @@ import {
 import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const FilterComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,8 +32,7 @@ const FilterComponent = () => {
   const initialDiscount = searchParams.get("discount");
   const initialSubcategory = searchParams.getAll("subcategory");
   const initialBrand = searchParams.getAll("brand");
-  const location = useLocation();
-  const path = location.pathname.trim().split("/")[2];
+  
 
   const { products } = useSelector((store) => store.productReducer);
 
@@ -61,12 +60,11 @@ const FilterComponent = () => {
 
   const handleCategoryChange = (selectedCategories) => {
     setSelectedCategory(selectedCategories);
-    setPage(1);
   };
 
   const handleBrandChange = (selectedBrands) => {
     setSelectedBrand(selectedBrands);
-    setPage(1);
+     
   };
 
   const handleDiscountRangeChange = (values) => {
@@ -102,6 +100,7 @@ const FilterComponent = () => {
     if (Number(selectedDiscountRange.slice(3))) {
       params.discount = selectedDiscountRange;
     }
+ 
     params.page = page;
     setSearchParams(params);
   }, [
@@ -110,7 +109,6 @@ const FilterComponent = () => {
     selectedPriceSort,
     selectedDiscountRange,
     page,
-    path,
   ]);
 
   return (
@@ -119,7 +117,7 @@ const FilterComponent = () => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      backgroundColor={"white"}
+      backgroundColor="white"
     >
       <Accordion
         allowToggle
@@ -209,11 +207,11 @@ const FilterComponent = () => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Flex justify="flex-end" mt={4}>
+      {/* <Flex justify="flex-end" mt={4}>
         <Button colorScheme={buttonColor} onClick={handleReset}>
           Reset
         </Button>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 };

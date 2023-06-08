@@ -7,9 +7,9 @@ import { NavLink } from "react-router-dom";
 
 const ProductOptions = () => {
   const options = [
-    { id: 1, title: "MEN", route: "/products/Men", icon: AiOutlineMan },
-    { id: 2, title: "WOMEN", route: "/products/Women", icon: AiOutlineWoman },
-    { id: 3, title: "KID", route: "/products/Kids", icon: MdOutlineChildCare },
+    { id: 1, title: "MEN", route: "/men", icon: AiOutlineMan },
+    { id: 2, title: "WOMEN", route: "/women", icon: AiOutlineWoman },
+    { id: 3, title: "KID", route: "/kid", icon: MdOutlineChildCare },
   ];
   const variants = {
     initial: { opacity: 0 },

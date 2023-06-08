@@ -4,14 +4,18 @@ import Signup from "../pages/Signup";
 import SingleProduct from "../pages/SingleProduct";
 import AboutPage from "../pages/About";
 import CartPage from "../pages/Cart";
-import HomePage from "../pages/Home";
+import MenPage from "../pages/MenPage";
+import WomenPage from "../pages/WomenPage";
+import KidPage from "../pages/KidPage";
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<h1>welcom to clothify</h1>} />
       <Route path="/product/:id" element={<SingleProduct />} />
-      <Route path="/products/:id" element={<HomePage />} />
+      <Route path="/men" element={<MenPage />} />
+      <Route path="/women" element={<WomenPage />} />
+      <Route path="/kid" element={<KidPage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<AboutPage />} />
