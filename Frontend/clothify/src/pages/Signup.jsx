@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -67,7 +67,12 @@ const Signup = () => {
   if (isCreated) {
     navigate("/login", { replace: true });
   }
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (isCreated) {
+      navigate("/login", { replace: true });
+    }
+  }, [isCreated]);
   return (
     <Flex
       align="center"
@@ -80,7 +85,7 @@ const Signup = () => {
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"
-        backgroundColor="whiteAlpha.900"
+        backgroundColor="white"
         borderRadius="md"
         boxShadow="lg"
         animate={{

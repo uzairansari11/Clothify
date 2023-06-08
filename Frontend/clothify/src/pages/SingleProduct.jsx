@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -10,17 +10,16 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag, FiChevronRight } from "react-icons/fi";
+import { useParams } from "react-router-dom";
+import { handlesingleproduct } from "../utils/handlesingleproduct";
+import LoadingSpinner from "../components/spinner/Spinner";
 
 const SingleProduct = () => {
+  const { id } = useParams();
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [mainImage, setMainImage] = useState(
-    "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60"
-  );
-  const [additionalImages, setAdditionalImages] = useState([
-    "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60",
-    "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60",
-    "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60",
-  ]);
+  const [mainImage, setMainImage] = useState(null);
+  const [additionalImages, setAdditionalImages] = useState(null);
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState("S");
 
@@ -36,6 +35,19 @@ const SingleProduct = () => {
     setMainImage(image);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    handlesingleproduct(id).then((res) => {
+      setData(res);
+      setMainImage(res?.images?.[0] || null);
+      setAdditionalImages(res?.images);
+    });
+  }, [id]);
+
+  if (!data) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <Box p="4">
       <Flex flexWrap="wrap" justifyContent="center" alignItems="center" mb="4">
@@ -43,17 +55,30 @@ const SingleProduct = () => {
           <Image
             src={mainImage}
             alt="Product"
-            objectFit="cover"
-            height="400px"
-            width="100%"
+            objectFit="contain"
+            width="50%"
+            mx="auto"
+            boxShadow="md"
+            borderRadius="md"
           />
-          <Flex mt="2">
+          <Flex
+            mt="2"
+            alignItems="center"
+            height="80px"
+            justifyContent="center"
+          >
             {additionalImages.map((image, index) => (
               <Box
                 key={index}
                 onClick={() => handleImageChange(image)}
                 cursor="pointer"
                 mx="1"
+                borderRadius="full"
+                border="1px solid"
+                borderColor="gray.400"
+                p="1"
+                bg="white"
+                _hover={{ transform: "scale(1.1)" }}
               >
                 <Image
                   src={image}
@@ -61,9 +86,7 @@ const SingleProduct = () => {
                   objectFit="cover"
                   height="60px"
                   width="60px"
-
-
-                  alignSelf="center"
+                  borderRadius="full"
                 />
               </Box>
             ))}
@@ -77,43 +100,36 @@ const SingleProduct = () => {
             color="teal.500"
             fontStyle="italic"
           >
-            Classic Oxford Shirt
+            {data.title}
           </Text>
           <Text mb="4" fontStyle="italic">
-            Elevate your style with this classic oxford shirt for men. Crafted
-            from high-quality cotton fabric, it offers comfort and durability.
-            The timeless design features a button-down collar and a single chest
-            pocket. Whether for a formal occasion or a smart-casual look, this
-            oxford shirt is a versatile choice that pairs well with trousers or
-            jeans.
+            {data.description}
           </Text>
           <Text fontWeight="bold" color="teal.500" mb="2">
-            Brand: Brooks Brothers
+            Brand: {data.brand}
           </Text>
           <Text fontWeight="bold" fontSize="2xl" mb="2" color="teal.500">
-            $89.99
+            $ {data.price}
           </Text>
           <Flex alignItems="center" mb="2">
-            <Text textDecoration="line-through" mr="2" color="gray.500">
+            <Text
+              textDecoration="line-through"
+              mr="2"
+              color="gray.500"
+              fontWeight="bold"
+            >
               $104.99
             </Text>
             <Text fontWeight="bold" color="teal.500">
               Save $15.00
             </Text>
           </Flex>
-          <Text mb="2" color="gray.500" fontStyle="italic">
-            Elevate your style with this classic oxford shirt for men. Crafted from
-            high-quality cotton fabric, it offers comfort and durability. The
-            timeless design features a button-down collar and a single chest pocket.
-            Whether for a formal occasion or a smart-casual look, this oxford shirt
-            is a versatile choice that pairs well with trousers or jeans.
-          </Text>
           <Flex alignItems="center" justifyContent="space-between" mb="2">
             <Text fontWeight="bold" fontSize="2xl" fontStyle="italic">
               Sizes:
             </Text>
             <Flex alignItems="center">
-              {["S", "M", "L", "XL"].map((option, index) => (
+              {data?.sizes?.map((option, index) => (
                 <Box
                   key={index}
                   onClick={() => setSelectedSize(option)}
@@ -144,6 +160,8 @@ const SingleProduct = () => {
               loadingText="Adding..."
               _hover={{ opacity: "0.8" }}
               fontStyle="italic"
+              boxShadow="sm"
+              borderRadius="md"
             >
               Add to Cart
             </Button>
@@ -153,23 +171,22 @@ const SingleProduct = () => {
             color={heartColor}
             size="md"
             aria-label="Add to Wishlist"
+            _hover={{ transform: "scale(1.2)" }}
           />
         </Box>
       </Flex>
       <Box bg="gray.200" p="4" mt="4" borderRadius="md" textAlign="center">
-        <Text
-
- fontSize="sm" color="gray.500" mb="2" fontStyle="italic">
+        <Text fontSize="sm" color="gray.500" mb="2" fontStyle="italic">
           Delivery within 2-3 business days
         </Text>
         <Text fontSize="sm" color="gray.500" mb="2" fontStyle="italic">
           Free returns within 30 days of purchase
         </Text>
         <Text fontSize="xs" color="gray.500" mb="2" fontStyle="italic">
-          Terms and Conditions: Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Fusce maximus blandit massa, vitae tempus neque vulputate sed. Nam
-          consequat, ex id semper gravida, leo mauris venenatis sem, id varius turpis
-          tortor non turpis.
+          Terms and Conditions: Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit. Fusce maximus blandit massa, vitae tempus neque
+          vulputate sed. Nam consequat, ex id semper gravida, leo mauris
+          venenatis sem, id varius turpis tortor non turpis.
         </Text>
       </Box>
     </Box>

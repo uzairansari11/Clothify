@@ -32,9 +32,10 @@ const Footer = () => {
       textAlign="center"
       fontSize="sm"
       width="100%"
+      mt={20}
     >
       <Flex justifyContent="center" alignItems="center" mb={4}>
-        <Text fontWeight="bold" fontSize="lg" mr={2} whileHover={hoverEffect}>
+        <Text fontWeight="bold" fontSize="lg" mr={2}>
           Clothify
         </Text>
         <Text> | </Text>
@@ -53,7 +54,6 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
-            whileHover={hoverEffect}
           />
         </Tooltip>
         <Tooltip label="Instagram" hasArrow placement="top">
@@ -68,7 +68,6 @@ const Footer = () => {
             variant="ghost"
             fontSize="20px"
             mx={1}
-            whileHover={hoverEffect}
           />
         </Tooltip>
         <Tooltip label="Facebook" hasArrow placement="top">
@@ -89,7 +88,7 @@ const Footer = () => {
         <Tooltip label="WhatsApp" hasArrow placement="top">
           <IconButton
             as="a"
-            href="https://wa.me/7271880500" // Replace with your WhatsApp number
+            href="https://wa.me/7271880500"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"

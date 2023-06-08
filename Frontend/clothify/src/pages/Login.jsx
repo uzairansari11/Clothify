@@ -29,7 +29,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -63,6 +62,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (isLogin) {
       return navigate("/", { replace: true });
     }
