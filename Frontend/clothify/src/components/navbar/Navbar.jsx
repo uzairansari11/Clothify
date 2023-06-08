@@ -20,7 +20,7 @@ const Navbar = () => {
       position={"fixed"}
       p={0}
       px={[2, 4]}
-      py={[0, 3]}
+      py={[2, 2]}
       zIndex={50}
       top={0}
       left={0}

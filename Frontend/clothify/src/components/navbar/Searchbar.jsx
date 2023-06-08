@@ -86,7 +86,7 @@ const Searchbar = () => {
           pos="absolute"
           top="3.2rem"
           width="full"
-          maxH="19.4rem"
+          maxH="10.7rem"
           bg="gray.100"
           borderRadius="md"
           overflowY="auto"
@@ -104,7 +104,7 @@ const Searchbar = () => {
               _hover={{ textDecoration: "none", bg: "gray.200" }}
             >
               <Text padding="8px" pb="1.7px" pl="15px" borderBottomWidth="1px">
-                {item.ProductName}{" "}
+                {item.title}{" "}
               </Text>
             </Link>
           ))}
