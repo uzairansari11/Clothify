@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
   FormControl,
-  FormLabel,
   Checkbox,
+  CheckboxGroup,
   Text,
   Button,
   useColorModeValue,
@@ -17,56 +17,101 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  RadioGroup,
+  Radio,
 } from "@chakra-ui/react";
 import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const FilterComponent = () => {
-  const categories = ["dog", "cat", "tom"];
-  const brands = [ "selector", "tommy", ];
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState([]);
-  const [selectedDiscountRange, setSelectedDiscountRange] = useState([0, 100]);
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialSortOrder = searchParams.get("sortOrder");
+  const initialPage = searchParams.get("page");
+  const initialDiscount = searchParams.get("discount");
+  const initialSubcategory = searchParams.getAll("subcategory");
+  const initialBrand = searchParams.getAll("brand");
+  const location = useLocation();
+  const path = location.pathname.trim().split("/")[2];
 
-  const handleCategoryChange = (event) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setSelectedCategory((prevSelected) => [...prevSelected, value]);
-    } else {
-      setSelectedCategory((prevSelected) =>
-        prevSelected.filter((category) => category !== value)
-      );
-    }
+  const { products } = useSelector((store) => store.productReducer);
+
+  let brands = products.map((ele) => ele.brand);
+  let finalBrand = brands.filter(
+    (item, index) => brands.indexOf(item) === index
+  );
+  let subCategories = products.map((ele) => ele.subcategory);
+  let finalSubCategories = subCategories.filter(
+    (item, index) => subCategories.indexOf(item) === index
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialSubcategory || []
+  );
+  const [selectedBrand, setSelectedBrand] = useState(initialBrand || []);
+  const [selectedPriceSort, setSelectedPriceSort] = useState(
+    initialSortOrder || ""
+  );
+  const [selectedDiscountRange, setSelectedDiscountRange] = useState(
+    initialDiscount || "gte0"
+  );
+
+  const [page, setPage] = useState(initialPage || 1);
+
+  const handleCategoryChange = (selectedCategories) => {
+    setSelectedCategory(selectedCategories);
+    setPage(1);
   };
 
-  const handleBrandChange = (event) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setSelectedBrand((prevSelected) => [...prevSelected, value]);
-    } else {
-      setSelectedBrand((prevSelected) =>
-        prevSelected.filter((brand) => brand !== value)
-      );
-    }
+  const handleBrandChange = (selectedBrands) => {
+    setSelectedBrand(selectedBrands);
+    setPage(1);
   };
 
   const handleDiscountRangeChange = (values) => {
-    setSelectedDiscountRange(values);
+    setSelectedDiscountRange("gte" + values);
+  };
+
+  const handlePriceSortChange = (value) => {
+    setSelectedPriceSort(value);
   };
 
   const handleReset = () => {
     setSelectedCategory([]);
     setSelectedBrand([]);
-    setSelectedDiscountRange([0, 100]);
+    setSelectedDiscountRange("gte0");
+    setSelectedPriceSort("");
+    setPage(1);
   };
 
   const buttonColor = useColorModeValue("teal", "teal.300");
-  const textColor = useColorModeValue("white", "gray.800");
 
-  const handleAccordionToggle = () => {
-    setIsAccordionOpen(!isAccordionOpen);
-  };
+  useEffect(() => {
+    const params = {};
+    if (selectedCategory.length) {
+      params.subcategory = selectedCategory;
+    }
+    if (selectedBrand.length) {
+      params.brand = selectedBrand;
+    }
+    if (selectedPriceSort) {
+      params.sortField = "price";
+      params.sortOrder = selectedPriceSort;
+    }
+    if (Number(selectedDiscountRange.slice(3))) {
+      params.discount = selectedDiscountRange;
+    }
+    params.page = page;
+    setSearchParams(params);
+  }, [
+    selectedCategory,
+    selectedBrand,
+    selectedPriceSort,
+    selectedDiscountRange,
+    page,
+    path,
+  ]);
 
   return (
     <Box
@@ -79,72 +124,76 @@ const FilterComponent = () => {
       <Accordion
         allowToggle
         display={{ base: "grid", md: "block" }}
-        // border={"1px solid red"}
         gridTemplateColumns={{ base: "repeat(2,1fr)" }}
       >
         <AccordionItem>
-          <AccordionButton onClick={handleAccordionToggle}>
+          <AccordionButton>
             <BiSort size={20} color="teal" /> Price
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
             <FormControl>
-              <Checkbox>Low to High</Checkbox>
+              <RadioGroup
+                value={selectedPriceSort}
+                onChange={handlePriceSortChange}
+              >
+                <Flex direction="column" mt={2}>
+                  <Radio value="asc">Low to High</Radio>
+                  <Radio value="desc">High to Low</Radio>
+                </Flex>
+              </RadioGroup>
             </FormControl>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
-          <AccordionButton onClick={handleAccordionToggle}>
+          <AccordionButton>
             <BiCategory size={20} color="teal" /> Category
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
             <FormControl>
-              {categories.map((category) => (
-                <Checkbox
-                  key={category}
-                  value={category}
-                  onChange={handleCategoryChange}
-                  isChecked={selectedCategory.includes(category)}
-                >
-                  {category}
-                </Checkbox>
-              ))}
+              <CheckboxGroup
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+              >
+                {finalSubCategories.map((category) => (
+                  <Checkbox key={category} value={category}>
+                    {category}
+                  </Checkbox>
+                ))}
+              </CheckboxGroup>
             </FormControl>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
-          <AccordionButton onClick={handleAccordionToggle}>
+          <AccordionButton>
             <BiBuilding size={20} color="teal" /> Brand
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
             <FormControl>
-              {brands.map((brand) => (
-                <Checkbox
-                  key={brand}
-                  value={brand}
-                  onChange={handleBrandChange}
-                  isChecked={selectedBrand.includes(brand)}
-                >
-                  {brand}
-                </Checkbox>
-              ))}
+              <CheckboxGroup value={selectedBrand} onChange={handleBrandChange}>
+                {finalBrand.map((brand) => (
+                  <Checkbox key={brand} value={brand}>
+                    {brand}
+                  </Checkbox>
+                ))}
+              </CheckboxGroup>
             </FormControl>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
-          <AccordionButton onClick={handleAccordionToggle}>
+          <AccordionButton>
             <BsAlexa size={20} color="teal" /> Discount
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
             <FormControl>
               <Slider
-                defaultValue={selectedDiscountRange}
+                defaultValue={selectedDiscountRange.slice(3)}
                 min={0}
                 max={100}
-                step={1}
+                step={5}
                 onChange={handleDiscountRangeChange}
               >
                 <SliderTrack>
@@ -153,18 +202,18 @@ const FilterComponent = () => {
                 <SliderThumb />
               </Slider>
               <Flex justify="space-between" mt={2}>
-                <Text>{selectedDiscountRange[0]}%</Text>
-                <Text>{selectedDiscountRange[1]}%</Text>
+                <Text>0%</Text>
+                <Text>100%</Text>
               </Flex>
             </FormControl>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      {/* <Flex justify="flex-end" mt={4}>
+      <Flex justify="flex-end" mt={4}>
         <Button colorScheme={buttonColor} onClick={handleReset}>
           Reset
         </Button>
-      </Flex> */}
+      </Flex>
     </Box>
   );
 };

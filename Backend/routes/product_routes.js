@@ -1,10 +1,11 @@
 const express = require("express");
 
 const {
-	getProduct,
-	postProduct,
-	updateProduct,
-	deleteProduct,
+  getProduct,
+  postProduct,
+  updateProduct,
+  deleteProduct,
+  getSingleProduct,
 } = require("../controller/product_controller");
 const { authorizedMiddleware } = require("../middleware/authorizedMiddleware");
 
@@ -12,10 +13,12 @@ const productRouter = express.Router();
 
 productRouter.get("/", getProduct);
 
-productRouter.post("/",authorizedMiddleware,postProduct);
+productRouter.get("/:id", getSingleProduct);
 
-productRouter.patch("/:id",authorizedMiddleware,  updateProduct);
+productRouter.post("/", authorizedMiddleware, postProduct);
 
-productRouter.delete("/:id", authorizedMiddleware,deleteProduct);
+productRouter.patch("/:id", authorizedMiddleware, updateProduct);
+
+productRouter.delete("/:id", authorizedMiddleware, deleteProduct);
 
 module.exports = { productRouter };

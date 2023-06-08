@@ -1,18 +1,16 @@
-import React from 'react';
-import { Box, Button, HStack } from '@chakra-ui/react';
+import React, { useEffect } from "react";
+import { Box, Button, HStack } from "@chakra-ui/react";
 
 // totalPages
-const Pagination = ({ currentPage, onPageChange }) => {
-  const totalPages =5
+const Pagination = ({ currentPage, onPageChange, totalPages }) => {
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
 
   const handlePageChange = (page) => {
     onPageChange(page);
   };
-
   return (
-    <Box display="flex" justifyContent="center" mt="6">
+    <Box display="flex" justifyContent="center" mt="6" mb={4}>
       <HStack spacing="2">
         <Button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -21,7 +19,7 @@ const Pagination = ({ currentPage, onPageChange }) => {
           colorScheme="teal"
           animate
           _hover={{
-            transform: 'scale(1.1)',
+            transform: "scale(1.1)",
           }}
         >
           Prev
@@ -31,10 +29,10 @@ const Pagination = ({ currentPage, onPageChange }) => {
             key={page}
             onClick={() => handlePageChange(page)}
             borderRadius="full"
-            colorScheme={page === currentPage ? 'teal' : 'gray'}
+            colorScheme={page === currentPage ? "teal" : "gray"}
             animate
             _hover={{
-              transform: 'scale(1.1)',
+              transform: "scale(1.1)",
             }}
           >
             {page}
@@ -47,7 +45,7 @@ const Pagination = ({ currentPage, onPageChange }) => {
           colorScheme="teal"
           animate
           _hover={{
-            transform: 'scale(1.1)',
+            transform: "scale(1.1)",
           }}
         >
           Next

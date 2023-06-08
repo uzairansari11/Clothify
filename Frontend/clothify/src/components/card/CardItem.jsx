@@ -11,6 +11,7 @@ import {
   Badge,
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const CartItem = ({
   title,
@@ -21,6 +22,7 @@ const CartItem = ({
   total_rating,
   images,
   sizes,
+  _id,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +31,6 @@ const CartItem = ({
 
   const handleAddToCart = () => {
     setIsLoading(true);
-    // Simulating an API call or asynchronous operation
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -48,13 +49,15 @@ const CartItem = ({
       boxShadow={isHovered ? "md" : "none"}
       transition="background-color 0.3s, box-shadow 0.3s"
     >
-      <Image
-        src={isHovered ? images[1] : images[0]}
-        alt="Product"
-        width="100%"
-        height="300px"
-        objectFit="contain"
-      />
+      <Link to={`/product/${_id}`}>
+        <Image
+          src={isHovered ? images[1] : images[0]}
+          alt="Product"
+          width="100%"
+          height="300px"
+          objectFit="contain"
+        />
+      </Link>
       <Box p="4" textAlign="center">
         <Badge colorScheme="teal" fontWeight="semibold" fontSize="sm" mb="2">
           {brand}

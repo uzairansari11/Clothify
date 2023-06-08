@@ -4,10 +4,8 @@ import {
   MenuDivider,
   MenuItemOption,
   MenuList,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
 import { Link as ReactLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutFunction } from "../../redux/authentication/action";

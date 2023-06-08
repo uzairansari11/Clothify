@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
 import { MdOutlineChildCare } from "react-icons/md";
-import { Link as ReactLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ProductOptions = () => {
   const options = [
@@ -29,7 +29,11 @@ const ProductOptions = () => {
     >
       {options.map((element, index) => {
         return (
-          <ReactLink to={element.route} key={element.id}>
+          <NavLink
+            to={element.route}
+            key={element.id}
+          
+          >
             <motion.div whileHover="hover">
               <motion.div
                 initial="initial"
@@ -49,7 +53,7 @@ const ProductOptions = () => {
                 </Box>
               </motion.div>
             </motion.div>
-          </ReactLink>
+          </NavLink>
         );
       })}
     </Box>
