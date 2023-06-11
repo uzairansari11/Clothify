@@ -41,6 +41,7 @@ const Product = ({ category, subcategory, brands }) => {
   const initialBrand = searchParams.getAll("brand");
   const { products, totalCount } = useSelector((store) => store.productReducer);
 
+
   const [page, setPage] = useState(initialPage || 1);
   const dispatch = useDispatch();
 
@@ -108,6 +109,7 @@ const Product = ({ category, subcategory, brands }) => {
     selectedPriceSort,
     selectedDiscountRange,
     page,
+    products,
   ]);
 
   const handlePageChange = (clickedPage) => {

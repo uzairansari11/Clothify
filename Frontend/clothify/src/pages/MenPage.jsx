@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Product from "../components/product/Product";
+import { get_cart_from_api } from '../redux/cart/api';
 const MenPage = () => {
   let subcategory = ["Shirts", "T-Shirts", "Jeans"];
   let brands = [
@@ -25,6 +26,7 @@ const MenPage = () => {
   ];
   useEffect(() => {
     window.scrollTo(0, 0);
+    get_cart_from_api()
   }, []);
   return (
     <div>
