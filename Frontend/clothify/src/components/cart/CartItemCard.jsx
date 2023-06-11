@@ -1,21 +1,56 @@
-import { useState } from "react";
-import { Box, Flex, Image, Text, Tooltip, Select } from "@chakra-ui/react";
-import { AiOutlineDelete, AiOutlineDollar, AiOutlineTag } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Tooltip,
+  Select,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@chakra-ui/react";
+import {
+  AiOutlineDelete,
+  AiOutlineDollar,
+  AiOutlineTag,
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { handleUpdateToCartData } from "../../redux/cart/action";
+import { useDispatch } from "react-redux";
 
-const CartItemCard = ({ images, quantity, size, title, price, _id, productId, handleRemoveItem }) => {
+const CartItemCard = ({
+  images,
+  quantity,
+  size,
+  title,
+  price,
+  _id,
+  productId,
+  handleRemoveItem,
+  handleQuantityChange,
+}) => {
   const [selectedQuantity, setSelectedQuantity] = useState(quantity);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleQuantityChange = (e) => {
+  const handleQuantity = (e) => {
     const newQuantity = parseInt(e.target.value);
-    console.log(newQuantity)
-  
+    const payload = { quantity: newQuantity };
+    handleQuantityChange(_id, payload);
     setSelectedQuantity(newQuantity);
   };
 
   const handleDelete = (id) => {
     handleRemoveItem(id);
+    setIsModalOpen(false);
   };
+
+  useEffect(() => { }, [selectedQuantity]);
 
   return (
     <Box
@@ -41,7 +76,7 @@ const CartItemCard = ({ images, quantity, size, title, price, _id, productId, ha
             objectFit="contain"
             mb={{ base: 4, sm: 0 }}
             transition="transform 0.3s ease"
-            _hover={{ transform: "scale(1.1)", cursor: 'pointer' }}
+            _hover={{ transform: "scale(1.1)", cursor: "pointer" }}
           />
         </Link>
         <Box ml={4} flex="1">
@@ -70,7 +105,7 @@ const CartItemCard = ({ images, quantity, size, title, price, _id, productId, ha
             <Flex align="center">
               <Select
                 value={selectedQuantity}
-                onChange={handleQuantityChange}
+                onChange={handleQuantity}
                 variant="outline"
                 colorScheme="green"
                 size="sm"
@@ -87,15 +122,32 @@ const CartItemCard = ({ images, quantity, size, title, price, _id, productId, ha
                     size={24}
                     color="red"
                     cursor="pointer"
-                    onClick={() => handleDelete(_id)}
+                    onClick={() => setIsModalOpen(true)}
                   />
                 </Box>
               </Tooltip>
             </Flex>
           </Flex>
-
         </Box>
       </Flex>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this item from your cart?
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={() => handleDelete(_id)}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

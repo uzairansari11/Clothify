@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -8,36 +8,43 @@ import {
   Button,
   Tooltip,
   useToast,
+  ScaleFade,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
+import { motion } from "framer-motion";
 import CartItemCard from "../components/cart/CartItemCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
   handleDeleteToCartData,
   handleGetCartData,
+  handleUpdateToCartData,
 } from "../redux/cart/action";
-import LoadingSpinner from "../components/spinner/Spinner";
+import LoadingSpinner from '../components/spinner/Spinner';
 
 const CartPage = () => {
-  const { cartData, isLoading } = useSelector((store) => store.cartReducer);
+  const { cartData } = useSelector((store) => store.cartReducer);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const toast = useToast();
-  console.log(cartData)
-  const handleIncreaseQuantity = (itemId) => {
-    // Handle logic to increase item quantity
-  };
 
-  const handleDecreaseQuantity = (itemId) => {
-    // Handle logic to decrease item quantity
+  const handleQuantityChange = (itemId, payload) => {
+    dispatch(handleUpdateToCartData(itemId, payload));
   };
 
   const handleRemoveItem = (itemId) => {
     dispatch(handleDeleteToCartData(itemId));
-
   };
+
+  const calculateTotalPrice = Math.ceil(
+    cartData.reduce((total, item) => total + item.price * item.quantity, 0)
+  );
 
   useEffect(() => {
     dispatch(handleGetCartData());
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, [dispatch]);
 
   return (
@@ -63,14 +70,14 @@ const CartPage = () => {
           pr={{ base: "0", md: "4" }}
           css={{
             overflowY: "auto",
-            msOverflowStyle: "none", // Hide scrollbar on IE and Edge
-            scrollbarWidth: "none", // Hide scrollbar on Firefox
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
             "&::-webkit-scrollbar": {
-              display: "none", // Hide scrollbar on Chrome, Safari, and Opera
+              display: "none",
             },
           }}
         >
-          {isLoading ? (
+          {loading ? (
             <Flex justifyContent="center" alignItems="center" minHeight="200px">
               <LoadingSpinner />
             </Flex>
@@ -80,49 +87,70 @@ const CartPage = () => {
                 key={ele._id}
                 {...ele}
                 handleRemoveItem={handleRemoveItem}
-                handleIncreaseQuantity={handleIncreaseQuantity}
+                handleQuantityChange={handleQuantityChange}
               />
             ))
           ) : (
-            <Text mb={4}>Your cart is empty.</Text>
+            <Flex justifyContent="center" alignItems="center" minHeight="200px">
+              <ScaleFade initialScale={0.9} in>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    type: "spring",
+                    stiffness: 150,
+                  }}
+                >
+                  <Text fontSize="xl" textAlign="center" color="gray.500">
+                    Your cart is empty.
+                  </Text>
+                </motion.div>
+              </ScaleFade>
+            </Flex>
           )}
         </Flex>
 
-        <Flex
-          flexDirection="column"
-          flex={{ base: "none", md: "1" }}
-          pl={{ base: "0", md: "4" }}
-          position="sticky"
-          top={0}
-          alignSelf="flex-start"
-          background={"white"}
-          margin={{ base: "auto", md: "0" }}
-        >
-          <Flex justifyContent="space-between" alignItems="center" mt={4}>
-            <Text fontWeight="bold">Total:</Text>
-            <Tooltip label="Total Price" placement="top">
-              <Text fontWeight="bold">$44.98</Text>
-            </Tooltip>
+        {!cartData.length ? (
+          <></>
+        ) : (
+          <Flex
+            flexDirection="column"
+            flex={{ base: "none", md: "1" }}
+            pl={{ base: "0", md: "4" }}
+            position="sticky"
+            top={0}
+            alignSelf="flex-start"
+            background={"white"}
+            margin={{ base: "auto", md: "0" }}
+          >
+            <Flex justifyContent="space-around" alignItems="center" mt={4}>
+              <Text fontWeight="bold">Total:</Text>
+              <Tooltip label="Total Price" placement="top">
+                <Text fontWeight="bold">$ {calculateTotalPrice}</Text>
+              </Tooltip>
+            </Flex>
+            <Flex justifyContent="flex-end" alignItems="center" mt={4}>
+              <Button
+                colorScheme="teal"
+                size="md"
+                width={{ base: "100%", md: "70%" }}
+                rightIcon={<FaShoppingCart />}
+                margin={"auto"}
+                onClick={() =>
+                  toast({
+                    title: "Proceed to Checkout",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                }
+              >
+                Proceed to Checkout
+              </Button>
+            </Flex>
           </Flex>
-          <Flex justifyContent="flex-end" alignItems="center" mt={4}>
-            <Button
-              colorScheme="teal"
-              size="lg"
-              width={{ base: "100%", md: "100%" }}
-              rightIcon={<FaShoppingCart />}
-              onClick={() =>
-                toast({
-                  title: "Proceed to Checkout",
-                  status: "success",
-                  duration: 3000,
-                  isClosable: true,
-                })
-              }
-            >
-              Proceed to Checkout
-            </Button>
-          </Flex>
-        </Flex>
+        )}
       </Flex>
     </Box>
   );
