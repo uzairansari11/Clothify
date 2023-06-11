@@ -9,6 +9,7 @@ const cartSchema = mongoose.Schema({
   discount: { type: Number },
   images: { type: [String] },
   quantity: { type: Number, default: 1 },
+  size: { type: mongoose.Schema.Types.Mixed },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

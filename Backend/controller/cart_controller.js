@@ -1,6 +1,7 @@
 const { CartModel } = require("../model/cart_model");
 
 const getCart = async (req, res) => {
+	console.log(req.user.id)
 	try {
 		const cartData = await CartModel.find({ user: req.user.id });
 		res.status(200).json(cartData);
@@ -19,42 +20,45 @@ const postCart = async (req, res) => {
 		discount,
 		quantity,
 		images,
+		size
 	} = req.body;
 
 	if (
-    !title ||
-    !category ||
-    !subcategory ||
-    !brand ||
-    !price ||
-    discount == undefined ||
-    quantity == undefined ||
-    images.length == 0
-  ) {
-    return res.status(400).json({ error: "Please provide all the details" });
-  } else {
-    try {
-      let cartDetails = await new CartModel({
-        title,
-        category,
-        subcategory,
-        brand,
-        price,
-        discount,
-        quantity,
-        images,
-        user: req.user._id,
-      });
+		!title ||
+		!category ||
+		!subcategory ||
+		!brand ||
+		!price ||
+		discount == undefined ||
+		quantity == undefined ||
+		images.length == 0 ||
+		!size
+	) {
+		return res.status(400).json({ error: "Please provide all the details" });
+	} else {
+		try {
+			let cartDetails = await new CartModel({
+				title,
+				category,
+				subcategory,
+				brand,
+				price,
+				discount,
+				quantity,
+				images,
+				size,
+				user: req.user._id,
+			});
 
-      await cartDetails.save();
-      res.status(200).json(cartDetails);
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .json({ error: "An error occurred while posting the  new  product" });
-    }
-  }
+			await cartDetails.save();
+			res.status(200).json(cartDetails);
+		} catch (error) {
+			console.log(error);
+			res
+				.status(500)
+				.json({ error: "An error occurred while posting the  new  product" });
+		}
+	}
 };
 
 const updateCart = async (req, res) => {
@@ -89,7 +93,7 @@ const deleteCart = async (req, res) => {
 		if (!deletedItem) {
 			res.status(400).json({ message: "Item does not exists" });
 		} else {
-			res.status(200).json({ message: "Item deleted successfully" });
+			res.status(200).json({ data: deletedItem, message: "Item deleted successfully" });
 		}
 	} catch (error) {
 		res.status(500).json({ error: "Soemting Went Wrong" });

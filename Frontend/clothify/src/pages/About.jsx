@@ -56,7 +56,7 @@ const AboutPage = () => {
         variants={fadeIn}
         transition={{ duration: 1 }}
       >
-        <Text fontSize="xl" textAlign="center" mb={8}>
+        <Text fontSize="xl" textAlign="center" mb={8} >
           Welcome to Clothify, the epitome of fashion redefined! Established in
           2020, Clothify has been on a mission to deliver stylish clothing for
           men, women, and kids that exude unparalleled quality and

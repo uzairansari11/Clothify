@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { handleAddToCartData } from '../../redux/cart/action';
 
 const CartItem = ({
   title,
@@ -23,15 +25,31 @@ const CartItem = ({
   images,
   sizes,
   _id,
+  category,
+  subcategory,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
-
+  const dispatch = useDispatch()
   const handleAddToCart = () => {
+    const payload = {
+      title,
+      category,
+      subcategory,
+      brand,
+      price,
+      discount,
+      images,
+      quantity: 1,
+      size: selectedSize,
+    };
+
+
     setIsLoading(true);
     setTimeout(() => {
+      dispatch(handleAddToCartData(payload))
       setIsLoading(false);
     }, 2000);
   };
