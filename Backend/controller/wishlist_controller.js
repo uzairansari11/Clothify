@@ -1,17 +1,16 @@
 const { WishlistModel } = require("../model/wishlist_model");
 
-
 const getWishlist = async (req, res) => {
-	try {
-		const wishData = await WishlistModel.find({ user: req.user.id });
-		res.status(200).json(wishData);
-	} catch (error) {
-		res.status(500).json({ error: "Soemting Went Wrong" });
-	}
+  try {
+    const wishData = await WishlistModel.find({ user: req.user.id });
+    res.status(200).json(wishData);
+  } catch (error) {
+    res.status(500).json({ error: "Soemting Went Wrong" });
+  }
 };
 
 const postWishlist = async (req, res) => {
-	const {
+  const {
     title,
     category,
     subcategory,
@@ -20,9 +19,11 @@ const postWishlist = async (req, res) => {
     discount,
     quantity,
     images,
+    size,
+    productId,
   } = req.body;
 
-	if (
+  if (
     !title ||
     !category ||
     !subcategory ||
@@ -30,7 +31,9 @@ const postWishlist = async (req, res) => {
     !price ||
     discount == undefined ||
     quantity == undefined ||
-    images.length == 0
+    images.length == 0 ||
+    !size ||
+    !productId
   ) {
     return res.status(400).json({ error: "Please provide all the details" });
   } else {
@@ -44,7 +47,9 @@ const postWishlist = async (req, res) => {
         discount,
         quantity,
         images,
+        size,
         user: req.user._id,
+        productId,
       });
 
       await wishlistDetails.save();
@@ -59,42 +64,42 @@ const postWishlist = async (req, res) => {
 };
 
 const updateWishlist = async (req, res) => {
-	const payload = req.body;
-	const productId = req.params.id;
-	try {
-		const updatedItem = await WishlistModel.findByIdAndUpdate(
-			{ _id: productId, user: req.user.id },
-			payload,
-			{
-				new: true,
-			},
-		);
-		if (!updatedItem) {
-			res.status(400).json({ message: "Item does not exists" });
-		} else {
-			res.status(200).json(updatedItem);
-		}
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ error: "Soemting Went Wrong" });
-	}
+  const payload = req.body;
+  const productId = req.params.id;
+  try {
+    const updatedItem = await WishlistModel.findByIdAndUpdate(
+      { _id: productId, user: req.user.id },
+      payload,
+      {
+        new: true,
+      }
+    );
+    if (!updatedItem) {
+      res.status(400).json({ message: "Item does not exists" });
+    } else {
+      res.status(200).json(updatedItem);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Soemting Went Wrong" });
+  }
 };
 
 const deleteWishlist = async (req, res) => {
-	const productId = req.params.id;
-	try {
-		const deletedItem = await WishlistModel.findByIdAndDelete(
-			{ _id: productId },
-			{ user: req.user.id },
-		);
-		if (!deletedItem) {
-			res.status(400).json({ message: "Item does not exists" });
-		} else {
-			res.status(200).json({ message: "Item deleted successfully" });
-		}
-	} catch (error) {
-		res.status(500).json({ error: "Soemting Went Wrong" });
-	}
+  const productId = req.params.id;
+  try {
+    const deletedItem = await WishlistModel.findByIdAndDelete(
+      { _id: productId },
+      { user: req.user.id }
+    );
+    if (!deletedItem) {
+      res.status(400).json({ message: "Item does not exists" });
+    } else {
+      res.status(200).json({ message: "Item deleted successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Soemting Went Wrong" });
+  }
 };
 
 module.exports = { getWishlist, postWishlist, updateWishlist, deleteWishlist };
