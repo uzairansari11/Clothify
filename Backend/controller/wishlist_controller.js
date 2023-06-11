@@ -93,9 +93,9 @@ const deleteWishlist = async (req, res) => {
       { user: req.user.id }
     );
     if (!deletedItem) {
-      res.status(400).json({ message: "Item does not exists" });
+      res.status(400).json({  message: "Item does not exists" });
     } else {
-      res.status(200).json({ message: "Item deleted successfully" });
+      res.status(200).json({ data: deletedItem, message: "Item deleted successfully" });
     }
   } catch (error) {
     res.status(500).json({ error: "Soemting Went Wrong" });

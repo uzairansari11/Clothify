@@ -20,7 +20,6 @@ import {
   AiOutlineTag,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { handleUpdateToCartData } from "../../redux/cart/action";
 import { useDispatch } from "react-redux";
 
 const CartItemCard = ({

@@ -1,5 +1,5 @@
 
-import { add_wishlist_to_api, get_wishlist_from_api } from './api';
+import { add_wishlist_to_api, delete_wishlist_to_api, get_wishlist_from_api } from './api';
 import * as types from "./type"
 export const isLoadingHandler = () => {
     return {
@@ -56,6 +56,16 @@ export const handleAddToWwishlistData = (data) => async (dispatch) => {
 };
 
 
+
+export const handleDeleteToWishlistData = (data) => async (dispatch) => {
+    dispatch(isLoadingHandler());
+    try {
+        const payload = await delete_wishlist_to_api(data);
+        dispatch(wishlistDeleteHandler(payload));
+    } catch (error) {
+        dispatch(isErrorHandler());
+    }
+};
 
 
 
