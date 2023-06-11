@@ -48,7 +48,14 @@ export const cartReducer = (state = initialState, action) => {
                 cartData: state.cartData.filter((ele) => ele._id !== action.payload._id),
             };
         }
-
+        case types.cart_Update_Success_status: {
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                cartData: state.cartData.map((ele) => ele._id == action.payload._id ? action.payload : ele),
+            };
+        }
 
         default:
             return state;
