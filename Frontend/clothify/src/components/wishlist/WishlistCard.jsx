@@ -1,5 +1,20 @@
-import React from "react";
-import { Box, Image, Text, Flex, IconButton, Tooltip } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Image,
+  Text,
+  Flex,
+  IconButton,
+  Tooltip,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import { AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
 
 const WishlistCard = ({
@@ -8,8 +23,16 @@ const WishlistCard = ({
   quantity,
   size,
   onAddToCart,
-  onRemoveFromWishlist,
+  handleRemoveItem,
+  _id,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDeleteWishlist = (id) => {
+    setIsModalOpen(false);
+    handleRemoveItem(id);
+  };
+
   return (
     <Box
       borderWidth="1px"
@@ -56,12 +79,31 @@ const WishlistCard = ({
                 icon={<AiFillHeart />}
                 colorScheme="red"
                 variant="outline"
-                onClick={onRemoveFromWishlist}
+                onClick={() => setIsModalOpen(true)}
               />
             </Tooltip>
           </Flex>
         </Flex>
       </Flex>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Remove from Wishlist</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Are you sure you want to remove this item from your wishlist?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button colorScheme="red" onClick={() => handleDeleteWishlist(_id)}>
+              Remove
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

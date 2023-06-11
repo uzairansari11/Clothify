@@ -38,6 +38,7 @@ export const delete_wishlist_to_api = async (id) => {
         Authorization: `token ${token}`,
       },
     });
+    console.log(res.data,"from delete")
     return res.data.data;
   } catch (error) {
     console.log(error);

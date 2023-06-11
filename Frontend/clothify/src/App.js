@@ -15,7 +15,7 @@ function App() {
         {" "}
         <Routing />
       </Box>
-      {location.pathname === "/cart" ? "" : <Footer />}
+      {location.pathname === "/cart" || location.pathname === "/wishlist" ? "" : <Footer />}
     </div>
   );
 }
