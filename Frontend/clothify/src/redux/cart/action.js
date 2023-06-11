@@ -14,7 +14,7 @@ export const isErrorHandler = () => {
 
 export const cartHandler = (payload) => {
     return {
-        type: types.cart_Success_status,
+        type: types.cart_Get_Success_status,
         payload,
     };
 };
@@ -30,12 +30,18 @@ export const cartAddHandler = (payload) => {
 
 export const cartDeleteHandler = (payload) => {
     return {
-        type: types.cart_Add_Success_status,
+        type: types.cart_Delete_Success_status,
         payload
 
     }
 }
 
+export const cartUpdateHandler = (payload) => {
+    return {
+        type: types.cart_Update_Success_status,
+        payload
+    }
+}
 
 export const handleGetCartData = () => async (dispatch) => {
     dispatch(isLoadingHandler());
@@ -62,6 +68,20 @@ export const handleAddToCartData = (data) => async (dispatch) => {
 
 
 export const handleDeleteToCartData = (id) => async (dispatch) => {
+    dispatch(isLoadingHandler());
+    try {
+        const payload = await delete_cart_to_api(id);
+        console.log(payload)
+        dispatch(cartDeleteHandler(payload));
+    } catch (error) {
+        dispatch(isErrorHandler());
+    }
+}
+
+
+
+
+export const handleUpdateToCartData = (id) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await delete_cart_to_api(id);

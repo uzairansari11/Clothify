@@ -9,7 +9,7 @@ import {
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
-import { FaPlus, FaMinus, FaTrash, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import CartItemCard from "../components/cart/CartItemCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,7 +22,7 @@ const CartPage = () => {
   const { cartData, isLoading } = useSelector((store) => store.cartReducer);
   const dispatch = useDispatch();
   const toast = useToast();
-
+  console.log(cartData)
   const handleIncreaseQuantity = (itemId) => {
     // Handle logic to increase item quantity
   };
@@ -33,7 +33,7 @@ const CartPage = () => {
 
   const handleRemoveItem = (itemId) => {
     dispatch(handleDeleteToCartData(itemId));
-  
+
   };
 
   useEffect(() => {
@@ -80,6 +80,7 @@ const CartPage = () => {
                 key={ele._id}
                 {...ele}
                 handleRemoveItem={handleRemoveItem}
+                handleIncreaseQuantity={handleIncreaseQuantity}
               />
             ))
           ) : (

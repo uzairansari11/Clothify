@@ -23,7 +23,7 @@ export const cartReducer = (state = initialState, action) => {
                 isError: true,
             };
         }
-        case types.cart_Success_status: {
+        case types.cart_Get_Success_status: {
             return {
                 ...state,
                 isLoading: false,
@@ -40,12 +40,12 @@ export const cartReducer = (state = initialState, action) => {
                 cartData: [...state.cartData, action.payload],
             };
         }
-        case types.cart_Add_Success_status: {
+        case types.cart_Delete_Success_status: {
             return {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: [...state.cartData.filter((ele) => ele._id !== action.payload._id)],
+                cartData: state.cartData.filter((ele) => ele._id !== action.payload._id),
             };
         }
 

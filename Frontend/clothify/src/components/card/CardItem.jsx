@@ -44,6 +44,7 @@ const CartItem = ({
       images,
       quantity: 1,
       size: selectedSize,
+      productId: _id
     };
 
 
@@ -51,7 +52,7 @@ const CartItem = ({
     setTimeout(() => {
       dispatch(handleAddToCartData(payload))
       setIsLoading(false);
-    }, 2000);
+    }, 300);
   };
 
   return (
