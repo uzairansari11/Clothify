@@ -12,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { handleAddToCartData } from '../../redux/cart/action';
+import { useDispatch } from "react-redux";
+import { handleAddToCartData } from "../../redux/cart/action";
+import { handleAddToWwishlistData } from "../../redux/wishlist/action";
 
 const CartItem = ({
   title,
@@ -32,29 +33,34 @@ const CartItem = ({
   const [isLoading, setIsLoading] = useState(false);
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const payload = {
+    title,
+    category,
+    subcategory,
+    brand,
+    price,
+    discount,
+    images,
+    quantity: 1,
+    size: selectedSize,
+    productId: _id,
+  };
+
   const handleAddToCart = () => {
-    const payload = {
-      title,
-      category,
-      subcategory,
-      brand,
-      price,
-      discount,
-      images,
-      quantity: 1,
-      size: selectedSize,
-      productId: _id
-    };
-
-
     setIsLoading(true);
     setTimeout(() => {
-      dispatch(handleAddToCartData(payload))
+      dispatch(handleAddToCartData(payload));
       setIsLoading(false);
     }, 300);
   };
-
+  const handleAddToWishlist = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      dispatch(handleAddToWwishlistData(payload));
+      setIsLoading(false);
+    }, 300);
+  };
   return (
     <Box
       maxW="sm"
@@ -154,6 +160,7 @@ const CartItem = ({
           right="2"
           opacity={isHovered ? "1" : "0"}
           transition="opacity 0.3s"
+          onClick={handleAddToWishlist}
         />
       </Box>
     </Box>

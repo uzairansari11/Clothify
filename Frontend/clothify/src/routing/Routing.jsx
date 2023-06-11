@@ -7,6 +7,7 @@ import CartPage from "../pages/Cart";
 import MenPage from "../pages/MenPage";
 import WomenPage from "../pages/WomenPage";
 import KidPage from "../pages/KidPage";
+import WishlistPage from '../pages/WishlistPage';
 
 const Routing = () => {
   return (
@@ -20,6 +21,7 @@ const Routing = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/wishlist" element={<WishlistPage />} />
     </Routes>
   );
 };
