@@ -20,7 +20,8 @@ const postCart = async (req, res) => {
 		discount,
 		quantity,
 		images,
-		size
+		size,
+		productId
 	} = req.body;
 
 	if (
@@ -32,7 +33,8 @@ const postCart = async (req, res) => {
 		discount == undefined ||
 		quantity == undefined ||
 		images.length == 0 ||
-		!size
+		!size ||
+		!productId
 	) {
 		return res.status(400).json({ error: "Please provide all the details" });
 	} else {
@@ -48,6 +50,7 @@ const postCart = async (req, res) => {
 				images,
 				size,
 				user: req.user._id,
+				productId
 			});
 
 			await cartDetails.save();

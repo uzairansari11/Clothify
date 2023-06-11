@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const authDetails = useSelector((store) => store.authReducer);
+
   return (
     <Box
       backgroundColor={"white"}
@@ -54,7 +55,7 @@ const Navbar = () => {
           </Box>
 
           <Box width={{ base: "auto", md: "5%" }}>
-            <Menuitem isAuth={authDetails.isAuth}>
+            <Menuitem isAuth={authDetails.isAuth} >
               <AvatarNavbar authDetails={authDetails} />
             </Menuitem>
           </Box>

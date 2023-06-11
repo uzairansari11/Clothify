@@ -1,26 +1,20 @@
-import { Box, Flex, Image, IconButton, Text, Tooltip } from "@chakra-ui/react";
-import {
-  AiOutlinePlus,
-  AiOutlineMinus,
-  AiOutlineDelete,
-  AiOutlineDollar,
-  AiOutlineTag,
-} from "react-icons/ai";
+import { useState } from "react";
+import { Box, Flex, Image, Text, Tooltip, Select } from "@chakra-ui/react";
+import { AiOutlineDelete, AiOutlineDollar, AiOutlineTag } from "react-icons/ai";
+import { Link } from 'react-router-dom';
 
+const CartItemCard = ({ images, quantity, size, title, price, _id, productId, handleRemoveItem }) => {
+  const [selectedQuantity, setSelectedQuantity] = useState(quantity);
 
-const CartItemCard = ({ images, quantity, size, title, price, _id, handleRemoveItem }) => {
-
-  const handleIncreaseQuantity = () => {
-    // Logic to increase quantity
-  };
-
-  const handleDecreaseQuantity = () => {
-    // Logic to decrease quantity
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value);
+    console.log(newQuantity)
+  
+    setSelectedQuantity(newQuantity);
   };
 
   const handleDelete = (id) => {
-    handleRemoveItem(id)
-    
+    handleRemoveItem(id);
   };
 
   return (
@@ -39,15 +33,17 @@ const CartItemCard = ({ images, quantity, size, title, price, _id, handleRemoveI
       bg="white"
     >
       <Flex flexWrap="wrap" justifyContent="space-between">
-        <Image
-          src={images?.[0]}
-          alt={title}
-          boxSize={{ base: "120px", sm: "150px" }}
-          objectFit="cover"
-          mb={{ base: 4, sm: 0 }}
-          transition="transform 0.3s ease"
-          _hover={{ transform: "scale(1.1)" }}
-        />
+        <Link to={`/product/${productId}`}>
+          <Image
+            src={images?.[0]}
+            alt={title}
+            boxSize={{ base: "120px", sm: "150px" }}
+            objectFit="contain"
+            mb={{ base: 4, sm: 0 }}
+            transition="transform 0.3s ease"
+            _hover={{ transform: "scale(1.1)", cursor: 'pointer' }}
+          />
+        </Link>
         <Box ml={4} flex="1">
           <Text fontWeight="bold" fontSize="xl" mb={2} textAlign="left">
             {title}
@@ -72,35 +68,32 @@ const CartItemCard = ({ images, quantity, size, title, price, _id, handleRemoveI
               </Tooltip>
             </Flex>
             <Flex align="center">
-              <IconButton
-                icon={<AiOutlineMinus />}
-                onClick={handleDecreaseQuantity}
-                aria-label="Decrease Quantity"
-                mr={2}
-                colorScheme="teal"
-                size="md"
-              />
-              <Text fontWeight="bold" fontSize="lg">
-                {quantity}
-              </Text>
-              <IconButton
-                icon={<AiOutlinePlus />}
-                onClick={handleIncreaseQuantity}
-                aria-label="Increase Quantity"
-                ml={2}
+              <Select
+                value={selectedQuantity}
+                onChange={handleQuantityChange}
+                variant="outline"
                 colorScheme="green"
-                size="md"
-              />
-              <IconButton
-                icon={<AiOutlineDelete />}
-                onClick={() => handleDelete(_id)}
-                aria-label="Delete Item"
-                ml={4}
-                colorScheme="red"
-                size="md"
-              />
+                size="sm"
+              >
+                {[...Array(10)].map((_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))}
+              </Select>
+              <Tooltip label="Delete Item" aria-label="Delete Item">
+                <Box ml={4}>
+                  <AiOutlineDelete
+                    size={24}
+                    color="red"
+                    cursor="pointer"
+                    onClick={() => handleDelete(_id)}
+                  />
+                </Box>
+              </Tooltip>
             </Flex>
           </Flex>
+
         </Box>
       </Flex>
     </Box>

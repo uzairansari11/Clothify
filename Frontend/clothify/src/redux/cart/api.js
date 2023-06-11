@@ -42,3 +42,5 @@ export const delete_cart_to_api = async (id) => {
         console.log(error);
     }
 };
+
+
