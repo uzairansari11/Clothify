@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetCartData } from "../../redux/cart/action";
 import { handleWishlistCartData } from "../../redux/wishlist/action";
+import { getQuantity } from "../../utils/getquanity";
 
 const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
   const { wishlistData } = useSelector((store) => store.wishlistReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
+
   const dispatch = useDispatch();
+  const totalCartQunatity = getQuantity(cartData);
+  const totalWishlistQunatity = getQuantity(wishlistData);
   useEffect(() => {
-    dispatch(handleGetCartData());
-    dispatch(handleWishlistCartData());
-  }, []);
+    if (isAuth) {
+      dispatch(handleGetCartData());
+      dispatch(handleWishlistCartData());
+    }
+  }, [isAuth]);
   return (
     <Box
       width="100%"
@@ -42,7 +49,7 @@ const OtherOptions = () => {
               fontSize="xs"
               color="white"
             >
-              {cartData?.length > 0 ? cartData.length : 0}
+              {isAuth && totalCartQunatity ? totalCartQunatity : 0}
             </Box>
           </Flex>
         </Link>
@@ -65,7 +72,7 @@ const OtherOptions = () => {
               fontSize="xs"
               color="white"
             >
-              {wishlistData?.length > 0 ? wishlistData.length : 0}
+              {isAuth && totalWishlistQunatity ? totalWishlistQunatity : 0}
             </Box>
           </Flex>
         </Link>

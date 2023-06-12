@@ -12,9 +12,9 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
-import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiUserPlus, FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { signupFunction } from "../utils/signup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UnlockIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 
@@ -64,28 +64,23 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
-  if (isCreated) {
-    navigate("/login", { replace: true });
-  }
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isCreated) {
       navigate("/login", { replace: true });
     }
   }, [isCreated]);
+
   return (
     <Flex
       align="center"
       justify="center"
       height="100vh"
-      backgroundImage="url('/images/signupbg.jpg')"
-      backgroundSize="cover"
-      backgroundPosition="center"
+    
     >
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"
-        backgroundColor="white"
         borderRadius="md"
         boxShadow="lg"
         animate={{
@@ -104,9 +99,9 @@ const Signup = () => {
           textAlign="center"
           mb="6"
           color="teal.500"
-          fontFamily={"cursive"}
-          fontSize={"xl"}
-          fontWeight={"extrabold"}
+          fontFamily="cursive"
+          fontSize="xl"
+          fontWeight="extrabold"
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
@@ -178,6 +173,12 @@ const Signup = () => {
             Sign Up
           </Button>
         </form>
+        <Text mt="4" textAlign="center" color="gray.500">
+          Already have an account?{" "}
+          <Link to="/login" color="teal.500">
+            Login
+          </Link>
+        </Text>
       </Box>
     </Flex>
   );

@@ -24,22 +24,25 @@ const postCart = async (req, res) => {
 		productId
 	} = req.body;
 
-	if (
-		!title ||
-		!category ||
-		!subcategory ||
-		!brand ||
-		!price ||
-		discount == undefined ||
-		quantity == undefined ||
-		images.length == 0 ||
-		!size ||
-		!productId
-	) {
+	if (!title || !category || !subcategory || !brand || !price || discount == undefined || !quantity || !images.length || !size || !productId) {
 		return res.status(400).json({ error: "Please provide all the details" });
-	} else {
-		try {
-			let cartDetails = await new CartModel({
+	}
+
+	try {
+		let cartItem = await CartModel.findOne({ user: req.user.id, productId, size }).lean();
+
+		if (cartItem) {
+			if (cartItem.quantity >= 10) {
+				return res.status(400).json({ error: "Quantity cannot exceed 10" });
+			}
+			cartItem = await CartModel.findOneAndUpdate(
+				{ user: req.user.id, productId, size },
+				{ $inc: { quantity: 1 } },
+				{ new: true }
+			).lean();
+			res.status(200).json(cartItem);
+		} else {
+			const cartDetails = new CartModel({
 				title,
 				category,
 				subcategory,
@@ -55,14 +58,13 @@ const postCart = async (req, res) => {
 
 			await cartDetails.save();
 			res.status(200).json(cartDetails);
-		} catch (error) {
-			console.log(error);
-			res
-				.status(500)
-				.json({ error: "An error occurred while posting the  new  product" });
 		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ error: "An error occurred while posting the new product" });
 	}
 };
+
 
 const updateCart = async (req, res) => {
 	const payload = req.body;

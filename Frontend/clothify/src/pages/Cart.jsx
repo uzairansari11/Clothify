@@ -10,6 +10,7 @@ import {
   useToast,
   ScaleFade,
   Spinner,
+  Grid,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -20,7 +21,7 @@ import {
   handleGetCartData,
   handleUpdateToCartData,
 } from "../redux/cart/action";
-import LoadingSpinner from '../components/spinner/Spinner';
+import LoadingSpinner from "../components/spinner/Spinner";
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
@@ -37,7 +38,7 @@ const CartPage = () => {
   };
 
   const calculateTotalPrice = Math.ceil(
-    cartData.reduce((total, item) => total + item.price * item.quantity, 0)
+    cartData.length&&cartData.reduce((total, item) => total + item.price * item.quantity, 0)
   );
 
   useEffect(() => {
@@ -82,32 +83,44 @@ const CartPage = () => {
               <LoadingSpinner />
             </Flex>
           ) : cartData.length ? (
-            cartData.map((ele) => (
-              <CartItemCard
-                key={ele._id}
-                {...ele}
-                handleRemoveItem={handleRemoveItem}
-                handleQuantityChange={handleQuantityChange}
-              />
-            ))
+
+
+              <Grid
+                gridTemplateColumns={{
+                  base: "repeat(1,1fr)",
+                  md: "repeat(1,1fr)",
+                  lg: "repeat(2,1fr)",
+                }}
+                gap={{ sm: "4" }}
+              >
+
+              {cartData.map((ele) => (
+                <CartItemCard
+                  key={ele._id}
+                  {...ele}
+                  handleRemoveItem={handleRemoveItem}
+                  handleQuantityChange={handleQuantityChange}
+                />
+              ))}
+            </Grid>
           ) : (
-            <Flex justifyContent="center" alignItems="center" minHeight="200px">
-              <ScaleFade initialScale={0.9} in>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    type: "spring",
-                    stiffness: 150,
-                  }}
-                >
-                  <Text fontSize="xl" textAlign="center" color="gray.500">
-                    Your cart is empty.
-                  </Text>
-                </motion.div>
-              </ScaleFade>
-            </Flex>
+          <Flex justifyContent="center" alignItems="center" minHeight="200px">
+            <ScaleFade initialScale={0.9} in>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 150,
+                }}
+              >
+                <Text fontSize="xl" textAlign="center" color="gray.500">
+                  Your cart is empty.
+                </Text>
+              </motion.div>
+            </ScaleFade>
+          </Flex>
           )}
         </Flex>
 
@@ -134,7 +147,7 @@ const CartPage = () => {
               <Button
                 colorScheme="teal"
                 size="md"
-                width={{ base: "100%", md: "70%" }}
+                width={{ base: "100%", md: "auto%" }}
                 rightIcon={<FaShoppingCart />}
                 margin={"auto"}
                 onClick={() =>
