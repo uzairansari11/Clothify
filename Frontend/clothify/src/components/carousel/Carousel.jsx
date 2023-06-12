@@ -1,80 +1,95 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import "./Carousel.css";
+import { Link } from "react-router-dom";
 
-const Carousel = ({ projects }) => {
-    const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+const Carousel = ({ products }) => {
+    const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const autoPlayIntervalRef = useRef();
 
     useEffect(() => {
         autoPlayIntervalRef.current = setInterval(() => {
-            setCurrentProjectIndex((prevIndex) => (prevIndex + 1) % projects.length);
+            setCurrentProductIndex((prevIndex) => (prevIndex + 1) % products.length);
         }, 3000);
 
         return () => {
             clearInterval(autoPlayIntervalRef.current);
         };
-    }, [projects.length]);
+    }, [products.length]);
 
     const handleSlideChange = (currentIndex) => {
         if (autoPlayIntervalRef.current) {
             clearInterval(autoPlayIntervalRef.current);
         }
         const nextIndex =
-            currentIndex < 0 ? projects.length - 1 : currentIndex % projects.length;
-        setCurrentProjectIndex(nextIndex);
+            currentIndex < 0 ? products.length - 1 : currentIndex % products.length;
+        setCurrentProductIndex(nextIndex);
     };
 
-    const renderProjects = () => {
-        return projects.map((project, index) => (
-            <div
-                key={index}
-                className={`project-carousel-container ${index === currentProjectIndex ? "active" : ""
-                    }`}
+    const renderProducts = () => {
+        return products.map((product) => (
+            <Box
+                key={product._id}
+                display="flex"
+                justifyContent="center" // Center the image horizontally
+                alignItems="center" // Center the image vertically
+                position="relative"
+                overflow="hidden"
+                cursor="pointer"
+                _hover={{ transform: "scale(1.02)" }}
+                transition="transform 0.2s ease-in-out"
+                gap={4} // Add a gap of 4 units between the images
             >
-                <div className="project-content">
-                    <img src={project.image} alt={project.title} className="project-image" />
-                    <div className="project-details">
-                        <h3 className="project-title">{project.title}</h3>
-                        <p className="project-description">{project.description}</p>
-                        <div className="project-techstacks">
-                            {project.techStacks.map((techStack, i) => (
-                                <span key={i} className="tech-stack">
-                                    {techStack.title}
-                                </span>
-                            ))}
-                        </div>
-                        <div className="project-buttons">
-                            <a href={project.deploy} target="_blank" rel="noopener noreferrer">
-                                View
-                            </a>
-                            <a href={project.github} target="_blank" rel="noopener noreferrer">
-                                Github
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <Link to={`/product/${product._id}`}>
+                    <Box width="100%" maxWidth="400px">
+                        {/* Limit the width of each item */}
+                        <Image
+                            src={product.images[0]}
+                            alt={product.title}
+                            objectFit="cover"
+                            width="300px"
+                            height="400px" // Limit the maximum height of the image
+                            loading="lazy" // Improve image loading performance
+                        />
+                        <Box
+                            position="absolute"
+                            bottom={0}
+                            left={0}
+                            width="100%"
+                            p={4}
+                            color="teal"
+                        >
+                            <Text fontSize="xl" fontWeight="bold">
+                                {/* {product.title} */}
+                            </Text>
+                        </Box>
+                    </Box>
+                </Link>
+            </Box>
         ));
     };
 
     const renderSlideButtons = () => {
-        return projects.map((_, index) => (
-            <button
+        return products.map((_, index) => (
+            <Box
                 key={index}
-                className={`slide-button ${index === currentProjectIndex ? "active" : ""}`}
+                borderRadius="full"
+                bg={index === currentProductIndex ? "blue.500" : "gray.500"}
+                height="4px"
+                width="20px"
+                mx={1}
+                cursor="pointer"
                 onClick={() => handleSlideChange(index)}
-                type="button"
             />
         ));
     };
 
     return (
-        <div className="carousel-container">
+        <Box position="relative" height="100%">
             <AliceCarousel
                 mouseTracking
-                items={renderProjects()}
+                items={renderProducts()}
                 responsive={{
                     0: { items: 1 },
                     600: { items: 2 },
@@ -86,10 +101,17 @@ const Carousel = ({ projects }) => {
                 disableDotsControls
                 disableButtonsControls
                 onSlideChanged={handleSlideChange}
-                activeIndex={currentProjectIndex}
+                activeIndex={currentProductIndex}
+                duration={500}
+                touchTracking={!("ontouchstart" in window)}
+                disableSlideInfo
             />
-            <div className="slide-buttons-container">{renderSlideButtons()}</div>
-        </div>
+            <Box position="absolute" bottom={4} left="50%" transform="translateX(-50%)">
+                <Box display="flex" justifyContent="center" mt={2}>
+                    {renderSlideButtons()}
+                </Box>
+            </Box>
+        </Box>
     );
 };
 
