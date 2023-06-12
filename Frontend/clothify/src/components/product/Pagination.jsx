@@ -2,10 +2,9 @@ import { Box, Button, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const Pagination = ({ currentPage, onPageChange, totalPages }) => {
+const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
-  const location = useLocation();
   const handlePageChange = (page) => {
     onPageChange(page);
   };
@@ -16,8 +15,11 @@ const Pagination = ({ currentPage, onPageChange, totalPages }) => {
 
   const storedCurrentPage = parseInt(sessionStorage.getItem("currentPage"));
 
+  const startProductIndex = (currentPage - 1) * 6 + 1;
+  const endProductIndex = Math.min(currentPage * 6, totalCount);
+
   return (
-    <Box display="flex" justifyContent="center" mt="6" mb={4}>
+    <Box display="flex" justifyContent="center" alignItems="center" mt="6" mb={4}>
       <HStack spacing="2">
         <Button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -41,15 +43,15 @@ const Pagination = ({ currentPage, onPageChange, totalPages }) => {
               page === storedCurrentPage
                 ? "teal.500"
                 : page === currentPage
-                ? "teal.500"
-                : "transparent"
+                  ? "teal.500"
+                  : "transparent"
             }
             color={
               page === storedCurrentPage
                 ? "white"
                 : page === currentPage
-                ? "white"
-                : "teal.500"
+                  ? "white"
+                  : "teal.500"
             }
             animate
             _hover={{
@@ -74,6 +76,9 @@ const Pagination = ({ currentPage, onPageChange, totalPages }) => {
           Next
         </Button>
       </HStack>
+      <Box ml="4" fontSize="md" color="gray.500" fontStyle="italic">
+        {startProductIndex}-{endProductIndex} of {totalCount}
+      </Box>
     </Box>
   );
 };
