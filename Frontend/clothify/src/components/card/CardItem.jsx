@@ -9,6 +9,7 @@ import {
   Flex,
   Select,
   Badge,
+  Spinner,
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -30,7 +31,8 @@ const CartItem = ({
   subcategory,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isCartLoading, setIsCartLoading] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const dispatch = useDispatch();
@@ -48,19 +50,21 @@ const CartItem = ({
   };
 
   const handleAddToCart = () => {
-    setIsLoading(true);
+    setIsCartLoading(true);
     setTimeout(() => {
       dispatch(handleAddToCartData(payload));
-      setIsLoading(false);
+      setIsCartLoading(false);
     }, 300);
   };
+
   const handleAddToWishlist = () => {
-    setIsLoading(true);
+    setIsWishlistLoading(true);
     setTimeout(() => {
       dispatch(handleAddToWwishlistData(payload));
-      setIsLoading(false);
+      setIsWishlistLoading(false);
     }, 300);
   };
+
   return (
     <Box
       maxW="sm"
@@ -143,7 +147,7 @@ const CartItem = ({
             size="sm"
             leftIcon={<FiShoppingBag />}
             onClick={handleAddToCart}
-            isLoading={isLoading}
+            isLoading={isCartLoading}
             loadingText="Adding..."
             _hover={{ opacity: "0.8" }}
           >
@@ -151,7 +155,13 @@ const CartItem = ({
           </Button>
         </Flex>
         <IconButton
-          icon={<FiHeart />}
+          icon={
+            isWishlistLoading ? (
+              <Spinner size="sm" />
+            ) : (
+              <FiHeart />
+            )
+          }
           color={heartColor}
           size="md"
           aria-label="Add to Wishlist"
@@ -161,6 +171,7 @@ const CartItem = ({
           opacity={isHovered ? "1" : "0"}
           transition="opacity 0.3s"
           onClick={handleAddToWishlist}
+          disabled={isWishlistLoading}
         />
       </Box>
     </Box>

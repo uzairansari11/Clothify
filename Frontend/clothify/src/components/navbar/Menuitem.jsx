@@ -6,23 +6,15 @@ import {
   MenuList,
   useToast,
 } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutFunction } from "../../redux/authentication/action";
 const Menuitem = ({ children }) => {
   const { isLoading, isAuth } = useSelector((store) => store.authReducer);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
   const handleLogout = () => {
-    if (isLoading == false) {
-      toast({
-        title: "Logout Initialted",
-        status: "warning",
-        duration: 1000,
-        isClosable: true,
-      });
-    }
     dispatch(handleLogoutFunction());
     setTimeout(() => {
       toast({
@@ -30,8 +22,11 @@ const Menuitem = ({ children }) => {
         status: "warning",
         duration: 2000,
         isClosable: true,
+        position: 'top'
       });
-    }, 2000);
+
+      navigate("/", { replace: true });
+    }, 1000);
   };
   return (
     <Menu closeOnSelect={false}>

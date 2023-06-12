@@ -23,6 +23,7 @@ export const add_cart_to_api = async (payload) => {
         Authorization: `token ${token}`,
       },
     });
+    console.log(res.data,"addddddddd")
     return res.data;
   } catch (error) {
     console.log(error);

@@ -13,8 +13,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
-import { loginFunction } from "../utils/coockies";
-import { useNavigate } from "react-router-dom";
+import { cookiesGetter, loginFunction } from "../utils/coockies";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginFunction } from "../redux/authentication/action";
@@ -36,11 +36,13 @@ const Login = () => {
       const userDetails = { email, password };
       dispatch(handleLoginFunction(userDetails)).then((res) => {
         if (res === true) {
+          const userDetails = cookiesGetter()
           toast({
-            title: "Login Success.",
+            title: `Welcome back ${userDetails.name}`,
             status: "success",
             duration: 3000,
             isClosable: true,
+            position:'top'
           });
           setIsLogin(true);
           setIsLoading(false);
@@ -73,15 +75,11 @@ const Login = () => {
       align="center"
       justify="center"
       height="100vh"
-      backgroundImage="url('/images/loginbg.jpg')"
-      backgroundSize={"cover"}
-      backgroundPosition="center"
-      objectFit={"cover"}
+
     >
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"
-        backgroundColor="white"
         borderRadius="md"
         boxShadow="lg"
         animate={{
@@ -100,9 +98,9 @@ const Login = () => {
           textAlign="center"
           mb="6"
           color="teal.500"
-          fontFamily={"cursive"}
-          fontSize={"xl"}
-          fontWeight={"extrabold"}
+          fontFamily="cursive"
+          fontSize="2xl"
+          fontWeight="extrabold"
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
@@ -158,6 +156,12 @@ const Login = () => {
             Login
           </Button>
         </form>
+        <Text mt="4" textAlign="center" color="gray.500">
+          Don't have an account?{" "}
+          <Link to="/signup" color="teal.500">
+            Sign up
+          </Link>
+        </Text>
       </Box>
     </Flex>
   );

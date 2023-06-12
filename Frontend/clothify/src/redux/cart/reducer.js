@@ -5,10 +5,10 @@ const initialState = {
     isError: false,
     cartData: [],
 
+
 };
 
 export const cartReducer = (state = initialState, action) => {
-    console.log(action)
     switch (action.type) {
         case types.cart_Loading_status: {
             return {
@@ -31,15 +31,26 @@ export const cartReducer = (state = initialState, action) => {
                 cartData: action.payload,
             };
         }
-
         case types.cart_Add_Success_status: {
+            const updatedCartData = [...state.cartData];
+            const index = updatedCartData.findIndex(
+                (ele) => ele.productId == action.payload.productId && ele.size == action.payload.size
+            );
+
+            if (index !== -1) {
+                updatedCartData[index] = action.payload;
+            } else {
+                updatedCartData.push(action.payload);
+            }
+
             return {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: [...state.cartData, action.payload],
+                cartData: updatedCartData,
             };
         }
+
         case types.cart_Delete_Success_status: {
             return {
                 ...state,

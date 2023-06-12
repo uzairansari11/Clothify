@@ -58,12 +58,6 @@ const CartItemCard = ({
       p={4}
       width="100%"
       marginBottom={4}
-      boxShadow="lg"
-      _hover={{
-        boxShadow: "xl",
-        transform: "scale(1.02)",
-        transition: "transform 0.3s ease",
-      }}
       bg="white"
     >
       <Flex flexWrap="wrap" justifyContent="space-between">
@@ -74,8 +68,6 @@ const CartItemCard = ({
             boxSize={{ base: "120px", sm: "150px" }}
             objectFit="contain"
             mb={{ base: 4, sm: 0 }}
-            transition="transform 0.3s ease"
-            _hover={{ transform: "scale(1.1)", cursor: "pointer" }}
           />
         </Link>
         <Box ml={4} flex="1">

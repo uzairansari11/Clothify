@@ -32,11 +32,22 @@ export const wishlistReducer = (state = initialState, action) => {
     }
 
     case types.wishlist_Add_Success_status: {
+      const updatedCWishlistData = [...state.wishlistData];
+      const index = updatedCWishlistData.findIndex(
+        (ele) => ele.productId == action.payload.productId && ele.size == action.payload.size
+      );
+
+      if (index !== -1) {
+        updatedCWishlistData[index] = action.payload;
+      } else {
+        updatedCWishlistData.push(action.payload);
+      }
+
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        wishlistData: [...state.wishlistData, action.payload],
+        isError: false,
+        wishlistData: updatedCWishlistData,
       };
     }
     case types.wishlist_Delete_Success_status: {

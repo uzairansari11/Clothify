@@ -16,16 +16,34 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
-
+import { Link } from "react-router-dom";
 const WishlistCard = ({
   images,
   title,
   quantity,
   size,
-  onAddToCart,
   handleRemoveItem,
   _id,
+  productId,
+  handleAddToCart,
+  brand,
+  discount,
+  subcategory,
+  category,
+  price,
 }) => {
+  const payload = {
+    title,
+    category,
+    subcategory,
+    brand,
+    price,
+    discount,
+    images,
+    quantity: 1,
+    size,
+    productId: _id,
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDeleteWishlist = (id) => {
@@ -49,13 +67,15 @@ const WishlistCard = ({
       maxH="200px"
     >
       <Flex align="center" h="100%">
-        <Image
-          src={images?.[0]}
-          alt={title}
-          boxSize="100px"
-          objectFit="contain"
-          mr={4}
-        />
+        <Link to={`/product/${productId}`}>
+          <Image
+            src={images?.[0]}
+            alt={title}
+            boxSize="100px"
+            objectFit="contain"
+            mr={4}
+          />
+        </Link>
         <Flex flex="1" direction="column">
           <Text fontWeight="bold" fontSize="xl" mb={2}>
             {title}
@@ -68,7 +88,7 @@ const WishlistCard = ({
                 icon={<AiOutlineShoppingCart />}
                 colorScheme="teal"
                 variant="outline"
-                onClick={onAddToCart}
+                onClick={() => handleAddToCart(payload)}
               />
             </Tooltip>
             <Tooltip
@@ -92,10 +112,16 @@ const WishlistCard = ({
           <ModalHeader>Remove from Wishlist</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>Are you sure you want to remove this item from your wishlist?</Text>
+            <Text>
+              Are you sure you want to remove this item from your wishlist?
+            </Text>
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={() => setIsModalOpen(false)}>
+            <Button
+              variant="ghost"
+              mr={3}
+              onClick={() => setIsModalOpen(false)}
+            >
               Cancel
             </Button>
             <Button colorScheme="red" onClick={() => handleDeleteWishlist(_id)}>

@@ -38,27 +38,45 @@ const postWishlist = async (req, res) => {
     return res.status(400).json({ error: "Please provide all the details" });
   } else {
     try {
-      let wishlistDetails = await new WishlistModel({
-        title,
-        category,
-        subcategory,
-        brand,
-        price,
-        discount,
-        quantity,
-        images,
-        size,
-        user: req.user._id,
+      let wishlistItem = await WishlistModel.findOne({
+        user: req.user.id,
         productId,
-      });
+        size,
+      }).lean();
 
-      await wishlistDetails.save();
-      res.status(200).json(wishlistDetails);
+      if (wishlistItem) {
+        if (wishlistItem.quantity >= 1) {
+          return res.status(400).json({ error: "Quantity cannot exceed 1" });
+        }
+        wishlistItem = await WishlistModel.findOneAndUpdate(
+          { user: req.user.id, productId, size },
+          { $inc: { quantity: 1 } },
+          { new: true }
+        ).lean();
+        res.status(200).json(cartItem);
+      } else {
+        const wishlistDetails = new WishlistModel({
+          title,
+          category,
+          subcategory,
+          brand,
+          price,
+          discount,
+          quantity,
+          images,
+          size,
+          user: req.user._id,
+          productId,
+        });
+
+        await wishlistDetails.save();
+        res.status(200).json(wishlistDetails);
+      }
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ error: "An error occurred while posting the  new  product" });
+        .json({ error: "An error occurred while posting the new product" });
     }
   }
 };
@@ -93,9 +111,11 @@ const deleteWishlist = async (req, res) => {
       { user: req.user.id }
     );
     if (!deletedItem) {
-      res.status(400).json({  message: "Item does not exists" });
+      res.status(400).json({ message: "Item does not exists" });
     } else {
-      res.status(200).json({ data: deletedItem, message: "Item deleted successfully" });
+      res
+        .status(200)
+        .json({ data: deletedItem, message: "Item deleted successfully" });
     }
   } catch (error) {
     res.status(500).json({ error: "Soemting Went Wrong" });
