@@ -28,9 +28,11 @@ import {
   RadioGroup,
   Radio,
   Button,
+  Icon
 } from "@chakra-ui/react";
 import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
+import { FiRefreshCcw } from "react-icons/fi";
 
 const Product = ({ category, subcategory, brands }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -263,7 +265,12 @@ const Product = ({ category, subcategory, brands }) => {
               </AccordionItem>
             </Accordion>
             <Flex justify="flex-end" mt={4}>
-              <Button colorScheme="teal" onClick={handleReset} width={"full"}>
+              <Button
+                colorScheme="teal"
+                onClick={handleReset}
+                width="full"
+                leftIcon={<Icon as={FiRefreshCcw} />}
+              >
                 Reset
               </Button>
             </Flex>

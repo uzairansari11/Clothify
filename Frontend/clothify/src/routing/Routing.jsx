@@ -9,6 +9,7 @@ import WomenPage from "../pages/WomenPage";
 import KidPage from "../pages/KidPage";
 import WishlistPage from '../pages/WishlistPage';
 import Homepage from '../pages/HomePgae';
+import OrderHistoryPage from '../pages/OrderHistoryPage';
 
 const Routing = () => {
   return (
@@ -17,12 +18,13 @@ const Routing = () => {
       <Route path="/product/:id" element={<SingleProduct />} />
       <Route path="/men" element={<MenPage />} />
       <Route path="/women" element={<WomenPage />} />
-      <Route path="/kid" element={<KidPage />} />
+      <Route path="/kids" element={<KidPage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
+      <Route path="/orderhistory" element={<OrderHistoryPage />} />
     </Routes>
   );
 };

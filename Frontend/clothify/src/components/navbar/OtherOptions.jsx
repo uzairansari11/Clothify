@@ -79,6 +79,7 @@ const OtherOptions = () => {
       </Tooltip>
 
       <Tooltip label="Order" hasArrow placement="top">
+        <Link to={'/orderhistory'}>
         <Flex position="relative" alignItems="center" justifyContent="center">
           <BsClipboardData size={30} color="teal" />
           <Box
@@ -97,7 +98,8 @@ const OtherOptions = () => {
           >
             1
           </Box>
-        </Flex>
+          </Flex>
+        </Link>
       </Tooltip>
     </Box>
   );

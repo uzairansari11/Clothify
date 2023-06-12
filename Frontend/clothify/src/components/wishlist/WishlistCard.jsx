@@ -58,12 +58,7 @@ const WishlistCard = ({
       p={4}
       width="100%"
       marginBottom={4}
-      boxShadow="md"
-      transition="box-shadow 0.3s"
-      _hover={{
-        boxShadow: "lg",
-      }}
-      bg="white"
+          bg="white"
       maxH="200px"
     >
       <Flex align="center" h="100%">
@@ -80,7 +75,7 @@ const WishlistCard = ({
           <Text fontWeight="bold" fontSize="xl" mb={2}>
             {title}
           </Text>
-          <Text mb={2}>Quantity: {quantity}</Text>
+          {/* <Text mb={2}>Quantity: {quantity}</Text> */}
           <Text mb={2}>Size: {size}</Text>
           <Flex justify="space-between" mt="auto">
             <Tooltip label="Add to Cart" aria-label="Add to Cart">

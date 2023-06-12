@@ -1,66 +1,123 @@
 import React, { useEffect } from "react";
-import { Box, Button, Divider, Flex, Heading, SimpleGrid } from "@chakra-ui/react";
-import { useDispatch, useSelector } from 'react-redux';
-import { handleProductData } from '../redux/products/action';
-import Carousel from '../components/carousel/Carousel';
-
+import {
+    Box,
+    Button,
+    Divider,
+    Flex,
+    Heading,
+    SimpleGrid,
+    Text,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { handleProductData } from "../redux/products/action";
+import Carousel from "../components/carousel/Carousel";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
-    const images = ["https://images.bewakoof.com/t1080/cream-men-s-half-sleeves-shirt-348535-1655834980-1.jpg", "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1662130112_1367320.jpg?format=webp&w=640&dpr=1.5", "https://images.bewakoof.com/t1080/men-s-black-horizontal-striped-slim-fit-shirt-563205-1671685770-1.JPG"]
-    const { products } = useSelector((store) => store.productReducer)
-    const dispatch = useDispatch()
+    const { products } = useSelector((store) => store.productReducer);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        dispatch(handleProductData())
-    }, [])
-    console.log(products, "product from home")
+        window.scrollTo(0, 0);
+        dispatch(handleProductData());
+    }, []);
+
+    const handleExploreMore = (category) => {
+        if (category !== "New Arrival") {
+            navigate(`/${category.toLowerCase()}`);
+        }
+    };
+
+    const renderExploreMoreButton = (category) => {
+        if (category !== "New Arrival") {
+            return (
+                <Button
+                    colorScheme="teal"
+                    size="sm"
+                    mt={6}
+                    rightIcon={<ChevronRightIcon />}
+                    onClick={() => handleExploreMore(category)}
+                >
+                    Explore More
+                </Button>
+            );
+        }
+
+        return null;
+    };
+
+    const renderCarouselSection = (title, category, description) => {
+        return (
+            <Flex direction="column" align="center" mb={8}>
+                <Heading
+                    as="h2"
+                    mb={4}
+                    size="xl"
+                    textAlign="start"
+                    color="teal.500"
+                    fontFamily="cursive"
+                    fontSize="2xl"
+                    fontWeight="extrabold"
+                >
+                    {title}
+                </Heading>
+                <Text color="gray.600" mb={6}>{description}</Text>
+                <Divider mb={8} color="blue" />
+                <Box w={"90%"} margin={"auto"}>
+                    <Carousel
+                        products={products.filter((ele, index) => {
+                            if (category === "New Arrival") {
+                                return index % 2 === 0;
+                            } else {
+                                return ele.category === category;
+                            }
+                        })}
+                    />
+                </Box>
+                {renderExploreMoreButton(category)}
+            </Flex>
+        );
+    };
+
     return (
-        <Box p={4}>
-
-            <Flex direction="column" align="center" mb={8}>
-                <Heading as="h2" mb={4}>
-                    New Arrivals
+        <Box mt={{ base: "20",lg:0}} >
+            <Box maxW="80%" mx="auto" mt={12} p={6} bg="gray.100" rounded="md" mb={4}>
+                <Heading as="h3" size="lg" mb={4} textAlign="center">
+                    Welcome to Our Store!
                 </Heading>
-                {/* <Carousel projects={products} /> */}
-                {/* <Carousel projects={products}/> */}
-                {/* New Arrivals Section */}
-                {/* Your code for displaying new arrival items goes here */}
-                <Button colorScheme="teal" size="sm">
-                    Explore More
-                </Button>
-            </Flex>
+                <Text fontSize="lg" textAlign="center">
+                    Browse through our wide range of products and find the perfect items for yourself and your loved ones. Enjoy a seamless shopping experience and stay fashionable with us!
+                </Text>
 
-            <Flex direction="column" align="center" mb={8}>
-                <Heading as="h2" mb={4}>
-                    Men
-                </Heading>
-                {/* Men's Section */}
-                {/* Your code for displaying men's clothing goes here */}
-                <Button colorScheme="teal" size="sm">
-                    Explore More
-                </Button>
-            </Flex>
+            </Box>
+            <Divider mb={4} />
+            {renderCarouselSection(
+                "New Arrivals",
+                "New Arrival",
+                "Check out the latest arrivals in our store."
+            )}
 
-            <Flex direction="column" align="center" mb={8}>
-                <Heading as="h2" mb={4}>
-                    Women
-                </Heading>
-                {/* Women's Section */}
-                {/* Your code for displaying women's clothing goes here */}
-                <Button colorScheme="teal" size="sm">
-                    Explore More
-                </Button>
-            </Flex>
+            {renderCarouselSection(
+                "Men's Section",
+                "Men",
+                "Discover our trendy collection for men."
+            )}
 
-            <Flex direction="column" align="center" mb={8}>
-                <Heading as="h2" mb={4}>
-                    Kids
-                </Heading>
-                {/* Kids' Section */}
-                {/* Your code for displaying kids' clothing goes here */}
-                <Button colorScheme="teal" size="sm">
-                    Explore More
-                </Button>
-            </Flex>
+            {renderCarouselSection(
+                "Women's Section",
+                "Women",
+                "Explore our fashionable collection for women."
+            )}
+
+            {renderCarouselSection(
+                "Kids' Section",
+                "Kids",
+                "Find adorable and stylish outfits for kids."
+            )}
+
+
         </Box>
     );
 };
