@@ -1,73 +1,72 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Container,
   Heading,
   Text,
-  VStack,
-  Divider,
-  Badge,
-} from "@chakra-ui/react";
-import { MdCheckCircle } from "react-icons/md";
-
-const orders = [
-  {
-    id: "1",
-    orderedDate: "2023-06-10",
-    deliveryDate: "2023-06-15",
-    total: 120.99,
-    items: [
-      { id: "1", name: "Product 1", price: 50.99, quantity: 2 },
-      { id: "2", name: "Product 2", price: 70.0, quantity: 1 },
-    ],
-    address: "123 Main St, City, State",
-  },
-  // Add more orders as needed
-];
+  Stack,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 const OrderHistoryPage = () => {
+  const orders = [
+    // {
+    //   id: '12345',
+    //   date: '2023-06-12',
+    //   total: 129.99,
+    //   items: [
+    //     { name: 'Product 1', price: 39.99, quantity: 1 },
+    //     { name: 'Product 2', price: 25.99, quantity: 2 },
+    //     { name: 'Product 3', price: 19.99, quantity: 1 },
+    //   ],
+    // },
+    // Add more order objects here
+  ];
+
   return (
-    <Box py={8}>
-      <Container maxW="container.md">
+    <Box bg={useColorModeValue('gray.100', 'gray.800')} py={8}>
+      <Container maxW="container.lg">
         <Heading as="h1" size="xl" mb={4}>
           Order History
         </Heading>
-        <VStack spacing={4} align="stretch">
-          {orders.map((order) => (
-            <Box
-              key={order.id}
-              borderWidth={1}
-              borderRadius="md"
-              p={4}
-              boxShadow="md"
-            >
-              <Text fontSize="lg" fontWeight="bold" mb={2}>
-                Order #{order.id}
-              </Text>
-              <Text mb={2}>Ordered Date: {order.orderedDate}</Text>
-              <Text mb={2}>Delivery Date: {order.deliveryDate}</Text>
-              <Text mb={2}>Total: ${order.total.toFixed(2)}</Text>
-              <Text fontWeight="bold">Items:</Text>
-              <Box display="flex" flexDirection="column" mt={2}>
-                {order.items.map((item) => (
-                  <Box key={item.id} display="flex" alignItems="center" mb={2}>
-                    <MdCheckCircle color="green" size={20} />
-                    <Text ml={2}>
-                      {item.name} - ${item.price.toFixed(2)} (
-                      <Badge variant="solid" colorScheme="blue">
-                        {item.quantity}
-                      </Badge>{" "}
-                      quantity)
-                    </Text>
-                  </Box>
-                ))}
-              </Box>
-              <Divider my={4} />
-              <Text fontWeight="bold">Delivery Address:</Text>
-              <Text>{order.address}</Text>
-            </Box>
-          ))}
-        </VStack>
+        {orders.length > 0 ? (
+          <Table variant="striped">
+            <Thead>
+              <Tr>
+                <Th>Order ID</Th>
+                <Th>Date</Th>
+                <Th>Total</Th>
+                <Th>Items</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {orders.map((order) => (
+                <Tr key={order.id}>
+                  <Td>{order.id}</Td>
+                  <Td>{order.date}</Td>
+                  <Td>${order.total}</Td>
+                  <Td>
+                    <Stack spacing={1}>
+                      {order.items.map((item) => (
+                        <Text key={item.name}>
+                          {item.name} x {item.quantity}
+                        </Text>
+                      ))}
+                    </Stack>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        ) : (
+          <Text>No orders found.</Text>
+        )}
       </Container>
     </Box>
   );

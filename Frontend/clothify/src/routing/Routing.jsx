@@ -10,6 +10,7 @@ import KidPage from "../pages/KidPage";
 import WishlistPage from '../pages/WishlistPage';
 import Homepage from '../pages/HomePgae';
 import OrderHistoryPage from '../pages/OrderHistoryPage';
+import CheckoutPage from '../pages/CheckoutPage';
 
 const Routing = () => {
   return (
@@ -23,6 +24,7 @@ const Routing = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
       <Route path="/orderhistory" element={<OrderHistoryPage />} />
     </Routes>
