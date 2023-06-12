@@ -21,7 +21,7 @@ const SingleProduct = () => {
   const [mainImage, setMainImage] = useState(null);
   const [additionalImages, setAdditionalImages] = useState(null);
   const heartColor = useColorModeValue("red.500", "red.200");
-  const [selectedSize, setSelectedSize] = useState("S");
+  const [selectedSize, setSelectedSize] = useState("");
 
   const handleAddToCart = () => {
     setIsLoading(true);
@@ -41,6 +41,7 @@ const SingleProduct = () => {
       setData(res);
       setMainImage(res?.images?.[0] || null);
       setAdditionalImages(res?.images);
+      setSelectedSize(res?.sizes?.[0] || "");
     });
   }, [id]);
 

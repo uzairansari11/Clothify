@@ -319,6 +319,7 @@ const Product = ({ category, subcategory, brands }) => {
           onPageChange={handlePageChange}
           currentPage={page}
           totalPages={Math.ceil(totalCount / 6)}
+          totalCount={totalCount}
         />
       ) : (
         ""

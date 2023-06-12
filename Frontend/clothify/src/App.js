@@ -6,6 +6,7 @@ import Footer from "./components/footer/Footer";
 import { useLocation, } from "react-router-dom";
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton';
 
+
 function App() {
   const location = useLocation();
 
@@ -17,7 +18,7 @@ function App() {
         <Routing />
         <ScrollToTopButton />
       </Box>
-      {location.pathname === "/cart" || location.pathname === "/wishlist" ? "" : <Footer />}
+      {location.pathname === "/cart" || location.pathname === "/wishlist" || location.pathname === "/orderhistory" ? "" : <Footer />}
     </div>
   );
 }
