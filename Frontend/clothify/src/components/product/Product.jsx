@@ -154,7 +154,7 @@ const Product = ({ category, subcategory, brands }) => {
           position={{ base: "fixed", md: "fixed" }}
           height={{ base: "auto", md: "100vh" }}
           overflowY={{ base: "auto", md: "scroll" }}
-          zIndex={100}
+          zIndex={3}
           sx={{
             "&::-webkit-scrollbar": {
               width: "0.4em",

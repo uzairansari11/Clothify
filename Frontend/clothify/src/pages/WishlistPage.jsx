@@ -24,6 +24,8 @@ import WishlistCard from "../components/wishlist/WishlistCard";
 const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { wishlistData } = useSelector((store) => store.wishlistReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
+
   const dispatch = useDispatch();
 
   const handleRemoveItem = (itemId) => {
@@ -34,12 +36,39 @@ const WishlistPage = () => {
     dispatch(handleAddToCartData(payload));
   };
   useEffect(() => {
-    dispatch(handleWishlistCartData());
+    if (isAuth) {
+      dispatch(handleWishlistCartData());
+    }
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
   }, []);
-
+  if (!isAuth) {
+    // Redirect or display message indicating that the user needs to log in
+    return (
+      <Box p={4}>
+        <Heading
+          as="h1"
+          mb={4}
+          size="xl"
+          textAlign="center"
+          color="teal.500"
+          fontFamily={"cursive"}
+          fontSize={"xl"}
+          fontWeight={"extrabold"}
+        >
+          Your Wishlist
+        </Heading>
+        <Divider my={4} />
+        <Flex justifyContent="center" alignItems="center" minHeight="200px">
+          <Text fontSize="xl" textAlign="center" color="gray.500">
+            Please log in to view your wishlist.
+          </Text>
+        </Flex>
+      </Box>
+    );
+  }
   return (
     <Box p={4}>
       <Heading

@@ -8,8 +8,11 @@ const AvatarNavbar = (props) => {
         <Tooltip label={props?.authDetails?.userDetails?.name}>
           <Avatar
             size={{ base: "xs", md: "sm" }}
+            fontWeight={'bold'}
+            fontStyle={'italic'}
+          
             name={props?.authDetails?.userDetails?.name}
-            bg="teal.500"
+            bg={props.authDetails.isAuth ? "white" : "red"}
             boxShadow="md"
           />
         </Tooltip>
