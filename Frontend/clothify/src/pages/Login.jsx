@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { cookiesGetter, loginFunction } from "../utils/coockies";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginFunction } from "../redux/authentication/action";
@@ -25,6 +25,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const location = useLocation();
+  const comingFrom = location.state?.data || "/";
   const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,13 +38,13 @@ const Login = () => {
       const userDetails = { email, password };
       dispatch(handleLoginFunction(userDetails)).then((res) => {
         if (res === true) {
-          const userDetails = cookiesGetter()
+          const userDetails = cookiesGetter();
           toast({
             title: `Welcome back ${userDetails.name}`,
             status: "success",
             duration: 3000,
             isClosable: true,
-            position:'top'
+            position: "top",
           });
           setIsLogin(true);
           setIsLoading(false);
@@ -66,17 +68,12 @@ const Login = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isLogin) {
-      return navigate("/", { replace: true });
+      return navigate(comingFrom, { replace: true });
     }
   }, [isLogin]);
 
   return (
-    <Flex
-      align="center"
-      justify="center"
-      height="100vh"
-
-    >
+    <Flex align="center" justify="center" height="100vh">
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"
