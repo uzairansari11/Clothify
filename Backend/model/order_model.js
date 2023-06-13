@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema({
     ref: "User",
   },
   date: { type: String, required: true },
+  adress: { type: String, required: true }
 });
 
 

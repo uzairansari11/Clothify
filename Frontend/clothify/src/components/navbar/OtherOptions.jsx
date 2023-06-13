@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import { Box, Tooltip, Flex, Text } from "@chakra-ui/react";
-import { BsCart2, BsBagHeartFill, BsClipboardData } from "react-icons/bs";
+import { BsCart2, BsBagHeartFill, BsClipboardData }
+  from "react-icons/bs";
+  import {
+  FaShoppingCart,
+  FaHeart,
+  FaShoppingBag,
+  FaMale,
+  FaFemale,
+  FaChild,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetCartData } from "../../redux/cart/action";
@@ -81,7 +90,7 @@ const OtherOptions = () => {
       <Tooltip label="Order" hasArrow placement="top">
         <Link to={'/orderhistory'}>
         <Flex position="relative" alignItems="center" justifyContent="center">
-          <BsClipboardData size={30} color="teal" />
+          <FaShoppingBag size={30} color="teal" />
           <Box
             position="absolute"
             top="-6px"

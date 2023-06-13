@@ -28,7 +28,7 @@ import {
   RadioGroup,
   Radio,
   Button,
-  Icon
+  Icon,
 } from "@chakra-ui/react";
 import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
@@ -42,7 +42,6 @@ const Product = ({ category, subcategory, brands }) => {
   const initialSubcategory = searchParams.getAll("subcategory");
   const initialBrand = searchParams.getAll("brand");
   const { products, totalCount } = useSelector((store) => store.productReducer);
-
 
   const [page, setPage] = useState(initialPage || 1);
   const dispatch = useDispatch();
@@ -278,12 +277,14 @@ const Product = ({ category, subcategory, brands }) => {
         </Box>
 
         <Box
-          width="100%"
+          width={{ base: "80%", sm: "100%" }}
+
           paddingLeft={{ base: 0, md: "20px" }}
           marginTop={{ base: "200px", md: 0 }}
           paddingBottom="50px"
           marginLeft={{ base: 0, md: "20%" }}
           overflow="auto"
+          marginX={'auto'}
           sx={{
             "&::-webkit-scrollbar": {
               width: "0.4em",
@@ -306,7 +307,7 @@ const Product = ({ category, subcategory, brands }) => {
             >
               {products.length > 0 &&
                 products.map((ele) => {
-                  return <CardItem key={ele.id} {...ele} />;
+                  return <CardItem key={ele._id} {...ele} />;
                 })}
             </Grid>
           ) : (

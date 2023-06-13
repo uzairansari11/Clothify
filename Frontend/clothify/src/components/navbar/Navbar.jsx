@@ -9,10 +9,16 @@ import AvatarNavbar from "./AvatarNavbar";
 import HamburgerOptions from "./Hamburger";
 import OtherOptions from "./OtherOptions";
 import { useSelector } from "react-redux";
+import DrawerComponent from "./DrawerComponent";
+import { getQuantity } from '../../utils/getquanity';
 
 const Navbar = () => {
+  const { cartData } = useSelector((store) => store.cartReducer);
+  const { wishlistData } = useSelector((store) => store.wishlistReducer);
   const authDetails = useSelector((store) => store.authReducer);
 
+  const totalCartQunatity = getQuantity(cartData);
+  const totalWishlistQunatity = getQuantity(wishlistData);
   return (
     <Box
       backgroundColor={"white"}
@@ -55,12 +61,19 @@ const Navbar = () => {
           </Box>
 
           <Box width={{ base: "auto", md: "5%" }}>
-            <Menuitem isAuth={authDetails.isAuth} >
+            <Menuitem isAuth={authDetails.isAuth}>
               <AvatarNavbar authDetails={authDetails} />
             </Menuitem>
           </Box>
           <Box display={{ base: "flex", lg: "none" }} alignItems={"center"}>
-            <HamburgerOptions />
+            <DrawerComponent
+              totalCartQunatity={totalCartQunatity}
+              totalWishlistQunatity={totalWishlistQunatity}
+              isAuth={authDetails.isAuth}
+            >
+              {" "}
+              <HamburgerOptions />
+            </DrawerComponent>
           </Box>
         </Box>
       </Container>
