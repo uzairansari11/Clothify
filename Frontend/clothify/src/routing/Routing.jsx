@@ -7,10 +7,11 @@ import CartPage from "../pages/Cart";
 import MenPage from "../pages/MenPage";
 import WomenPage from "../pages/WomenPage";
 import KidPage from "../pages/KidPage";
-import WishlistPage from '../pages/WishlistPage';
-import Homepage from '../pages/HomePgae';
-import OrderHistoryPage from '../pages/OrderHistoryPage';
-import CheckoutPage from '../pages/CheckoutPage';
+import WishlistPage from "../pages/WishlistPage";
+import Homepage from "../pages/HomePgae";
+import OrderHistoryPage from "../pages/OrderHistoryPage";
+import CheckoutPage from "../pages/CheckoutPage";
+import PrivateRoute from "../components/hoc/PrivateRoute";
 
 const Routing = () => {
   return (
@@ -23,10 +24,41 @@ const Routing = () => {
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-      <Route path="/wishlist" element={<WishlistPage />} />
-      <Route path="/orderhistory" element={<OrderHistoryPage />} />
+
+      <Route
+        path="/cart"
+        element={
+          <PrivateRoute>
+            {" "}
+            <CartPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/checkout"
+        element={
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/wishlist"
+        element={
+          <PrivateRoute>
+            <WishlistPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/orderhistory"
+        element={
+          <PrivateRoute>
+            <OrderHistoryPage />{" "}
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
