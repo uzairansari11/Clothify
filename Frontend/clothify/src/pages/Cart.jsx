@@ -150,43 +150,46 @@ const CartPage = () => {
             </Flex>
           )}
         </Flex>
-
-        <Flex
-          flexDirection="column"
-          flex={{ base: "none", md: "1" }}
-          pl={{ base: "0", md: "4" }}
-          position="sticky"
-          top={0}
-          alignSelf="flex-start"
-          background={"white"}
-          margin={{ base: "auto", md: "0" }}
-        >
-          <Flex justifyContent="space-around" alignItems="center" mt={4}>
-            <Text fontWeight="bold">Total:</Text>
-            <Tooltip label="Total Price" placement="top">
-              <Text fontWeight="bold">$ {calculateTotalPrice}</Text>
-            </Tooltip>
+        {isAuth && cartData.length ? (
+          <Flex
+            flexDirection="column"
+            flex={{ base: "none", md: "1" }}
+            pl={{ base: "0", md: "4" }}
+            position="sticky"
+            top={0}
+            alignSelf="flex-start"
+            background={"white"}
+            margin={{ base: "auto", md: "0" }}
+          >
+            <Flex justifyContent="space-around" alignItems="center" mt={4}>
+              <Text fontWeight="bold">Total:</Text>
+              <Tooltip label="Total Price" placement="top">
+                <Text fontWeight="bold">$ {calculateTotalPrice}</Text>
+              </Tooltip>
+            </Flex>
+            <Flex justifyContent="flex-end" alignItems="center" mt={4}>
+              <Button
+                colorScheme="teal"
+                size="md"
+                width={{ base: "100%", md: "auto%" }}
+                rightIcon={<FaShoppingCart />}
+                margin={"auto"}
+                onClick={() =>
+                  toast({
+                    title: "Proceed to Checkout",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                }
+              >
+                Proceed to Checkout
+              </Button>
+            </Flex>
           </Flex>
-          <Flex justifyContent="flex-end" alignItems="center" mt={4}>
-            <Button
-              colorScheme="teal"
-              size="md"
-              width={{ base: "100%", md: "auto%" }}
-              rightIcon={<FaShoppingCart />}
-              margin={"auto"}
-              onClick={() =>
-                toast({
-                  title: "Proceed to Checkout",
-                  status: "success",
-                  duration: 3000,
-                  isClosable: true,
-                })
-              }
-            >
-              Proceed to Checkout
-            </Button>
-          </Flex>
-        </Flex>
+        ) : (
+          <></>
+        )}
       </Flex>
     </Box>
   );
