@@ -35,17 +35,17 @@ function DrawerComponent({
   };
 
   return (
-    <>
+    <Box width={"90%"}>
       <Box onClick={onOpen} as="span" cursor="pointer">
         {children}
       </Box>
 
-      <Drawer size="xs" placement={"top"} onClose={onClose} isOpen={isOpen}>
+      <Drawer size="xs" placement={"bottom"} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton color={"red"} />
 
-          <DrawerBody color={"teal"}>
+          <DrawerBody>
             <Flex
               alignItems="center"
               direction="row"
@@ -53,6 +53,7 @@ function DrawerComponent({
               mb={4}
               gap={4}
               justifyContent={"center"}
+              width={"90%"}
             >
               <Flex align="center" mb={2}>
                 <Icon as={FaMale} boxSize={6} mr={2} />
@@ -98,6 +99,7 @@ function DrawerComponent({
               flexDir={"row"}
               gap={4}
               justifyContent={"center"}
+              width={"90%"}
             >
               <Link as={ReactLink} to="/cart" mr={4} onClick={handleLinkClick}>
                 <Icon as={FaShoppingCart} boxSize={6} mr={2} />
@@ -138,7 +140,7 @@ function DrawerComponent({
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </Box>
   );
 }
 

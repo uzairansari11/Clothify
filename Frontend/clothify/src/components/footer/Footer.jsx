@@ -7,6 +7,7 @@ import {
   Link,
   Tooltip,
   Divider,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import {
   FaTwitter,
@@ -23,6 +24,9 @@ const Footer = () => {
     transition: { duration: 0.2 },
   };
 
+  // Adjust the flex direction based on screen size
+  const flexDirection = useBreakpointValue({ base: "column", md: "row" });
+
   return (
     <Box
       bg="teal.500"
@@ -34,14 +38,20 @@ const Footer = () => {
       width="100%"
       mt={20}
     >
-      <Flex justifyContent="center" alignItems="center" mb={4}>
+      <Flex
+        direction={flexDirection}
+        justifyContent="center"
+        alignItems="center"
+        mb={4}
+        flexWrap="wrap"
+      >
         <Text fontWeight="bold" fontSize="lg" mr={2}>
           Clothify
         </Text>
         <Text> | </Text>
         <Text ml={2}>Fashion Redefined</Text>
       </Flex>
-      <Flex justifyContent="center" alignItems="center" mb={4}>
+      <Flex justifyContent="center" alignItems="center" mb={4} flexWrap="wrap">
         <Tooltip label="Twitter" hasArrow placement="top">
           <IconButton
             as="a"
@@ -101,7 +111,13 @@ const Footer = () => {
           />
         </Tooltip>
       </Flex>
-      <Flex justifyContent="center" alignItems="center" mb={4}>
+      <Flex
+        direction={flexDirection}
+        justifyContent="center"
+        alignItems="center"
+        mb={4}
+        flexWrap="wrap"
+      >
         <Link href="/about" mx={2} color="white" _hover={{ cursor: "pointer" }}>
           About Us
         </Link>
