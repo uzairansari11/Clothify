@@ -13,7 +13,7 @@ import OrderHistoryPage from "../pages/OrderHistoryPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import PrivateRoute from "../components/hoc/PrivateRoute";
 import AdminSignupPage from "../components/admin/authentication/SignupPage";
-
+import Dashboard from "../components/admin/Dashboard"
 const Routing = () => {
   return (
     <Routes>
@@ -64,6 +64,7 @@ const Routing = () => {
       {/* Admin Route */}
       <Route path="/admin" element={<>Hello </>} />
       <Route path="/admin/signup" element={<AdminSignupPage />} />
+      <Route path="/admin/*" element={<Dashboard />} />
     </Routes>
   );
 };

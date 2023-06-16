@@ -12,13 +12,15 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+
+      {location.pathname.startsWith("/admin") ? <></> : <Navbar />}
       <Box mt={{ base: 12, md: 20 }}>
         {" "}
         <Routing />
         <ScrollToTopButton />
       </Box>
-      {location.pathname === "/cart" || location.pathname === "/wishlist" || location.pathname === "/orderhistory" ? "" : <Footer />}
+
+      {location.pathname === "/cart" || location.pathname === "/wishlist" || location.pathname === "/orderhistory" || location.pathname.startsWith("/admin") ? "" : <Footer />}
     </div>
   );
 }
