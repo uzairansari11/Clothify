@@ -49,13 +49,14 @@ const PannelSiderbar = () => {
             label: "Add Product",
             icon: AiOutlinePlus,
             path: "/admin/addproduct",
-            color: "orange",
+            color: "pink",
+            
         },
         {
             label: "Order",
             icon: AiOutlineFile,
             path: "/admin/order",
-            color: "pink",
+          color: "orange",
         },
         // { label: "Logout", icon: IoLogOutOutline, color: "red" },
     ];

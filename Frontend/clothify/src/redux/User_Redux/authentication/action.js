@@ -1,4 +1,5 @@
-import { cookiesSetter, removeCookie } from "../../utils/coockies";
+
+import { cookiesSetter, removeCookie } from '../../../utils/coockies';
 import { login_user } from "./api";
 import * as types from "./types";
 

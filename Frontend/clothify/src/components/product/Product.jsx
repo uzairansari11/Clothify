@@ -5,7 +5,7 @@ import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import NotFound from "./NotFound";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../spinner/Spinner";
-import { handleProductData } from "../../redux/products/action";
+import { handleProductData } from "../../redux/User_Redux/products/action";
 
 import {
   Box,

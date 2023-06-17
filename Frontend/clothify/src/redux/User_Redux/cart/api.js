@@ -1,5 +1,6 @@
 import axios from "axios";
-import { cookiesGetter } from "../../utils/coockies";
+import { cookiesGetter } from '../../../utils/coockies';
+
 
 export const get_cart_from_api = async () => {
   const { token } = cookiesGetter();
