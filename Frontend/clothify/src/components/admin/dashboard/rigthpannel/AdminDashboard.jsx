@@ -4,10 +4,10 @@ import { GrUserAdmin } from "react-icons/gr";
 import { AiFillHeart } from "react-icons/ai";
 import { motion } from "framer-motion";
 
-const AdminDashboard = ({ totalUsers }) => {
+const AdminDashboard = ({ totalUsers, products }) => {
   const totalRevenue = 5000; // Replace with actual data
   const adminOrders = 20; // Replace with actual data
-  const products = 50; // Replace with actual data
+
 
   return (
     <Box p={4}>

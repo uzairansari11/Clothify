@@ -32,12 +32,25 @@ export const userReducer = (state = initialState, action) => {
 
         case types.user_Delete_Success_status: {
             return {
-                ...state, isLoading: false,
+                ...state,
+                isLoading: false,
                 isError: false,
-                users: [...state.users.filter((ele) => ele._id != action.payload._id)]
-            }
+                users: [...state.users.filter((ele) => ele._id != action.payload._id)],
+            };
         }
 
+        case types.user_Update_Success_status: {
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                users: [
+                    ...state.users.map((ele) =>
+                        ele._id === action.payload._id ? ele = action.payload : ele
+                    ),
+                ],
+            };
+        }
         default:
             return state;
     }

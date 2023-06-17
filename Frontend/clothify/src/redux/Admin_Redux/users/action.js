@@ -1,4 +1,4 @@
-import { delete_UserData_FromApi, get_UserData_FromApi } from "./api";
+import { delete_UserData_FromApi, get_UserData_FromApi, update_UserData_FromApi } from "./api";
 import * as types from "./types";
 
 export const isLoadingHandler = () => {
@@ -28,6 +28,13 @@ export const deleteUserHanlder = (payload) => {
     }
 }
 
+export const updateUserHanlder = (payload) => {
+    return {
+        type: types.user_Update_Success_status,
+        payload,
+    }
+}
+
 export const handleGetUser = () => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
@@ -47,3 +54,14 @@ export const handleDeleteUser = (id) => async (dispatch) => {
         dispatch(isErrorHandler());
     }
 };
+
+
+export const handleUpdateUser = (id, payload) => async (dispatch) => {
+    dispatch(isLoadingHandler());
+    try {
+        const data = await update_UserData_FromApi(id, payload)
+        dispatch(updateUserHanlder(data))
+    } catch (error) {
+        dispatch(isErrorHandler());
+    }
+}

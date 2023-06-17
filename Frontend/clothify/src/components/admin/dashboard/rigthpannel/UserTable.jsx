@@ -1,4 +1,3 @@
-import { useState,useRef } from "react";
 import {
   Box,
   Button,
@@ -27,21 +26,26 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import { handleDeleteUser } from "../../../../redux/Admin_Redux/users/action";
+import {
+  handleDeleteUser,
+  handleUpdateUser,
+} from "../../../../redux/Admin_Redux/users/action";
+import { useRef, useState } from 'react';
 
-const UserTable = ({ users, onEdit }) => {
+const UserTable = ({ users }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false);
   const cancelRef = useRef();
+
   const onDelete = (id) => {
     dispatch(handleDeleteUser(id));
     setIsDeleteConfirmationOpen(false);
   };
 
-  const handleEditClick = (user) => {
+  const handleEditClick = (user, _id) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
@@ -52,10 +56,13 @@ const UserTable = ({ users, onEdit }) => {
   };
 
   const handleSaveChanges = () => {
-    // Add your logic to save the changes made in the modal
-    // You can access the updated user details from the 'selectedUser' state
-    // e.g., dispatch an action to update the user in the backend
-    // Once the changes are saved, you can close the modal
+    const payload = {
+      name: selectedUser.name,
+      email: selectedUser.email,
+      mobile: selectedUser.mobile,
+    };
+    console.log(selectedUser._id, payload);
+    dispatch(handleUpdateUser(selectedUser._id, payload));
     handleCloseModal();
   };
 
@@ -91,7 +98,7 @@ const UserTable = ({ users, onEdit }) => {
                   colorScheme="teal"
                   variant="outline"
                   size="sm"
-                  onClick={() => handleEditClick(user)}
+                  onClick={() => handleEditClick(user, user._id)}
                   leftIcon={<EditIcon />}
                   marginRight={2}
                 >
@@ -126,11 +133,35 @@ const UserTable = ({ users, onEdit }) => {
             {selectedUser && (
               <FormControl>
                 <FormLabel>Name</FormLabel>
-                <Input value={selectedUser.name} />
+                <Input
+                  value={selectedUser.name}
+                  onChange={(e) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      name: e.target.value,
+                    })
+                  }
+                />
                 <FormLabel>Email</FormLabel>
-                <Input value={selectedUser.email} />
+                <Input
+                  value={selectedUser.email}
+                  onChange={(e) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      email: e.target.value,
+                    })
+                  }
+                />
                 <FormLabel>Phone Number</FormLabel>
-                <Input value={selectedUser.mobile} />
+                <Input
+                  value={selectedUser.mobile}
+                  onChange={(e) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      mobile: e.target.value,
+                    })
+                  }
+                />
               </FormControl>
             )}
             <Button

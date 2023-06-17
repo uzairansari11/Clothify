@@ -9,16 +9,23 @@ import AdminTable from "./rigthpannel/AdminTable";
 import AddProduct from "./rigthpannel/AddProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetUser } from "../../../redux/Admin_Redux/users/action";
+import { Products } from './rigthpannel/Products';
+import { handleProductData } from '../../../redux/Admin_Redux/admin_products/action';
 
 const Dashboard = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const finalPath = pathname.split("/")[2];
   const { users } = useSelector((store) => store.userReducer);
-  const dispatch = useDispatch();
+  const { totalCount } = useSelector(
+    (store) => store.adminProductReducer
+  );
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(handleGetUser());
+    dispatch(handleProductData());
+
   }, []);
 
   return (
@@ -34,11 +41,12 @@ const Dashboard = () => {
           <Box>
             {" "}
             {finalPath == "dashboard" && (
-              <AdminDashboard totalUsers={users.length} />
+              <AdminDashboard totalUsers={users.length} products={totalCount} />
             )}
             {finalPath == "user" && <UserTable users={users} />}
-            {finalPath == "admin" && <AdminTable users={users} />}
+            {finalPath == "admin" && <AdminTable users={users}  />}
             {finalPath == "addproduct" && <AddProduct />}
+            {finalPath == "product" && <Products />}
           </Box>
         </Box>
       </Box>
