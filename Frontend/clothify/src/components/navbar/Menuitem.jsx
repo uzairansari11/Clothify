@@ -11,8 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLogoutFunction } from "../../redux/authentication/action";
+
 import { FiLogOut, FiUser, FiUserPlus } from "react-icons/fi";
+import { handleLogoutFunction } from '../../redux/User_Redux/authentication/action';
 
 const Menuitem = ({ children }) => {
   const { isLoading, isAuth } = useSelector((store) => store.authReducer);

@@ -1,4 +1,5 @@
-import { cookiesGetter } from "../../utils/coockies";
+
+import { cookiesGetter } from '../../../utils/coockies';
 import * as types from "./types";
 const userDetailsinCookies = cookiesGetter();
 const initialState = {

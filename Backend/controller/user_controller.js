@@ -9,7 +9,7 @@ const userRegister = asyncHandler(async (req, res) => {
   if (!name || !email || !password || !mobile) {
     return res.status(400).json({ error: "Please provide all the details" });
   }
-  const isUserExists = await UserModel.findOne({email});
+  const isUserExists = await UserModel.findOne({ email });
   if (isUserExists) {
     return res.status(400).json({ error: "User Already Exists" });
   }
@@ -61,7 +61,7 @@ const userLogin = asyncHandler(async (req, res) => {
       return res.status(400).json({ error: "Wrong password" });
     }
 
-    const { password: _, mobile,  ...userData } = user.toObject();
+    const { password: _, mobile, ...userData } = user.toObject();
 
     const token = jwt.sign({ userID: user._id }, process.env.SECRET_KEY, {
       expiresIn: "10d",
@@ -74,7 +74,61 @@ const userLogin = asyncHandler(async (req, res) => {
       .status(400)
       .json({ error: "An error occurred while logging in the user" });
   }
-})
-const userSearch = async (req, res) => {};
+});
+const userSearch = async (req, res) => { };
 
-module.exports = { userRegister, userLogin, userSearch };
+const getUser = async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    return res.status(200).json(users);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "An error occurred while getting in the user" });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete({ _id: userId });
+    if (!deletedUser) {
+      res.status(400).json({ message: "User does not exists" });
+    } else {
+      res
+        .status(200)
+        .json({ data: deletedUser, message: "Item deleted successfully" });
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "An error occurred while getting in the user" });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const userId = req.params.id;
+  const payload = req.body;
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      { _id: userId },
+      payload,
+      {
+        new: true,
+      }
+    );
+    if (!updatedUser) {
+      res.status(400).json({ message: "User does not exists" });
+    } else {
+      res
+        .status(200)
+        .json({ data: updatedUser, message: "User updated successfully" });
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "An error occurred while getting in the user" });
+  }
+};
+
+module.exports = { userRegister, userLogin, userSearch, getUser, deleteUser, updateUser };

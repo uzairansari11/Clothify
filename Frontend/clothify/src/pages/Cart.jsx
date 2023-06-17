@@ -16,12 +16,9 @@ import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import CartItemCard from "../components/cart/CartItemCard";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  handleDeleteToCartData,
-  handleGetCartData,
-  handleUpdateToCartData,
-} from "../redux/cart/action";
+
 import LoadingSpinner from "../components/spinner/Spinner";
+import { handleDeleteToCartData, handleGetCartData, handleUpdateToCartData } from '../redux/User_Redux/cart/action';
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);

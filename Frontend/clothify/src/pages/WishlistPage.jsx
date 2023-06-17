@@ -13,13 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  handleDeleteToWishlistData,
-  handleWishlistCartData,
-} from "../redux/wishlist/action";
-import { handleAddToCartData } from "../redux/cart/action";
+
 import LoadingSpinner from "../components/spinner/Spinner";
 import WishlistCard from "../components/wishlist/WishlistCard";
+
+import { handleDeleteToWishlistData, handleWishlistCartData } from "../redux/User_Redux/wishlist/action"
+import { handleAddToCartData } from '../redux/User_Redux/cart/action';
 
 const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(true);

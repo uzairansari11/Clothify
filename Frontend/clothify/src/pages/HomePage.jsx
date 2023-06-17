@@ -9,7 +9,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleProductData } from "../redux/products/action";
+import { handleProductData } from "../redux/User_Redux/products/action";
 import Carousel from "../components/carousel/Carousel";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +82,7 @@ const Homepage = () => {
     };
 
     return (
-        <Box mt={{ base: "20",lg:0}} >
+        <Box mt={{ base: "20", lg: 0 }} >
             <Box maxW="80%" mx="auto" mt={12} p={6} bg="gray.100" rounded="md" mb={4}>
                 <Heading as="h3" size="lg" mb={4} textAlign="center">
                     Welcome to Our Store!

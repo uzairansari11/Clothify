@@ -8,12 +8,13 @@ import MenPage from "../pages/MenPage";
 import WomenPage from "../pages/WomenPage";
 import KidPage from "../pages/KidPage";
 import WishlistPage from "../pages/WishlistPage";
-import Homepage from "../pages/HomePgae";
+import Homepage from "../pages/HomePage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import PrivateRoute from "../components/hoc/PrivateRoute";
 import AdminSignupPage from "../components/admin/authentication/SignupPage";
-import Dashboard from "../components/admin/Dashboard"
+import Dashboard from "../components/admin/dashboard/Dashboard";
+
 const Routing = () => {
   return (
     <Routes>

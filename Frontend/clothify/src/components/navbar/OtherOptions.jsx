@@ -12,9 +12,11 @@ import { BsCart2, BsBagHeartFill, BsClipboardData }
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetCartData } from "../../redux/cart/action";
-import { handleWishlistCartData } from "../../redux/wishlist/action";
+
 import { getQuantity } from "../../utils/getquanity";
+
+import { handleWishlistCartData } from '../../redux/User_Redux/wishlist/action';
+import { handleGetCartData } from '../../redux/User_Redux/cart/action';
 
 const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
