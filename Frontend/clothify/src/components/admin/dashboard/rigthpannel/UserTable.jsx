@@ -25,14 +25,16 @@ import {
   AlertDialogFooter,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleDeleteUser,
+  handleGetUser,
   handleUpdateUser,
 } from "../../../../redux/Admin_Redux/users/action";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-const UserTable = ({ users }) => {
+const UserTable = () => {
+  const { users } = useSelector((store) => store.userReducer);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -76,6 +78,9 @@ const UserTable = ({ users }) => {
     setIsDeleteConfirmationOpen(false);
   };
 
+  useEffect(() => {
+    dispatch(handleGetUser());
+  }, []);
   return (
     <Box overflowX="auto">
       <Table variant="striped" colorScheme="teal">

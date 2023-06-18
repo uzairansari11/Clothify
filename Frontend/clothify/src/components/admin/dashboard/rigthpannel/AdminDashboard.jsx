@@ -1,17 +1,41 @@
-import { Box, Flex, Heading, SimpleGrid, Stat, StatLabel, StatNumber, Text } from "@chakra-ui/react";
-import { RiShoppingCart2Line, RiUser3Line, RiMoneyDollarCircleLine, RiFileList2Line } from "react-icons/ri";
+import {
+  Box,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Stat,
+  StatLabel,
+  StatNumber,
+  Text,
+} from "@chakra-ui/react";
+import {
+  RiShoppingCart2Line,
+  RiUser3Line,
+  RiMoneyDollarCircleLine,
+  RiFileList2Line,
+} from "react-icons/ri";
 import { GrUserAdmin } from "react-icons/gr";
 import { AiFillHeart } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { handleGetUser } from "../../../../redux/Admin_Redux/users/action";
+import { handleProductData } from "../../../../redux/Admin_Redux/admin_products/action";
+import { useEffect } from "react";
 
-const AdminDashboard = ({ totalUsers, products }) => {
+const AdminDashboard = () => {
   const totalRevenue = 5000; // Replace with actual data
   const adminOrders = 20; // Replace with actual data
+  const { users } = useSelector((store) => store.userReducer);
+  const { totalCount } = useSelector((store) => store.adminProductReducer);
 
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(handleGetUser());
+    dispatch(handleProductData());
+  }, []);
   return (
     <Box p={4}>
-      <Heading as="h1" size="lg" mb={4} >
+      <Heading as="h1" size="lg" mb={4}>
         States Overview
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={4}>
@@ -32,7 +56,7 @@ const AdminDashboard = ({ totalUsers, products }) => {
               <Box as={RiUser3Line} fontSize="2xl" mr={2} />
               <Box>
                 <StatLabel>Total Users</StatLabel>
-                <StatNumber>{totalUsers}</StatNumber>
+                <StatNumber>{users.length}</StatNumber>
               </Box>
             </Flex>
           </Stat>
@@ -54,7 +78,7 @@ const AdminDashboard = ({ totalUsers, products }) => {
               <Box as={RiFileList2Line} fontSize="2xl" mr={2} />
               <Box>
                 <StatLabel>Total Products</StatLabel>
-                <StatNumber>{products}</StatNumber>
+                <StatNumber>{totalCount}</StatNumber>
               </Box>
             </Flex>
           </Stat>
@@ -65,7 +89,7 @@ const AdminDashboard = ({ totalUsers, products }) => {
               <Box as={RiShoppingCart2Line} fontSize="2xl" mr={2} />
               <Box>
                 <StatLabel>Total Orders</StatLabel>
-                <StatNumber>{products}</StatNumber>
+                <StatNumber>{10}</StatNumber>
               </Box>
             </Flex>
           </Stat>
@@ -76,7 +100,7 @@ const AdminDashboard = ({ totalUsers, products }) => {
               <Box as={AiFillHeart} fontSize="2xl" mr={2} />
               <Box>
                 <StatLabel>Total Wishlist</StatLabel>
-                <StatNumber>{products}</StatNumber>
+                <StatNumber>{10}</StatNumber>
               </Box>
             </Flex>
           </Stat>

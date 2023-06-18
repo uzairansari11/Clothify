@@ -1,24 +1,14 @@
 import React from "react";
 import Product from "../components/product/Product";
-
+import { data } from "../utils/data";
 const KidPage = () => {
-  const subcategory = ["T-Shirts", "Shirts", "Jeans"];
-  const brands = [
-    "Adidas",
-    "GapKids",
-    "Levi's Kids",
-    "Nike Kids",
-    "H&M Kids",
-    "Old Navy Kids",
-    "Puma Kids",
-    "Carter's",
-    "GAP Kids",
-    "Tommy Hilfiger Kids",
-    "Polo Ralph Lauren Kids",
-  ];
   return (
     <div>
-      <Product category={"Kids"} brands={brands} subcategory={subcategory} />
+      <Product
+        category={"Kids"}
+        subcategory={data.subcategories.kids}
+        brands={data.brands.kids}
+      />
     </div>
   );
 };

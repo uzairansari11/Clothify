@@ -15,10 +15,10 @@ productRouter.get("/", getProduct);
 
 productRouter.get("/:id", getSingleProduct);
 
-productRouter.post("/", authorizedMiddleware, postProduct);
+productRouter.post("/", postProduct);
 
-productRouter.patch("/:id", authorizedMiddleware, updateProduct);
+productRouter.patch("/:id", updateProduct);
 
-productRouter.delete("/:id", authorizedMiddleware, deleteProduct);
+productRouter.delete("/:id", deleteProduct);
 
 module.exports = { productRouter };
