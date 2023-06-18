@@ -30,6 +30,24 @@ export const adminProductReducer = (state = initialState, { type, payload }) => 
                 totalCount: payload.totalCount,
             };
         }
+
+        case types.product_Delete_Success_status: {
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                products: [...state.products.filter((ele) => ele._id !== payload._id)],
+            }
+        }
+
+        case types.product_Update_Success_status: {
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                products: [...state.products.map((ele) => ele._id === payload._id ? ele = payload : ele)]
+            }
+        }
         default:
             return state;
     }

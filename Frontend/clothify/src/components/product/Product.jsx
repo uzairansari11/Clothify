@@ -207,9 +207,9 @@ const Product = ({ category, subcategory, brands }) => {
                       value={selectedCategory}
                       onChange={handleCategoryChange}
                     >
-                      {subcategory.map((category) => (
-                        <Checkbox key={category} value={category}>
-                          {category}
+                      {subcategory.map((item) => (
+                        <Checkbox key={item._id} value={item.subcategory}>
+                          {item.subcategory}
                         </Checkbox>
                       ))}
                     </CheckboxGroup>
@@ -227,9 +227,9 @@ const Product = ({ category, subcategory, brands }) => {
                       value={selectedBrand}
                       onChange={handleBrandChange}
                     >
-                      {brands.map((brand) => (
-                        <Checkbox key={brand} value={brand}>
-                          {brand}
+                      {brands.map((item) => (
+                        <Checkbox key={item._id} value={item.brand}>
+                          {item.brand}
                         </Checkbox>
                       ))}
                     </CheckboxGroup>
