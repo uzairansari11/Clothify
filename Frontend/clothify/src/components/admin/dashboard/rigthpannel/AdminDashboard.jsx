@@ -84,7 +84,7 @@ const AdminDashboard = () => {
           </Stat>
         </motion.div>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Stat p={4} borderRadius="md" boxShadow="md" bg="orange.100">
+          <Stat p={4} borderRadius="md" boxShadow="md" bg="teal.100">
             <Flex align="center">
               <Box as={RiShoppingCart2Line} fontSize="2xl" mr={2} />
               <Box>
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
           </Stat>
         </motion.div>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Stat p={4} borderRadius="md" boxShadow="md" bg="orange.100">
+          <Stat p={4} borderRadius="md" boxShadow="md" bg="blue.100">
             <Flex align="center">
               <Box as={AiFillHeart} fontSize="2xl" mr={2} />
               <Box>

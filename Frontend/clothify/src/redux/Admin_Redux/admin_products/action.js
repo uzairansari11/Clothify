@@ -1,4 +1,4 @@
-import { delete_product_from_api, get_product_from_api, update_product_from_api } from "./api";
+import { add_product_from_api, delete_product_from_api, get_product_from_api, update_product_from_api } from "./api";
 import * as types from "./types";
 export const isLoadingHandler = () => {
     return {
@@ -33,6 +33,13 @@ export const productUpdateHandler = (payload) => {
     };
 };
 
+export const productAddHandler = (payload) => {
+    return {
+        type: types.product_Add_Success_status,
+        payload,
+    };
+};
+
 /* -------------------------------------------------------------------------- */
 export const handleProductData = (params) => async (dispatch) => {
     dispatch(isLoadingHandler());
@@ -59,6 +66,17 @@ export const handleUpdateProductData = (id, data) => async (dispatch) => {
         const payload = await update_product_from_api(id, data)
         console.log("paylooddd", payload)
         dispatch(productUpdateHandler(payload))
+    } catch (error) {
+        dispatch(isErrorHandler());
+    }
+};
+
+
+export const handleAddProductData = (data) => async (dispatch) => {
+    try {
+        const payload = await add_product_from_api(data)
+
+        dispatch(productAddHandler(payload))
     } catch (error) {
         dispatch(isErrorHandler());
     }

@@ -13,6 +13,8 @@ import { FiHeart, FiShoppingBag, FiChevronRight } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { handlesingleproduct } from "../utils/handlesingleproduct";
 import LoadingSpinner from "../components/spinner/Spinner";
+import { useDispatch } from "react-redux";
+import { handleAddToCartData } from "../redux/User_Redux/cart/action";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -23,12 +25,27 @@ const SingleProduct = () => {
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState("");
 
+  const dispatch = useDispatch();
   const handleAddToCart = () => {
+    const payload = {
+      title: data.title,
+      category: data.category,
+      subcategory: data.subcategory,
+      brand: data.brand,
+      price: data.price,
+      discount: data.discount,
+      images: data.images,
+      quantity: 1,
+      size: selectedSize,
+      productId: data._id,
+    };
+
     setIsLoading(true);
-    // Simulating an API call or asynchronous operation
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    dispatch(handleAddToCartData(payload)).then(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    });
   };
 
   const handleImageChange = (image) => {
@@ -167,13 +184,13 @@ const SingleProduct = () => {
               Add to Cart
             </Button>
           </Flex>
-          <IconButton
+          {/* <IconButton
             icon={<FiHeart />}
             color={heartColor}
             size="md"
             aria-label="Add to Wishlist"
             _hover={{ transform: "scale(1.2)" }}
-          />
+          /> */}
         </Box>
       </Flex>
       <Box bg="gray.200" p="4" mt="4" borderRadius="md" textAlign="center">

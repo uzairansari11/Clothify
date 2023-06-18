@@ -18,7 +18,11 @@ import CartItemCard from "../components/cart/CartItemCard";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingSpinner from "../components/spinner/Spinner";
-import { handleDeleteToCartData, handleGetCartData, handleUpdateToCartData } from '../redux/User_Redux/cart/action';
+import {
+  handleDeleteToCartData,
+  handleGetCartData,
+  handleUpdateToCartData,
+} from "../redux/User_Redux/cart/action";
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
@@ -35,15 +39,19 @@ const CartPage = () => {
     dispatch(handleDeleteToCartData(itemId));
   };
 
-  const calculateTotalPrice = Math.ceil(
-    cartData.length &&
-      cartData.reduce((total, item) => total + item.price * item.quantity, 0)
-  );
+  const calculateTotalPrice = cartData.length > 0 ?Math.ceil(
+    cartData.reduce((total, item) => total + item.price * item.quantity, 0)
+  ):0
 
   useEffect(() => {
-    if (isAuth) {
-      dispatch(handleGetCartData());
+    try {
+      if (isAuth) {
+        dispatch(handleGetCartData());
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     setTimeout(() => {
       setLoading(false);
     }, 500);
