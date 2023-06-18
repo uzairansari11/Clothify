@@ -48,6 +48,16 @@ export const adminProductReducer = (state = initialState, { type, payload }) => 
                 products: [...state.products.map((ele) => ele._id === payload._id ? ele = payload : ele)]
             }
         }
+
+        case types.product_Add_Success_status: {
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                products: [...state.products, payload]
+
+            }
+        }
         default:
             return state;
     }

@@ -29,3 +29,17 @@ export const update_product_from_api = async (id, payload) => {
         console.log(error);
     }
 };
+
+export const add_product_from_api = async (payload) => {
+
+    try {
+        let response = await axios.post(
+            `http://localhost:4500/product`,
+            payload
+        );
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

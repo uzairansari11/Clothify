@@ -107,7 +107,7 @@ const Card = ({
           {title}
         </Heading>
 
-        {discount && (
+        {discount>=0 && (
           <Flex align="center" mb={2}>
             <Text color="gray.500" textDecor="line-through" mr={2}>
               ${price}
