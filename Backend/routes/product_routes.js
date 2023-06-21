@@ -7,7 +7,6 @@ const {
   deleteProduct,
   getSingleProduct,
 } = require("../controller/product_controller");
-const { authorizedMiddleware } = require("../middleware/authorizedMiddleware");
 
 const productRouter = express.Router();
 

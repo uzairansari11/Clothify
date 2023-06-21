@@ -7,9 +7,9 @@ const authorizedMiddleware = async (req, res, next) => {
 	if (req.headers.authorization) {
 		try {
 			token = req.headers.authorization.split(" ")[1];
-			var decoded = await jwt.verify(token, process.env.SECRET_KEY);
+			var decoded = await jwt.verify(token, process.env.USER_SECRET_KEY);
 			if (decoded) {
-	
+
 				const user = await UserModel.findById(decoded.userID);
 				req.user = user;
 				next();

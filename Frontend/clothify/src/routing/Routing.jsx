@@ -12,8 +12,9 @@ import Homepage from "../pages/HomePage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import PrivateRoute from "../components/hoc/PrivateRoute";
-import AdminSignupPage from "../components/admin/authentication/SignupPage";
+import AdminSignupPage from "../components/admin/authentication/AdminSignupPage";
 import Dashboard from "../components/admin/dashboard/Dashboard";
+import AdminLoginPage from '../components/admin/authentication/AdminLoginPage';
 
 const Routing = () => {
   return (
@@ -65,6 +66,7 @@ const Routing = () => {
       {/* Admin Route */}
       <Route path="/admin" element={<>Hello </>} />
       <Route path="/admin/signup" element={<AdminSignupPage />} />
+      <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin/*" element={<Dashboard />} />
     </Routes>
   );

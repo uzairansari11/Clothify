@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
-import { cookiesGetter, loginFunction } from "../utils/coockies";
+import { cookiesGetter } from "../utils/coockies";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch} from "react-redux";
