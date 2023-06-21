@@ -63,7 +63,7 @@ const userLogin = asyncHandler(async (req, res) => {
 
     const { password: _, mobile, ...userData } = user.toObject();
 
-    const token = jwt.sign({ userID: user._id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userID: user._id }, process.env.USER_SECRET_KEY, {
       expiresIn: "10d",
     });
     const responseData = { ...userData, token };
@@ -75,7 +75,6 @@ const userLogin = asyncHandler(async (req, res) => {
       .json({ error: "An error occurred while logging in the user" });
   }
 });
-const userSearch = async (req, res) => { };
 
 const getUser = async (req, res) => {
   try {
@@ -131,4 +130,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { userRegister, userLogin, userSearch, getUser, deleteUser, updateUser };
+module.exports = { userRegister, userLogin, getUser, deleteUser, updateUser };

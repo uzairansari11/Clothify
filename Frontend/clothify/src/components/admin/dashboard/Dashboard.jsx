@@ -2,26 +2,28 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PannelSiderbar from "./lfetpannel/PannelSiderbar";
-import AdminSearchBar from "./rigthpannel/AdminSearchBar";
 import AdminDashboard from "./rigthpannel/AdminDashboard";
 import UserTable from "./rigthpannel/UserTable";
 import AdminTable from "./rigthpannel/AdminTable";
 
 import { Products } from './rigthpannel/Products';
 import AddProduct from './rigthpannel/addproduct/AddProduct';
+import AdminAvatar from '../authentication/AdminAvatar';
+import Logo from '../../navbar/Logo';
 
 
 const Dashboard = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const finalPath = pathname.split("/")[2];
- 
- 
+
+
 
   return (
-    <Box position={"fixed"} top={0} left={0} width={"100%"}>
-      <Box bg={"white"} p={4} shadow={"lg"}>
-        <AdminSearchBar />
+    <Box position={"fixed"} top={0} left={0} width={"100%"} backgroundColor={'whiteAlpha.200'}>
+      <Box bg={"white"} p={2} shadow={"lg"} display={'flex'} justifyContent={'space-between'} px={10} alignItems={'center'}>
+        <Logo />
+        <AdminAvatar />
       </Box>
       <Box display={"flex"}>
         <Box width={"20%"}>
@@ -31,10 +33,10 @@ const Dashboard = () => {
           <Box>
             {" "}
             {finalPath == "dashboard" && (
-              <AdminDashboard  />
+              <AdminDashboard />
             )}
-            {finalPath == "user" && <UserTable  />}
-            {finalPath == "admin" && <AdminTable   />}
+            {finalPath == "user" && <UserTable />}
+            {finalPath == "admin" && <AdminTable />}
             {finalPath == "addproduct" && <AddProduct />}
             {finalPath == "product" && <Products />}
           </Box>

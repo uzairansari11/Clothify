@@ -9,12 +9,16 @@ const { cartRouter } = require("./routes/cart_routes");
 const { authorizedMiddleware } = require("./middleware/authorizedMiddleware");
 const { orderRouter } = require("./routes/order_routes");
 const { WishlistRouter } = require("./routes/wishlist_routes");
+const { adminRouter } = require('./routes/admin_routes');
 
 const app = express();
 app.use(cors())
 app.use(express.json());
 
 app.use("/user", userRouter);
+
+app.use("/admin", adminRouter);
+
 
 app.use('/product',productRouter)
 

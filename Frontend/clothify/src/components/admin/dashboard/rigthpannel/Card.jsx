@@ -65,17 +65,33 @@ const Card = ({
   };
 
   // Edit form fields state
-  const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
-  // ... add other edit form field states
+  const [editFields, setEditFields] = useState({
+    editTitle: title,
+    editDescription: description,
+    editPrice: price,
+    editDiscount: discount,
+  });
 
   const handleEditSave = () => {
     // Perform save operation with the updated form fields
     // ...
-    const payload = { title: editTitle, description: editDescription };
+    const payload = {
+      title: editFields.editTitle,
+      description: editFields.editDescription,
+      price: editFields.editPrice,
+      discount: editFields.editDiscount,
+    };
     handleUpdate(_id, payload);
 
     onEditClose();
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFields((prevFields) => ({
+      ...prevFields,
+      [name]: value,
+    }));
   };
 
   return (
@@ -107,20 +123,20 @@ const Card = ({
           {title}
         </Heading>
 
-        {discount>=0 && (
+        {editFields.editDiscount >= 0 && (
           <Flex align="center" mb={2}>
             <Text color="gray.500" textDecor="line-through" mr={2}>
-              ${price}
+              ${editFields.editPrice}
             </Text>
             <Text color="teal.500" fontWeight="bold">
-              ${discount}
+              ${editFields.editDiscount}
             </Text>
           </Flex>
         )}
 
-        {!discount && (
+        {!editFields.editDiscount && (
           <Text color="teal.500" fontWeight="bold" mb={2}>
-            ${price}
+            ${editFields.editPrice}
           </Text>
         )}
 
@@ -133,7 +149,7 @@ const Card = ({
         </Text>
 
         <Text fontSize="sm" color="gray.500" mb={4}>
-          {description.substring(0, 42)} ...
+          {editFields.editDescription.substring(0, 42)} ...
         </Text>
       </Box>
 
@@ -183,8 +199,9 @@ const Card = ({
             <FormControl mb={4}>
               <FormLabel>Title</FormLabel>
               <Input
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
+                name="editTitle"
+                value={editFields.editTitle}
+                onChange={handleInputChange}
                 placeholder="Enter title"
               />
             </FormControl>
@@ -192,13 +209,32 @@ const Card = ({
             <FormControl mb={4}>
               <FormLabel>Description</FormLabel>
               <Textarea
-                value={editDescription}
-                onChange={(e) => setEditDescription(e.target.value)}
+                name="editDescription"
+                value={editFields.editDescription}
+                onChange={handleInputChange}
                 placeholder="Enter description"
               />
             </FormControl>
 
-            {/* Add other form fields here */}
+            <FormControl mb={4}>
+              <FormLabel>Price</FormLabel>
+              <Input
+                name="editPrice"
+                value={editFields.editPrice}
+                onChange={handleInputChange}
+                placeholder="Enter price"
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Discount</FormLabel>
+              <Input
+                name="editDiscount"
+                value={editFields.editDiscount}
+                onChange={handleInputChange}
+                placeholder="Enter discount"
+              />
+            </FormControl>
           </ModalBody>
           <ModalFooter gap={4}>
             <Button colorScheme="teal" onClick={handleEditSave}>
