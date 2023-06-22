@@ -16,9 +16,8 @@ import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { cookiesGetter } from "../utils/coockies";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useDispatch} from "react-redux";
-import { handleLoginFunction } from '../redux/User_Redux/authentication/action';
-
+import { useDispatch } from "react-redux";
+import { handleLoginFunction } from "../redux/User_Redux/authentication/action";
 
 const Login = () => {
   const [email, setEmail] = useState("");

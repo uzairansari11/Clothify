@@ -12,6 +12,7 @@ import { cartReducer } from "./User_Redux/cart/reducer"
 import { wishlistReducer } from "./User_Redux/wishlist/reducer"
 import { userReducer } from "./Admin_Redux/users/reducer"
 import { adminProductReducer } from "./Admin_Redux/admin_products/reducer"
+import { adminAuthReducer } from "./Admin_Redux/authentication/reducer"
 const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   cartReducer,
   wishlistReducer,
   userReducer,
-  adminProductReducer
+  adminProductReducer,
+  adminAuthReducer
 });
 export const store = legacy_createStore(
   rootReducer,

@@ -3,7 +3,7 @@ import { cookiesGetter } from '../../../utils/coockies';
 
 
 export const get_cart_from_api = async () => {
-  const { token } = cookiesGetter();
+  const { token } = cookiesGetter("uzair_app_token");
   try {
     const res = await axios.get("http://localhost:4500/cart", {
       headers: {
@@ -17,14 +17,13 @@ export const get_cart_from_api = async () => {
 };
 
 export const add_cart_to_api = async (payload) => {
-  const { token } = cookiesGetter();
+  const { token } = cookiesGetter("uzair_app_token");
   try {
     const res = await axios.post("http://localhost:4500/cart", payload, {
       headers: {
         Authorization: `token ${token}`,
       },
     });
-    console.log(res.data,"addddddddd")
     return res.data;
   } catch (error) {
     console.log(error);
@@ -32,7 +31,7 @@ export const add_cart_to_api = async (payload) => {
 };
 
 export const delete_cart_to_api = async (id) => {
-  const { token } = cookiesGetter();
+  const { token } = cookiesGetter("uzair_app_token");
   try {
     const res = await axios.delete(`http://localhost:4500/cart/${id}`, {
       headers: {
@@ -46,7 +45,7 @@ export const delete_cart_to_api = async (id) => {
 };
 
 export const update_cart_to_api = async (id, payload) => {
-  const { token } = cookiesGetter();
+  const { token } = cookiesGetter("uzair_app_token");
   try {
     const res = await axios.patch(`http://localhost:4500/cart/${id}`, payload, {
       headers: {
