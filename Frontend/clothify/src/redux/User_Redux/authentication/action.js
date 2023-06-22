@@ -34,7 +34,7 @@ export const handleLoginFunction = (payload) => async (dispatch) => {
     let res = await login_user(payload);
     if (res.token) {
       dispatch(loginHandler(res));
-      cookiesSetter(res);
+      cookiesSetter(res, "uzair_app_token");
       return true;
     } else {
       dispatch(isErrorHandler());
@@ -50,7 +50,7 @@ export const handleLogoutFunction = () => (dispatch) => {
   dispatch(isLoadingHandler());
   setTimeout(() => {
     dispatch(logoutHandler());
-    removeCookie();
+    removeCookie("uzair_app_token");
   }, 1500);
   dispatch(isErrorHandler());
 };
