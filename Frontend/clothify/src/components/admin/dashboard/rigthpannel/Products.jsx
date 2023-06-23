@@ -7,7 +7,7 @@ import {
 } from "../../../../redux/Admin_Redux/admin_products/action";
 import { useSearchParams } from "react-router-dom";
 import { Box, Grid } from "@chakra-ui/react";
-import Pagination from "../../../user/product/Pagination";
+import Pagination from "./Pagination";
 import Card from "./Card";
 export const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

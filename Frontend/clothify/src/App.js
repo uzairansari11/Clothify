@@ -2,9 +2,9 @@ import "./App.css";
 import { Box } from "@chakra-ui/react";
 import Navbar from './components/user/navbar/Navbar'
 import Routing from "./routing/Routing";
-import Footer from "./components/footer/Footer";
+import Footer from "./components/user/footer/Footer";
 import { useLocation } from "react-router-dom";
-import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
+import ScrollToTopButton from "./components/user/scrollToTopButton/ScrollToTopButton";
 
 function App() {
   const location = useLocation();
