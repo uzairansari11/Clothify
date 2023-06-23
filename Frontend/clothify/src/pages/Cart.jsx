@@ -9,20 +9,19 @@ import {
   Tooltip,
   useToast,
   ScaleFade,
-  Spinner,
   Grid,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
-import CartItemCard from "../components/cart/CartItemCard";
+import CartItemCard from "../components/user/cart/CartItemCard";
 import { useDispatch, useSelector } from "react-redux";
 
-import LoadingSpinner from "../components/spinner/Spinner";
 import {
   handleDeleteToCartData,
   handleGetCartData,
   handleUpdateToCartData,
 } from "../redux/User_Redux/cart/action";
+import LoadingSpinner from "../components/user/spinner/Spinner";
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
@@ -39,9 +38,15 @@ const CartPage = () => {
     dispatch(handleDeleteToCartData(itemId));
   };
 
-  const calculateTotalPrice = cartData.length > 0 ?Math.ceil(
-    cartData.reduce((total, item) => total + item.price * item.quantity, 0)
-  ):0
+  const calculateTotalPrice =
+    cartData.length > 0
+      ? Math.ceil(
+          cartData.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+          )
+        )
+      : 0;
 
   useEffect(() => {
     try {

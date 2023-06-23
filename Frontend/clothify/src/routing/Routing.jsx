@@ -11,7 +11,7 @@ import WishlistPage from "../pages/WishlistPage";
 import Homepage from "../pages/HomePage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
 import CheckoutPage from "../pages/CheckoutPage";
-import PrivateRoute from "../components/hoc/PrivateRoute";
+import PrivateRoute from "../components/hoc/PrivateRoute"
 import AdminSignupPage from "../components/admin/authentication/AdminSignupPage";
 import Dashboard from "../components/admin/dashboard/Dashboard";
 import AdminLoginPage from '../components/admin/authentication/AdminLoginPage';

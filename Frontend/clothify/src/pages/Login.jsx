@@ -38,7 +38,7 @@ const Login = () => {
       const userDetails = { email, password };
       dispatch(handleLoginFunction(userDetails)).then((res) => {
         if (res === true) {
-          const userDetails = cookiesGetter();
+          const userDetails = cookiesGetter("uzair_app_token");
           toast({
             title: `Welcome back ${userDetails.name}`,
             status: "success",

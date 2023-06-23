@@ -10,7 +10,7 @@ import HamburgerOptions from "./Hamburger";
 import OtherOptions from "./OtherOptions";
 import { useSelector } from "react-redux";
 import DrawerComponent from "./DrawerComponent";
-import { getQuantity } from '../../utils/getquanity';
+import { getQuantity } from "../../../utils/getquanity";
 
 const Navbar = () => {
   const { cartData } = useSelector((store) => store.cartReducer);

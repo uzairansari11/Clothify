@@ -1,22 +1,12 @@
 import React, { useEffect } from "react";
-import { Box, Tooltip, Flex, Text } from "@chakra-ui/react";
-import { BsCart2, BsBagHeartFill, BsClipboardData }
-  from "react-icons/bs";
-  import {
-  FaShoppingCart,
-  FaHeart,
-  FaShoppingBag,
-  FaMale,
-  FaFemale,
-  FaChild,
-} from "react-icons/fa";
+import { Box, Tooltip, Flex } from "@chakra-ui/react";
+import { BsCart2, BsBagHeartFill } from "react-icons/bs";
+import { FaShoppingBag } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { getQuantity } from "../../utils/getquanity";
-
-import { handleWishlistCartData } from '../../redux/User_Redux/wishlist/action';
-import { handleGetCartData } from '../../redux/User_Redux/cart/action';
+import { getQuantity } from "../../../utils/getquanity";
+import { handleGetCartData } from "../../../redux/User_Redux/cart/action";
+import { handleWishlistCartData } from "../../../redux/User_Redux/wishlist/action";
 
 const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
@@ -90,25 +80,25 @@ const OtherOptions = () => {
       </Tooltip>
 
       <Tooltip label="Order" hasArrow placement="top">
-        <Link to={'/orderhistory'}>
-        <Flex position="relative" alignItems="center" justifyContent="center">
-          <FaShoppingBag size={30} color="teal" />
-          <Box
-            position="absolute"
-            top="-6px"
-            right="-6px"
-            bg="red.500"
-            borderRadius="full"
-            width="18px"
-            height="18px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            fontSize="xs"
-            color="white"
-          >
-            1
-          </Box>
+        <Link to={"/orderhistory"}>
+          <Flex position="relative" alignItems="center" justifyContent="center">
+            <FaShoppingBag size={30} color="teal" />
+            <Box
+              position="absolute"
+              top="-6px"
+              right="-6px"
+              bg="red.500"
+              borderRadius="full"
+              width="18px"
+              height="18px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              fontSize="xs"
+              color="white"
+            >
+              1
+            </Box>
           </Flex>
         </Link>
       </Tooltip>

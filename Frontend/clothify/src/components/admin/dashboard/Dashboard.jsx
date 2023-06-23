@@ -45,11 +45,11 @@ const Dashboard = () => {
         <Box width={"80%"} height={"90vh"} overflowY={"scroll"} py={4}>
           <Box>
             {" "}
-            {finalPath == "dashboard" && <AdminDashboard />}
-            {finalPath == "user" && <UserTable />}
-            {finalPath == "admin" && <AdminTable />}
-            {finalPath == "addproduct" && <AddProduct />}
-            {finalPath == "product" && <Products />}
+            {finalPath === "dashboard" && <AdminDashboard />}
+            {finalPath === "user" && <UserTable />}
+            {finalPath === "admin" && <AdminTable />}
+            {finalPath === "addproduct" && <AddProduct />}
+            {finalPath === "product" && <Products />}
           </Box>
         </Box>
       </Box>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import CardItem from "../user/card/CardItem";
+import CardItem from "../card/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import NotFound from "../user/product/NotFound";
-import Pagination from "../user/product/Pagination";
-import LoadingSpinner from  '../user/spinner/Spinner'
+import Pagination from "../product/Pagination";
+
 import { handleProductData } from "../../redux/User_Redux/products/action";
 
 import {
@@ -32,6 +32,7 @@ import {
 import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
+import LoadingSpinner from "../spinner/Spinner";
 
 const Product = ({ category, subcategory, brands }) => {
   const [searchParams, setSearchParams] = useSearchParams();
