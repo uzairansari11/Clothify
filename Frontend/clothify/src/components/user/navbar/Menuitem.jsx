@@ -1,22 +1,18 @@
 import {
   Menu,
   MenuButton,
-  MenuDivider,
-  MenuItemOption,
   MenuList,
   useToast,
   Icon,
   MenuItem,
-  Box,
 } from "@chakra-ui/react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { FiLogOut, FiUser, FiUserPlus } from "react-icons/fi";
-import { handleLogoutFunction } from '../../redux/User_Redux/authentication/action';
+import { handleLogoutFunction } from "../../../redux/User_Redux/authentication/action";
 
 const Menuitem = ({ children }) => {
-  const { isLoading, isAuth } = useSelector((store) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();

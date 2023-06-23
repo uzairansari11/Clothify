@@ -5,14 +5,11 @@ import {
   Image,
   Text,
   Button,
-  IconButton,
-  Spinner,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { FiHeart, FiShoppingBag, FiChevronRight } from "react-icons/fi";
+import { FiShoppingBag} from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { handlesingleproduct } from "../utils/handlesingleproduct";
-import LoadingSpinner from "../components/spinner/Spinner";
+import LoadingSpinner from "../components/user/spinner/Spinner";
 import { useDispatch } from "react-redux";
 import { handleAddToCartData } from "../redux/User_Redux/cart/action";
 
@@ -22,7 +19,6 @@ const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [mainImage, setMainImage] = useState(null);
   const [additionalImages, setAdditionalImages] = useState(null);
-  const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState("");
 
   const dispatch = useDispatch();

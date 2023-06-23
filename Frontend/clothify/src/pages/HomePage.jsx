@@ -5,14 +5,13 @@ import {
     Divider,
     Flex,
     Heading,
-    SimpleGrid,
     Text,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleProductData } from "../redux/User_Redux/products/action";
-import Carousel from "../components/carousel/Carousel";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import Carousel from '../components/user/carousel/Carousel';
 
 const Homepage = () => {
     const { products } = useSelector((store) => store.productReducer);

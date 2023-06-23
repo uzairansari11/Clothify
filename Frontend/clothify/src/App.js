@@ -1,6 +1,6 @@
 import "./App.css";
 import { Box } from "@chakra-ui/react";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from './components/user/navbar/Navbar'
 import Routing from "./routing/Routing";
 import Footer from "./components/footer/Footer";
 import { useLocation } from "react-router-dom";
