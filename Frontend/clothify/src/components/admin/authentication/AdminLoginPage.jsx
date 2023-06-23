@@ -38,13 +38,16 @@ const AdminLoginPage = () => {
       dispatch(handleLoginFunction(adminDetails)).then((res) => {
         if (res === true) {
           const adminDetails = cookiesGetter("uzair_app_admin_login");
-          toast({
-            title: `Welcome back ${adminDetails.name}`,
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-          });
+          setTimeout(() => {
+            toast({
+              title: `Welcome back ${adminDetails.name}`,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+          }, 2000);
+
           setIsLogin(true);
           setIsLoading(false);
         } else {
@@ -62,10 +65,10 @@ const AdminLoginPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (isLogin) {
-      return navigate("/admin/dashboard", { replace: true });
-    }
   }, [isLogin]);
+  if (isLogin) {
+    return navigate("/admin/dashboard", { replace: true });
+  }
   return (
     <Flex align="center" justify="center" height="80vh">
       <Box

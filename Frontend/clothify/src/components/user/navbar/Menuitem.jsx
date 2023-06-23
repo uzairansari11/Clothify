@@ -10,7 +10,7 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FiLogOut, FiUser, FiUserPlus } from "react-icons/fi";
 import { handleLogoutFunction } from "../../../redux/User_Redux/authentication/action";
-
+import { FaUserShield } from "react-icons/fa";
 const Menuitem = ({ children }) => {
   const { isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
@@ -95,6 +95,18 @@ const Menuitem = ({ children }) => {
             transition="background 0.3s ease"
           >
             Signup
+          </MenuItem>
+          <MenuItem
+            as={ReactLink}
+            to="/signup"
+            textAlign="center"
+            icon={
+              <Icon as={FaUserShield} boxSize={4} color="purple.500" mr={2} />
+            }
+            _hover={{ bg: "blue.100" }}
+            transition="background 0.3s ease"
+          >
+            Admin Login
           </MenuItem>
         </MenuList>
       )}

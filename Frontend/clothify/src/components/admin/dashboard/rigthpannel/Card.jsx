@@ -96,7 +96,7 @@ const Card = ({
 
   return (
     <Box
-      bg="white"
+      bg="gray.100"
       boxShadow="md"
       borderRadius="md"
       p={4}
@@ -154,15 +154,12 @@ const Card = ({
       </Box>
 
       <Flex justify="space-between" alignItems="center">
-        <Button
+        <IconButton
           colorScheme="teal"
           size="sm"
-          leftIcon={<EditIcon />}
+          icon={<EditIcon />}
           onClick={handleEditClick}
-        >
-          Edit
-        </Button>
-
+        />
         <IconButton
           icon={<DeleteIcon />}
           aria-label="Delete"

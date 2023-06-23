@@ -80,9 +80,9 @@ const PannelSiderbar = () => {
     <Box bg="whiteAlpha.100" height="100vh">
       <Flex
         direction="column"
-        width={["100%", "200px"]} // Responsive width
+        width={["100%", "200px", "200px", "200px"]} // Responsive width
         justifyContent="left"
-        padding={4}
+        padding={[2, 4, 4, 4]} // Responsive padding
         gap={4}
       >
         {menuItems.map(({ label, icon: Icon, path, color }) => (

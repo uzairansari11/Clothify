@@ -1,60 +1,91 @@
 import React from "react";
-import { Text, Flex, Box } from "@chakra-ui/react";
+import { Text, Flex, Box, Image, Badge } from "@chakra-ui/react";
 
 const Preview = ({ productData }) => {
-    return (
-        <Box width={["100%", "100%", "30%"]}>
+  return (
+    <Box width={{ base: "100%", md: "100%", lg: "30%" }}>
+      <Box
+        borderRadius="md"
+        p={4}
+        height="500px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Flex direction="column" align="center" justify="center">
+          <Text fontWeight="bold" fontSize="2xl" mb={2} textAlign="center">
+            {productData.title}
+          </Text>
+          {productData.images.length > 0 && (
             <Box
-                border="1px solid gray"
-                borderRadius="md"
-                p={2}
-                height="500px"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
+              width="100%"
+              height="300px"
+              mb={4}
+              borderRadius="md"
+              overflow="hidden"
             >
-                <strong>Preview:</strong>
-                <Box mt={2} textAlign="center">
-                    {/* Display product information */}
-                    {productData.images.length > 0 && (
-                        <Box width="250px" height="180px" margin="auto">
-                            <img
-                                src={productData.images[0]}
-                                alt="Product Image"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
-                        </Box>
-                    )}
-                    <Flex alignItems="center" mt={4} gap={2} justifyContent="center">
-                        <Text fontWeight="bold" fontSize="xl">
-                            {productData.title}
-                        </Text>
-                        <Text>{productData.category}</Text>
-                        <Text>{productData.subcategory}</Text>
-                    </Flex>
-                    <Flex justifyContent="center" mt={4}>
-                        <Text>Brand: {productData.brand}</Text>
-                        <Text ml={4}>Price: {productData.price}</Text>
-                    </Flex>
-                    <Flex justifyContent="center" mt={2}>
-                        <Text>Discount: {productData.discount}</Text>
-                        <Text ml={4}>Quantity: {productData.quantity}</Text>
-                    </Flex>
-                    <Flex justifyContent="center" mt={2}>
-                        <Text>Rating: {productData.rating}</Text>
-                        <Text ml={4}>Total Rating: {productData.total_rating}</Text>
-                    </Flex>
-                    <Flex justifyContent="center" mt={2}>
-                        <Text>Sizes: {productData.sizes.join(", ")}</Text>
-                    </Flex>
-                    <Text >
-                        Description: {productData.description.substring(0, 20)}...
-                    </Text>
-                </Box>
+              <Image
+                src={productData.images[0]}
+                alt="Product Image"
+                objectFit="cover"
+                width="100%"
+                height="100%"
+              />
             </Box>
+          )}
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Category: {productData.category}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Subcategory: {productData.subcategory}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Brand: {productData.brand}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Price: ${productData.price}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Discount: {productData.discount}%
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Quantity: {productData.quantity}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Rating: {productData.rating}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Total Rating: {productData.total_rating}
+          </Text>
+          <Text fontWeight="semibold" fontSize="lg" mb={2}>
+            Sizes:
+          </Text>
+          <Flex mb={4}>
+            {productData.sizes.map((size) => (
+              <Badge
+                key={size}
+                variant="solid"
+                colorScheme="teal"
+                borderRadius="md"
+                px={2}
+                py={1}
+                mx={1}
+              >
+                {size}
+              </Badge>
+            ))}
+          </Flex>
+        </Flex>
+        <Box>
+          <Text fontWeight="semibold" fontSize="lg" mb={2} textAlign="center">
+            Description:
+          </Text>
+          <Text textAlign="center">{productData.description}</Text>
         </Box>
-    );
+      </Box>
+    </Box>
+  );
 };
 
 export default Preview;

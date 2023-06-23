@@ -41,7 +41,6 @@ const UserTable = () => {
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false);
   const cancelRef = useRef();
-
   const onDelete = (id) => {
     dispatch(handleDeleteUser(id));
     setIsDeleteConfirmationOpen(false);
@@ -63,7 +62,6 @@ const UserTable = () => {
       email: selectedUser.email,
       mobile: selectedUser.mobile,
     };
-    console.log(selectedUser._id, payload);
     dispatch(handleUpdateUser(selectedUser._id, payload));
     handleCloseModal();
   };
@@ -124,8 +122,19 @@ const UserTable = () => {
         </Tbody>
       </Table>
       {users.length === 0 && (
-        <Text textAlign="center" mt={4} color="black.500">
-          No users found.
+        <Text
+          textAlign="center"
+          mt={4}
+          color="black.500"
+          height="70vh"
+          display="flex"
+          alignItems="center"
+          fontFamily="FontAwesome"
+          fontSize="4xl"
+          fontWeight="bold"
+          justifyContent={"center"}
+        >
+          😒 No User Found 😒
         </Text>
       )}
 

@@ -11,10 +11,11 @@ import WishlistPage from "../pages/WishlistPage";
 import Homepage from "../pages/HomePage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
 import CheckoutPage from "../pages/CheckoutPage";
-import PrivateRoute from "../components/hoc/PrivateRoute"
+import PrivateRoute from "../components/hoc/PrivateRoute";
 import AdminSignupPage from "../components/admin/authentication/AdminSignupPage";
 import Dashboard from "../components/admin/dashboard/Dashboard";
-import AdminLoginPage from '../components/admin/authentication/AdminLoginPage';
+import AdminLoginPage from "../components/admin/authentication/AdminLoginPage";
+import AdminPrivateRoute from "../components/hoc/AdminPrivateRoute";
 
 const Routing = () => {
   return (
@@ -64,10 +65,17 @@ const Routing = () => {
       />
 
       {/* Admin Route */}
-      <Route path="/admin" element={<>Hello </>} />
       <Route path="/admin/signup" element={<AdminSignupPage />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
-      <Route path="/admin/*" element={<Dashboard />} />
+
+      <Route
+        path="/admin/*"
+        element={
+          <AdminPrivateRoute>
+            <Dashboard />
+          </AdminPrivateRoute>
+        }
+      />
     </Routes>
   );
 };

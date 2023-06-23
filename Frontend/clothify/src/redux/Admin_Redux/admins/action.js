@@ -1,4 +1,4 @@
-import { delete_UserData_FromApi, get_UserData_FromApi, update_UserData_FromApi } from "./api";
+import {   delete_Admin_Data_FromApi, get_Admin_Data_FromApi, update_Admin_Data_FromApi,  } from "./api";
 import * as types from "./types";
 
 export const isLoadingHandler = () => {
@@ -13,7 +13,7 @@ export const isErrorHandler = () => {
     };
 };
 
-export const userHandler = (payload) => {
+export const adminHandler = (payload) => {
     return {
         type: types.admin_Get_Success_status,
         payload,
@@ -21,46 +21,46 @@ export const userHandler = (payload) => {
 };
 
 
-export const deleteUserHanlder = (payload) => {
+export const deleteAdminHanlder = (payload) => {
     return {
         type: types.admin_Delete_Success_status,
         payload,
     }
 }
 
-export const updateUserHanlder = (payload) => {
+export const updateAdminHanlder = (payload) => {
     return {
         type: types.admin_Update_Success_status,
         payload,
     }
 }
 
-export const handleGetUser = () => async (dispatch) => {
+export const handleGetAdmin = () => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
-        const data = await get_UserData_FromApi();
-        dispatch(userHandler(data));
+        const data = await get_Admin_Data_FromApi();
+        dispatch(adminHandler(data));
     } catch (error) {
         dispatch(isErrorHandler());
     }
 };
 
-export const handleDeleteUser = (id) => async (dispatch) => {
+export const handleDeleteAdmin = (id) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
-        const data = await delete_UserData_FromApi(id);
-        dispatch(deleteUserHanlder(data));
+        const data = await delete_Admin_Data_FromApi(id);
+        dispatch(deleteAdminHanlder(data));
     } catch (error) {
         dispatch(isErrorHandler());
     }
 };
 
 
-export const handleUpdateUser = (id, payload) => async (dispatch) => {
+export const handleUpdateAdmin = (id, payload) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
-        const data = await update_UserData_FromApi(id, payload)
-        dispatch(updateUserHanlder(data))
+        const data = await update_Admin_Data_FromApi(id, payload)
+        dispatch(updateAdminHanlder(data))
     } catch (error) {
         dispatch(isErrorHandler());
     }

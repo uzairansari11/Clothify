@@ -21,23 +21,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleGetUser } from "../../../../redux/Admin_Redux/users/action";
 import { handleProductData } from "../../../../redux/Admin_Redux/admin_products/action";
 import { useEffect } from "react";
+import { handleGetAdmin } from "../../../../redux/Admin_Redux/admins/action";
 
-const AdminDashboard = () => {
+const Statistics = () => {
   const totalRevenue = 5000; // Replace with actual data
   const adminOrders = 20; // Replace with actual data
   const { users } = useSelector((store) => store.userReducer);
   const { totalCount } = useSelector((store) => store.adminProductReducer);
+  const { admins } = useSelector((store) => store.adminReducer);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(handleGetUser());
+    dispatch(handleGetAdmin());
     dispatch(handleProductData());
   }, []);
   return (
     <Box p={4}>
-      <Heading as="h1" size="lg" mb={4}>
-        States Overview
-      </Heading>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={4}>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Stat p={4} borderRadius="md" boxShadow="md" bg="teal.100">
@@ -67,7 +67,7 @@ const AdminDashboard = () => {
               <Box as={GrUserAdmin} fontSize="2xl" mr={2} />
               <Box>
                 <StatLabel> Total Admins</StatLabel>
-                <StatNumber>{adminOrders}</StatNumber>
+                <StatNumber>{admins.length}</StatNumber>
               </Box>
             </Flex>
           </Stat>
@@ -113,4 +113,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default Statistics;
