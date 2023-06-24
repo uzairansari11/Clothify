@@ -1,10 +1,17 @@
 import { Image, Tooltip } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useLocation } from "react-router-dom";
 
 const Logo = () => {
+  const { pathname } = useLocation();
   return (
-    <ReactLink to="/">
-      <Tooltip label="Fashion Redefined" aria-label="Fashion redefined tooltip" hasArrow>
+    <ReactLink
+      to={`${!pathname.startsWith("/admin") ? "/" : "/admin/dashboard"}`}
+    >
+      <Tooltip
+        label="Fashion Redefined"
+        aria-label="Fashion redefined tooltip"
+        hasArrow
+      >
         <Image
           src={"/images/logo.png"}
           alt="Logo"

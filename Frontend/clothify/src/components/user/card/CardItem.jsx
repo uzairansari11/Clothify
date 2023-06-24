@@ -15,7 +15,7 @@ import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { handleAddToWwishlistData } from "../../../redux/User_Redux/wishlist/action";
+import { handleAddToWishlistData } from "../../../redux/User_Redux/wishlist/action";
 import { handleAddToCartData } from '../../../redux/User_Redux/cart/action';
 
 
@@ -62,7 +62,7 @@ const CartItem = ({
   const handleAddToWishlist = () => {
     setIsWishlistLoading(true);
     setTimeout(() => {
-      dispatch(handleAddToWwishlistData(payload));
+      dispatch(handleAddToWishlistData(payload));
       setIsWishlistLoading(false);
     }, 300);
   };

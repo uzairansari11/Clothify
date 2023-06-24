@@ -45,7 +45,7 @@ export const handleWishlistCartData = () => async (dispatch) => {
 };
 
 
-export const handleAddToWwishlistData = (data) => async (dispatch) => {
+export const handleAddToWishlistData = (data) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await add_wishlist_to_api(data);
