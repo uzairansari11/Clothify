@@ -1,5 +1,5 @@
 import React from "react";
-import Product from "../components/product/Product";
+import Product from "../components/user/product/Product";
 import { data } from "../utils/data";
 const WomenPage = () => {
   return (

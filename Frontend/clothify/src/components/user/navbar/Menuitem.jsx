@@ -98,7 +98,7 @@ const Menuitem = ({ children }) => {
           </MenuItem>
           <MenuItem
             as={ReactLink}
-            to="/signup"
+            to="/admin/login"
             textAlign="center"
             icon={
               <Icon as={FaUserShield} boxSize={4} color="purple.500" mr={2} />

@@ -23,17 +23,13 @@ const ProductOptions = () => {
       alignItems="center"
       justifyContent="space-between"
       width="100%"
-      fontFamily="cursive"
+      fontFamily="arial, cursive"
       fontSize="xl"
-      fontWeight="extrabold"
+      fontWeight="bold"
     >
       {options.map((element, index) => {
         return (
-          <NavLink
-            to={element.route}
-            key={element.id}
-          
-          >
+          <NavLink to={element.route} key={element.id}>
             <motion.div whileHover="hover">
               <motion.div
                 initial="initial"
