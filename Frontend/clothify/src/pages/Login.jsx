@@ -39,22 +39,28 @@ const Login = () => {
       dispatch(handleLoginFunction(userDetails)).then((res) => {
         if (res === true) {
           const userDetails = cookiesGetter("uzair_app_token");
-          toast({
-            title: `Welcome back ${userDetails.name}`,
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top",
-          });
+          setTimeout(() => {
+            toast({
+              title: `Welcome Back ${userDetails.name.toUpperCase()}`,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+          }, 1000);
+
           setIsLogin(true);
           setIsLoading(false);
         } else {
-          toast({
-            title: "Login failed",
-            status: "warning",
-            duration: 3000,
-            isClosable: true,
-          });
+          setTimeout(() => {
+            toast({
+              title: "Login Failed",
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+          }, 1000);
           setIsLoading(false);
         }
       });

@@ -1,6 +1,6 @@
 import "./App.css";
 import { Box } from "@chakra-ui/react";
-import Navbar from './components/user/navbar/Navbar'
+import Navbar from "./components/user/navbar/Navbar";
 import Routing from "./routing/Routing";
 import Footer from "./components/user/footer/Footer";
 import { useLocation } from "react-router-dom";
@@ -10,7 +10,13 @@ function App() {
   const location = useLocation();
   return (
     <div className="App">
-      {location.pathname.startsWith("/admin") ? <></> : <Navbar />}
+      {location.pathname.startsWith("/admin") &&
+      location.pathname !== "/admin/signup" &&
+      location.pathname !== "/admin/login" ? (
+        <></>
+      ) : (
+        <Navbar />
+      )}
 
       <Box mt={{ base: 12, md: 20 }}>
         <Routing />

@@ -5,13 +5,16 @@ import {
   Image,
   Text,
   Button,
+  useToast,
+  IconButton,
 } from "@chakra-ui/react";
-import { FiShoppingBag} from "react-icons/fi";
+import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { handlesingleproduct } from "../utils/handlesingleproduct";
 import LoadingSpinner from "../components/user/spinner/Spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleAddToCartData } from "../redux/User_Redux/cart/action";
+import { handleAddToWishlistData } from "../redux/User_Redux/wishlist/action";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -22,19 +25,31 @@ const SingleProduct = () => {
   const [selectedSize, setSelectedSize] = useState("");
 
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((store) => store.authReducer);
+  const toast = useToast();
+  const payload = {
+    title: data?.title,
+    category: data?.category,
+    subcategory: data?.subcategory,
+    brand: data?.brand,
+    price: data?.price,
+    discount: data?.discount,
+    images: data?.images,
+    quantity: 1,
+    size: selectedSize,
+    productId: data?._id,
+  };
   const handleAddToCart = () => {
-    const payload = {
-      title: data.title,
-      category: data.category,
-      subcategory: data.subcategory,
-      brand: data.brand,
-      price: data.price,
-      discount: data.discount,
-      images: data.images,
-      quantity: 1,
-      size: selectedSize,
-      productId: data._id,
-    };
+    if (!isAuth) {
+      toast({
+        title: `Please Login First`,
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
 
     setIsLoading(true);
     dispatch(handleAddToCartData(payload)).then(() => {
@@ -43,7 +58,22 @@ const SingleProduct = () => {
       }, 500);
     });
   };
+  const handleAddToWishlist = () => {
+    if (!isAuth) {
+      toast({
+        title: `Please Login First`,
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
 
+    setTimeout(() => {
+      dispatch(handleAddToWishlistData(payload));
+    }, 300);
+  };
   const handleImageChange = (image) => {
     setMainImage(image);
   };
@@ -180,13 +210,14 @@ const SingleProduct = () => {
               Add to Cart
             </Button>
           </Flex>
-          {/* <IconButton
+          <IconButton
             icon={<FiHeart />}
-            color={heartColor}
+            color={"red"}
             size="md"
             aria-label="Add to Wishlist"
             _hover={{ transform: "scale(1.2)" }}
-          /> */}
+            onClick={handleAddToWishlist}
+          />
         </Box>
       </Flex>
       <Box bg="gray.200" p="4" mt="4" borderRadius="md" textAlign="center">

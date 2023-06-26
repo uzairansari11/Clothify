@@ -12,7 +12,7 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
-import { FiUserPlus, FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
+import { FiUserPlus, FiEye, FiEyeOff} from "react-icons/fi";
 import { signupFunction } from "../utils/signup";
 import { useNavigate, Link } from "react-router-dom";
 import { UnlockIcon } from "@chakra-ui/icons";
@@ -41,8 +41,9 @@ const Signup = () => {
         toast({
           title: "User Created Successfully",
           status: "success",
-          duration: 9000,
+          duration: 4000,
           isClosable: true,
+          position: "top",
         });
         setIsCreated(true);
         setIsLoading(false);
@@ -54,6 +55,7 @@ const Signup = () => {
           duration: 9000,
           isClosable: true,
           icon: <UnlockIcon />,
+          position: "top",
         });
         setIsLoading(false);
       }
@@ -72,12 +74,7 @@ const Signup = () => {
   }, [isCreated]);
 
   return (
-    <Flex
-      align="center"
-      justify="center"
-      height="100vh"
-    
-    >
+    <Flex align="center" justify="center" height="100vh">
       <Box
         width={{ base: "90%", sm: "400px" }}
         padding="6"

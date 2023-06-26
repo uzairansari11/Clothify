@@ -73,7 +73,7 @@ const AdminSignupPage = () => {
   };
 
   return (
-    <Flex alignItems="center" justifyContent="center" height="70vh">
+    <Flex alignItems="center" justifyContent="center" height="100vh">
       <Box
         width={{ base: "90%", sm: "400px" }}
         mx="auto"
