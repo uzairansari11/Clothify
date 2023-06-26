@@ -5,7 +5,13 @@ const Logo = () => {
   const { pathname } = useLocation();
   return (
     <ReactLink
-      to={`${!pathname.startsWith("/admin") ? "/" : "/admin/dashboard"}`}
+      to={`${
+        !pathname.startsWith("/admin") ||
+       ( pathname !== "/admin/login" ||
+        pathname !== "/admin/signup")
+          ? "/"
+          : "/admin/dashboard"
+      }`}
     >
       <Tooltip
         label="Fashion Redefined"

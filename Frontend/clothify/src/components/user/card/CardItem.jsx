@@ -10,14 +10,14 @@ import {
   Select,
   Badge,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { handleAddToWishlistData } from "../../../redux/User_Redux/wishlist/action";
-import { handleAddToCartData } from '../../../redux/User_Redux/cart/action';
-
+import { handleAddToCartData } from "../../../redux/User_Redux/cart/action";
 
 const CartItem = ({
   title,
@@ -38,6 +38,8 @@ const CartItem = ({
   const heartColor = useColorModeValue("red.500", "red.200");
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((store) => store.authReducer);
+  const toast = useToast();
   const payload = {
     title,
     category,
@@ -52,6 +54,16 @@ const CartItem = ({
   };
 
   const handleAddToCart = () => {
+    if (!isAuth) {
+      toast({
+        title: `Please Login First`,
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
     setIsCartLoading(true);
     setTimeout(() => {
       dispatch(handleAddToCartData(payload));
@@ -60,6 +72,16 @@ const CartItem = ({
   };
 
   const handleAddToWishlist = () => {
+    if (!isAuth) {
+      toast({
+        title: `Please Login First`,
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
     setIsWishlistLoading(true);
     setTimeout(() => {
       dispatch(handleAddToWishlistData(payload));
