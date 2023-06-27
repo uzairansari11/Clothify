@@ -10,29 +10,17 @@ const getOrder = async (req, res) => {
 };
 
 const postOrder = async (req, res) => {
-  const { title, category, subcategory, brand, price, quantity, images } =
-    req.body;
+  const { items, name, email, address } = req.body;
 
-  if (
-    !title ||
-    !category ||
-    !subcategory ||
-    !brand ||
-    !price ||
-    quantity == undefined ||
-    images.length == 0
-  ) {
+  if (items.length == 0 || !name || !email || !address) {
     return res.status(400).json({ error: "Please provide all the details" });
   } else {
     try {
       let orderDetail = await new OrderModel({
-        title,
-        category,
-        subcategory,
-        brand,
-        price,
-        quantity,
-        images,
+        items,
+        name,
+        email,
+        address,
         user: req.user._id,
         date: new Date().toLocaleDateString("de-DE"),
       });
@@ -40,6 +28,7 @@ const postOrder = async (req, res) => {
       await orderDetail.save();
       res.status(200).json(orderDetail);
     } catch (error) {
+      console.log(error)
       res
         .status(500)
         .json({ error: "An error occurred while posting the  new  product" });

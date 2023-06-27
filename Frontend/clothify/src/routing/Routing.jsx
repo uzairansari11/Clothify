@@ -56,6 +56,14 @@ const Routing = () => {
         }
       />
       <Route
+        path="/checkout"
+        element={
+          <PrivateRoute>
+            <CheckoutPage />{" "}
+          </PrivateRoute>
+        }
+      />
+      <Route
         path="/orderhistory"
         element={
           <PrivateRoute>
