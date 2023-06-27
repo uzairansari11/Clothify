@@ -6,11 +6,11 @@ const Logo = () => {
   return (
     <ReactLink
       to={`${
-        !pathname.startsWith("/admin") ||
-       ( pathname !== "/admin/login" ||
-        pathname !== "/admin/signup")
-          ? "/"
-          : "/admin/dashboard"
+        pathname.startsWith("/admin") &&
+        pathname !== "/admin/login" &&
+        pathname !== "/admin/signup"
+          ? "/admin/dashboard"
+          : "/"
       }`}
     >
       <Tooltip

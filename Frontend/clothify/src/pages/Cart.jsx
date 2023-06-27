@@ -22,13 +22,14 @@ import {
   handleUpdateToCartData,
 } from "../redux/User_Redux/cart/action";
 import LoadingSpinner from "../components/user/spinner/Spinner";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
   const { isAuth } = useSelector((store) => store.authReducer);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const toast = useToast();
+
 
   const handleQuantityChange = (itemId, payload) => {
     dispatch(handleUpdateToCartData(itemId, payload));
@@ -177,25 +178,19 @@ const CartPage = () => {
                 <Text fontWeight="bold">$ {calculateTotalPrice}</Text>
               </Tooltip>
             </Flex>
-            <Flex justifyContent="flex-end" alignItems="center" mt={4}>
-              <Button
-                colorScheme="teal"
-                size="md"
-                width={{ base: "100%", md: "auto%" }}
-                rightIcon={<FaShoppingCart />}
-                margin={"auto"}
-                onClick={() =>
-                  toast({
-                    title: "Proceed to Checkout",
-                    status: "success",
-                    duration: 3000,
-                    isClosable: true,
-                  })
-                }
-              >
-                Proceed to Checkout
-              </Button>
-            </Flex>
+            <Link to="/checkout">
+              <Flex justifyContent="flex-end" alignItems="center" mt={4}>
+                <Button
+                  colorScheme="teal"
+                  size="md"
+                  width={{ base: "100%", md: "auto%" }}
+                  rightIcon={<FaShoppingCart />}
+                  margin={"auto"}
+                >
+                  Proceed to Checkout
+                </Button>
+              </Flex>
+            </Link>
           </Flex>
         ) : (
           <></>
