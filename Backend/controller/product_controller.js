@@ -1,4 +1,4 @@
-const { ProductModel } = require("../model/product_model");
+const { ProductModel } = require('../model/product_model');
 
 const getProduct = async (req, res) => {
   try {
@@ -8,20 +8,20 @@ const getProduct = async (req, res) => {
     // Build the filter dynamically based on query parameters
     for (const key in query) {
       if (
-        key !== "page" &&
-        key !== "limit" &&
-        key !== "sortField" &&
-        key !== "sortOrder" &&
-        key !== "search"
+        key !== 'page' &&
+        key !== 'limit' &&
+        key !== 'sortField' &&
+        key !== 'sortOrder' &&
+        key !== 'search'
       ) {
-        if (query[key].includes("lte")) {
-          const value = query[key].replace("lte", "");
+        if (query[key].includes('lte')) {
+          const value = query[key].replace('lte', '');
           filter[key] = { $lte: value };
-        } else if (query[key].includes("gte")) {
-          const value = query[key].replace("gte", "");
+        } else if (query[key].includes('gte')) {
+          const value = query[key].replace('gte', '');
           filter[key] = { $gte: value };
-        } else if (query[key].includes("lt")) {
-          const value = query[key].replace("lt", "");
+        } else if (query[key].includes('lt')) {
+          const value = query[key].replace('lt', '');
           filter[key] = { $lt: value };
         } else {
           filter[key] = query[key];
@@ -31,7 +31,7 @@ const getProduct = async (req, res) => {
 
     // Add search functionality
     if (query.search) {
-      const searchQuery = new RegExp(query.search, "i");
+      const searchQuery = new RegExp(query.search, 'i');
       filter.$or = [{ title: searchQuery }];
     }
 
@@ -39,10 +39,10 @@ const getProduct = async (req, res) => {
     const limit = parseInt(query.limit) || 20;
     const skip = (page - 1) * limit;
 
-    const sortField = query.sortField || "price";
-    const sortOrder = query.sortOrder || "asc";
+    const sortField = query.sortField || 'price';
+    const sortOrder = query.sortOrder || 'asc';
     const sort = {};
-    sort[sortField] = sortOrder === "desc" ? -1 : 1;
+    sort[sortField] = sortOrder === 'desc' ? -1 : 1;
 
     const queryOptions = {
       skip,
@@ -60,9 +60,7 @@ const getProduct = async (req, res) => {
       totalCount,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while retrieving products" });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -71,14 +69,14 @@ const getSingleProduct = async (req, res) => {
   try {
     const singleProduct = await ProductModel.findOne({ _id: id });
     if (!singleProduct) {
-      res.status(404).json({ error: "Product not found" });
+      res.status(404).json({ error: 'Product not found' });
     } else {
       res.status(200).json(singleProduct);
     }
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while getting the product" });
+      .json({ error: 'An error occurred while getting the product' });
   }
 };
 
@@ -113,7 +111,7 @@ const postProduct = async (req, res) => {
     !sizes ||
     !quantity
   ) {
-    return res.status(400).json({ error: "Please provide all the details" });
+    return res.status(400).json({ error: 'Please provide all the details' });
   }
 
   try {
@@ -123,7 +121,7 @@ const postProduct = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while posting the  new  product" });
+      .json({ error: 'An error occurred while posting the  new  product' });
   }
 };
 const updateProduct = async (req, res) => {
@@ -135,17 +133,17 @@ const updateProduct = async (req, res) => {
       payload,
       {
         new: true,
-      }
+      },
     );
     if (!updatedProduct) {
-      res.status(404).json({ error: "Product not found" });
+      res.status(404).json({ error: 'Product not found' });
     } else {
       res.status(200).json(updatedProduct);
     }
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while updating the   product" });
+      .json({ error: 'An error occurred while updating the   product' });
   }
 };
 
@@ -154,14 +152,14 @@ const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await ProductModel.findByIdAndDelete({ _id: id });
     if (!deletedProduct) {
-      res.status(404).json({ error: "Product not found" });
+      res.status(404).json({ error: 'Product not found' });
     } else {
       res.status(200).json(deletedProduct);
     }
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while deleting the   product" });
+      .json({ error: 'An error occurred while deleting the   product' });
   }
 };
 
