@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import WishlistCard from "../components/user/wishlist/WishlistCard";
 import {
   handleDeleteToWishlistData,
-  handleWishlistCartData,
 } from "../redux/User_Redux/wishlist/action";
 import { handleAddToCartData } from "../redux/User_Redux/cart/action";
 import LoadingSpinner from "../components/user/spinner/Spinner";
@@ -34,9 +33,6 @@ const WishlistPage = () => {
     dispatch(handleAddToCartData(payload));
   };
   useEffect(() => {
-    if (isAuth) {
-      dispatch(handleWishlistCartData());
-    }
 
     setTimeout(() => {
       setIsLoading(false);
@@ -87,7 +83,7 @@ const WishlistPage = () => {
         <Center minHeight="200px">
           <LoadingSpinner />
         </Center>
-      ) : wishlistData.length ? (
+      ) : wishlistData?.length ? (
         <Flex
           flexDirection="row"
           flexWrap="wrap"
@@ -126,7 +122,7 @@ const WishlistPage = () => {
               }}
             >
               <Text fontSize="xl" textAlign="center" color="gray.500">
-                Your wishlist is empty.
+                Your Wishlist Is Empty !
               </Text>
             </motion.div>
           </ScaleFade>

@@ -24,6 +24,7 @@ export const add_order_to_api = async (payload) => {
                 Authorization: `token ${token}`,
             },
         });
+        console.log(res.data,"from add api order")
         return res.data;
     } catch (error) {
         console.log(error);

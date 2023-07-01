@@ -73,7 +73,6 @@ const postWishlist = async (req, res) => {
         res.status(200).json(wishlistDetails);
       }
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .json({ error: "An error occurred while posting the new product" });
@@ -98,7 +97,6 @@ const updateWishlist = async (req, res) => {
       res.status(200).json(updatedItem);
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Soemting Went Wrong" });
   }
 };

@@ -14,6 +14,7 @@ import { userReducer } from "./Admin_Redux/users/reducer"
 import { adminProductReducer } from "./Admin_Redux/admin_products/reducer"
 import { adminAuthReducer } from "./Admin_Redux/authentication/reducer"
 import { adminReducer } from "./Admin_Redux/admins/reducer"
+import { orderReducer } from "./User_Redux/order/reducer"
 const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   userReducer,
   adminProductReducer,
   adminAuthReducer,
-  adminReducer
+  adminReducer,
+  orderReducer
 });
 export const store = legacy_createStore(
   rootReducer,

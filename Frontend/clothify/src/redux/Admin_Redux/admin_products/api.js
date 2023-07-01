@@ -37,7 +37,6 @@ export const add_product_from_api = async (payload) => {
             `http://localhost:4500/product`,
             payload
         );
-        console.log(response)
         return response.data;
     } catch (error) {
         console.log(error);

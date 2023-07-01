@@ -1,7 +1,6 @@
 const { CartModel } = require("../model/cart_model");
 
 const getCart = async (req, res) => {
-	console.log(req.user.id)
 	try {
 		const cartData = await CartModel.find({ user: req.user.id });
 		res.status(200).json(cartData);
@@ -60,7 +59,6 @@ const postCart = async (req, res) => {
 			res.status(200).json(cartDetails);
 		}
 	} catch (error) {
-		console.log(error);
 		res.status(500).json({ error: "An error occurred while posting the new product" });
 	}
 };
@@ -83,7 +81,6 @@ const updateCart = async (req, res) => {
 			res.status(200).json(updatedItem);
 		}
 	} catch (error) {
-		console.log(error);
 		res.status(500).json({ error: "Soemting Went Wrong" });
 	}
 };

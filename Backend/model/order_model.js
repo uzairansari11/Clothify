@@ -3,8 +3,13 @@ const mongoose = require("mongoose");
 const orderSchema = mongoose.Schema({
   items: [
     {
-      type: Array,
-      ref: "Product",
+      brand: { type: String, required: true },
+      price: { type: Number, required: true },
+      discount: { type: Number },
+      images: { type: [String], required: true },
+      size: { type: mongoose.Schema.Types.Mixed, required: true },
+      quantity: { type: Number, required: true },
+      totalPrice: { type: Number, require: true }
     },
   ],
 
@@ -16,6 +21,8 @@ const orderSchema = mongoose.Schema({
     ref: "User",
   },
   date: { type: String, required: true },
+  time: { type: String, required: true },
+  grandTotal: { type: Number, required: true },
 });
 
 const OrderModel = mongoose.model("Order", orderSchema);
