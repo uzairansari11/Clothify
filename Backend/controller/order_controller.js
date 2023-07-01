@@ -58,12 +58,20 @@ const deleteOrder = async (req, res) => { };
 
 const getOrderByAdmin = async (req, res) => {
   try {
-    const orderData = await OrderModel.find();
+    const orderData = await OrderModel.aggregate([
+      {
+        $group: {
+          _id: "$user",
+          orders: { $push: "$$ROOT" }
+        }
+      }
+    ]);
     res.status(200).json(orderData);
   } catch (error) {
-    res.status(500).json({ error: "Soemting Went Wrong" });
+    res.status(500).json({ error: "Something Went Wrong" });
   }
 };
+
 module.exports = {
   getOrder,
   postOrder,
