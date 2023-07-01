@@ -54,7 +54,7 @@ export const orderReducer = (state = initialState, action) => {
                 isLoading: false,
                 isError: false,
                 orderData: state.orderData.map((ele) =>
-                    ele._id == action.payload._id ? action.payload : ele
+                    ele._id === action.payload._id ? action.payload : ele
                 ),
             };
         }
