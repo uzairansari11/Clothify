@@ -68,7 +68,6 @@ export const handleDeleteToCartData = (id) => async (dispatch) => {
   dispatch(isLoadingHandler());
   try {
     const payload = await delete_cart_to_api(id);
-    console.log(payload);
     dispatch(cartDeleteHandler(payload));
   } catch (error) {
     dispatch(isErrorHandler());
@@ -80,7 +79,6 @@ export const handleUpdateToCartData = (id, data) => async (dispatch) => {
   try {
     const payload = await update_cart_to_api(id, data);
       dispatch(cartUpdateHandler(payload));
-      console.log(payload,"from upppp")
   } catch (error) {
     dispatch(isErrorHandler());
   }

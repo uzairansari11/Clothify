@@ -6,7 +6,7 @@ const initialState = {
     orderData: [],
 };
 
-export const cartReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.order_Loading_status: {
             return {
@@ -26,28 +26,15 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: action.payload,
+                orderData: action.payload,
             };
         }
         case types.order_Add_Success_status: {
-            const updatedCartData = [...state.cartData];
-            const index = updatedCartData.findIndex(
-                (ele) =>
-                    ele.productId == action.payload.productId &&
-                    ele.size == action.payload.size
-            );
-
-            if (index !== -1) {
-                updatedCartData[index] = action.payload;
-            } else {
-                updatedCartData.push(action.payload);
-            }
-
             return {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: updatedCartData,
+                orderData: [...state.orderData, action.payload],
             };
         }
 
@@ -56,7 +43,7 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: state.cartData.filter(
+                orderData: state.orderData.filter(
                     (ele) => ele._id !== action.payload._id
                 ),
             };
@@ -66,7 +53,7 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                cartData: state.cartData.map((ele) =>
+                orderData: state.orderData.map((ele) =>
                     ele._id == action.payload._id ? action.payload : ele
                 ),
             };

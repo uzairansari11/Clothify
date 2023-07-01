@@ -12,71 +12,69 @@ export const isErrorHandler = () => {
     };
 };
 
-export const cartHandler = (payload) => {
+export const orderHandler = (payload) => {
     return {
         type: types.order_Get_Success_status,
         payload,
     };
 };
 
-export const cartAddHandler = (payload) => {
+export const orderAddHandler = (payload) => {
     return {
         type: types.order_Add_Success_status,
         payload,
     };
 };
 
-export const cartDeleteHandler = (payload) => {
+export const orderDeleteHandler = (payload) => {
     return {
         type: types.order_Delete_Success_status,
         payload,
     };
 };
 
-export const cartUpdateHandler = (payload) => {
+export const orderUpdateHandler = (payload) => {
     return {
         type: types.order_Update_Success_status,
         payload,
     };
 };
 
-export const handleGetCartData = () => async (dispatch) => {
+export const handleGetOrderData = () => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await get_order_from_api();
-        dispatch(cartHandler(payload));
+        dispatch(orderHandler(payload));
     } catch (error) {
         dispatch(isErrorHandler());
     }
 };
 
-export const handleAddToCartData = (data) => async (dispatch) => {
+export const handleAddToOrderData = (data) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await add_order_to_api(data);
-        dispatch(cartAddHandler(payload));
+        dispatch(orderAddHandler(payload));
     } catch (error) {
         dispatch(isErrorHandler());
     }
 };
 
-export const handleDeleteToCartData = (id) => async (dispatch) => {
+export const handleDeleteToOrderData = (id) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await delete_order_to_api(id);
-        console.log(payload);
-        dispatch(cartDeleteHandler(payload));
+        dispatch(orderDeleteHandler(payload));
     } catch (error) {
         dispatch(isErrorHandler());
     }
 };
 
-export const handleUpdateToCartData = (id, data) => async (dispatch) => {
+export const handleUpdateToOrderData = (id, data) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
         const payload = await update_order_to_api(id, data);
-        dispatch(cartUpdateHandler(payload));
-        console.log(payload, "from upppp")
+        dispatch(orderUpdateHandler(payload));
     } catch (error) {
         dispatch(isErrorHandler());
     }

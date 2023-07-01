@@ -64,7 +64,6 @@ export const handleDeleteProductData = (id) => async (dispatch) => {
 export const handleUpdateProductData = (id, data) => async (dispatch) => {
     try {
         const payload = await update_product_from_api(id, data)
-        console.log("paylooddd", payload)
         dispatch(productUpdateHandler(payload))
     } catch (error) {
         dispatch(isErrorHandler());

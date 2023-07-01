@@ -7,10 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getQuantity } from "../../../utils/getquanity";
 import { handleGetCartData } from "../../../redux/User_Redux/cart/action";
 import { handleWishlistCartData } from "../../../redux/User_Redux/wishlist/action";
+import { handleGetOrderData } from "../../../redux/User_Redux/order/action";
 
 const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
   const { wishlistData } = useSelector((store) => store.wishlistReducer);
+  const { orderData } = useSelector((store) => store.orderReducer);
+
   const { isAuth } = useSelector((store) => store.authReducer);
 
   const dispatch = useDispatch();
@@ -20,6 +23,7 @@ const OtherOptions = () => {
     if (isAuth) {
       dispatch(handleGetCartData());
       dispatch(handleWishlistCartData());
+      dispatch(handleGetOrderData());
     }
   }, [isAuth]);
   return (
@@ -97,7 +101,7 @@ const OtherOptions = () => {
               fontSize="xs"
               color="white"
             >
-              1
+              {isAuth && orderData.length ? orderData.length : 0}
             </Box>
           </Flex>
         </Link>

@@ -70,14 +70,12 @@ const getSingleProduct = async (req, res) => {
   const { id } = req.params;
   try {
     const singleProduct = await ProductModel.findOne({ _id: id });
-    console.log(singleProduct);
     if (!singleProduct) {
       res.status(404).json({ error: "Product not found" });
     } else {
       res.status(200).json(singleProduct);
     }
   } catch (error) {
-    console.log(error.message)
     res
       .status(500)
       .json({ error: "An error occurred while getting the product" });

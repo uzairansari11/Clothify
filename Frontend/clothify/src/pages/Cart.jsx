@@ -30,7 +30,6 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-
   const handleQuantityChange = (itemId, payload) => {
     dispatch(handleUpdateToCartData(itemId, payload));
   };
@@ -40,24 +39,12 @@ const CartPage = () => {
   };
 
   const calculateTotalPrice =
-    cartData.length > 0
-      ? Math.ceil(
-          cartData.reduce(
-            (total, item) => total + item.price * item.quantity,
-            0
-          )
-        )
-      : 0;
+    cartData?.length &&
+    Math.ceil(
+      cartData?.reduce((total, item) => total + item.price * item.quantity, 0)
+    );
 
   useEffect(() => {
-    try {
-      if (isAuth) {
-        dispatch(handleGetCartData());
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
     setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -123,7 +110,7 @@ const CartPage = () => {
             <Flex justifyContent="center" alignItems="center" minHeight="200px">
               <LoadingSpinner />
             </Flex>
-          ) : cartData.length ? (
+          ) : cartData?.length ? (
             <Grid
               gridTemplateColumns={{
                 base: "repeat(1,1fr)",
@@ -154,14 +141,14 @@ const CartPage = () => {
                   }}
                 >
                   <Text fontSize="xl" textAlign="center" color="gray.500">
-                    Your cart is empty.
+                    Your Cart Is Empty !
                   </Text>
                 </motion.div>
               </ScaleFade>
             </Flex>
           )}
         </Flex>
-        {isAuth && cartData.length ? (
+        {isAuth && cartData?.length ? (
           <Flex
             flexDirection="column"
             flex={{ base: "none", md: "1" }}

@@ -24,7 +24,7 @@ app.use('/product',productRouter)
 
 app.use("/cart",authorizedMiddleware,cartRouter)
 
-app.use("/order",authorizedMiddleware,orderRouter)
+app.use("/order",orderRouter)
 
 app.use("/wishlist",authorizedMiddleware,WishlistRouter)
 

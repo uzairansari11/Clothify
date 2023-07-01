@@ -21,7 +21,6 @@ export const delete_UserData_FromApi = async (id) => {
 export const update_UserData_FromApi = async (id, payload) => {
     try {
         const res = await axios.patch(`http://localhost:4500/user/${id}`, payload);
-        console.log(res,'from updatw  api')
         return res.data.data;
     } catch (error) {
         console.log(error);

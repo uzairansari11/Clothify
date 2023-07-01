@@ -17,7 +17,6 @@ const authorizedMiddleware = async (req, res, next) => {
 				return res.status(401).json({ message: "Not Authorized" });
 			}
 		} catch (error) {
-			console.log(error)
 			res.status(500).json({ message: error.message });
 		}
 	} else {
