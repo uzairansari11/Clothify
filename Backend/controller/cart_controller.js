@@ -1,14 +1,16 @@
 const { CartModel } = require("../model/cart_model");
 
+// Get cart items for a user
 const getCart = async (req, res) => {
 	try {
 		const cartData = await CartModel.find({ user: req.user.id });
 		res.status(200).json(cartData);
 	} catch (error) {
-		res.status(500).json({ error: "Soemting Went Wrong" });
+		res.status(500).json({ error: "Something Went Wrong" });
 	}
 };
 
+// Add an item to the cart
 const postCart = async (req, res) => {
 	const {
 		title,
@@ -23,7 +25,7 @@ const postCart = async (req, res) => {
 		productId
 	} = req.body;
 
-	if (!title || !category || !subcategory || !brand || !price || discount == undefined || !quantity || !images.length || !size || !productId) {
+	if (!title || !category || !subcategory || !brand || !price || discount === undefined || !quantity || !images.length || !size || !productId) {
 		return res.status(400).json({ error: "Please provide all the details" });
 	}
 
@@ -63,7 +65,7 @@ const postCart = async (req, res) => {
 	}
 };
 
-
+// Update cart item
 const updateCart = async (req, res) => {
 	const payload = req.body;
 	const productId = req.params.id;
@@ -71,20 +73,19 @@ const updateCart = async (req, res) => {
 		const updatedItem = await CartModel.findByIdAndUpdate(
 			{ _id: productId, user: req.user.id },
 			payload,
-			{
-				new: true,
-			},
+			{ new: true },
 		);
 		if (!updatedItem) {
-			res.status(400).json({ message: "Item does not exists" });
+			res.status(400).json({ message: "Item does not exist" });
 		} else {
 			res.status(200).json(updatedItem);
 		}
 	} catch (error) {
-		res.status(500).json({ error: "Soemting Went Wrong" });
+		res.status(500).json({ error: "Something Went Wrong" });
 	}
 };
 
+// Delete cart item
 const deleteCart = async (req, res) => {
 	const productId = req.params.id;
 	try {
@@ -93,12 +94,12 @@ const deleteCart = async (req, res) => {
 			{ user: req.user.id },
 		);
 		if (!deletedItem) {
-			res.status(400).json({ message: "Item does not exists" });
+			res.status(400).json({ message: "Item does not exist" });
 		} else {
 			res.status(200).json({ data: deletedItem, message: "Item deleted successfully" });
 		}
 	} catch (error) {
-		res.status(500).json({ error: "Soemting Went Wrong" });
+		res.status(500).json({ error: "Something Went Wrong" });
 	}
 };
 

@@ -55,7 +55,7 @@ const Statistics = () => {
             <Box as={RiUser3Line} fontSize="2xl" mr={2} />
             <Box>
               <StatLabel>Total Users</StatLabel>
-              <StatNumber>{users.length}</StatNumber>
+              <StatNumber>{users?.length}</StatNumber>
             </Box>
           </Flex>
         </Stat>
@@ -65,7 +65,7 @@ const Statistics = () => {
             <Box as={GrUserAdmin} fontSize="2xl" mr={2} />
             <Box>
               <StatLabel> Total Admins</StatLabel>
-              <StatNumber>{admins.length}</StatNumber>
+              <StatNumber>{admins?.length}</StatNumber>
             </Box>
           </Flex>
         </Stat>

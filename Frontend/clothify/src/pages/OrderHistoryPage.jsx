@@ -34,7 +34,7 @@ const OrderHistoryPage = () => {
           <Flex direction="column" spacing={6}>
             {orderData.map((order) => (
               <Box
-                key={order._id}
+                key={order?._id}
                 p={6}
                 borderRadius="lg"
                 boxShadow="md"
@@ -45,31 +45,31 @@ const OrderHistoryPage = () => {
               >
                 <Flex justify="space-between" align="center" mb={4}>
                   <Text fontWeight="bold" fontSize="lg">
-                    Order ID: {order._id}
+                    Order ID: {order?._id}
                   </Text>
-                  <Text fontSize="lg">Date: {order.date}</Text>
+                  <Text fontSize="lg">Date: {order?.date}</Text>
                 </Flex>
                 <Box textAlign="left" mb={4}>
                   <Text>
-                    <strong>Name:</strong> {order.name}
+                    <strong>Name:</strong> {order?.name}
                   </Text>
                   <Text>
-                    <strong>Time:</strong> {order.time}
+                    <strong>Time:</strong> {order?.time}
                   </Text>
                   <Text>
-                    <strong>Email:</strong> {order.email}
+                    <strong>Email:</strong> {order?.email}
                   </Text>
                   <Text>
-                    <strong>Address:</strong> {order.address}
+                    <strong>Address:</strong> {order?.address}
                   </Text>
                   <Text mt={2}>
-                    <strong>Grand Total:</strong> ${order.grandTotal}
+                    <strong>Grand Total:</strong> ${order?.grandTotal}
                   </Text>
                 </Box>
                 <Flex flexWrap="wrap">
                   {order?.items?.map((item, index) => (
                     <Box
-                      key={item._id}
+                      key={item?._id}
                       p={4}
                       borderWidth={1}
                       borderRadius="md"
@@ -86,11 +86,11 @@ const OrderHistoryPage = () => {
                           <Text fontSize="lg" fontWeight="bold" mb={2}>
                             {item.brand}
                           </Text>
-                          <Text>Quantity: {item.quantity}</Text>
+                          <Text>Quantity: {item?.quantity}</Text>
                           <Text>Total Price: ${item.totalPrice}</Text>
                         </Box>
                         <Image
-                          src={item.images[0]} // Replace with your image path
+                          src={item?.images[0]} // Replace with your image path
                           alt="Item Image"
                           boxSize={20}
                           objectFit="contain"
