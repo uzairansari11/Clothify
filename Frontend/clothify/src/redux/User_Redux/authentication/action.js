@@ -1,7 +1,6 @@
-
 import { cookiesSetter, removeCookie } from '../../../utils/coockies';
-import { login_user } from "./api";
-import * as types from "./types";
+import { login_user } from './api';
+import * as types from './types';
 
 export const isLoadingHandler = () => {
   return {
@@ -34,7 +33,7 @@ export const handleLoginFunction = (payload) => async (dispatch) => {
     let res = await login_user(payload);
     if (res.token) {
       dispatch(loginHandler(res));
-      cookiesSetter(res, "uzair_app_token");
+      cookiesSetter(res, `${process.env.REACT_APP_USER_TOKEN}`);
       return true;
     } else {
       dispatch(isErrorHandler());
@@ -50,7 +49,7 @@ export const handleLogoutFunction = () => (dispatch) => {
   dispatch(isLoadingHandler());
   setTimeout(() => {
     dispatch(logoutHandler());
-    removeCookie("uzair_app_token");
+    removeCookie(`${process.env.REACT_APP_USER_TOKEN}`);
   }, 1500);
   dispatch(isErrorHandler());
 };
