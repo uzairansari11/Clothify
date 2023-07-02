@@ -12,7 +12,7 @@ import {
   Link,
   useDisclosure,
   Divider,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   FaShoppingCart,
   FaHeart,
@@ -20,13 +20,14 @@ import {
   FaMale,
   FaFemale,
   FaChild,
-} from "react-icons/fa";
-import { Link as ReactLink } from "react-router-dom";
+} from 'react-icons/fa';
+import { Link as ReactLink } from 'react-router-dom';
 function DrawerComponent({
   children,
   totalCartQunatity,
   isAuth,
   totalWishlistQunatity,
+  orderData
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,15 +36,15 @@ function DrawerComponent({
   };
 
   return (
-    <Box width={"90%"}>
+    <Box width={'90%'}>
       <Box onClick={onOpen} as="span" cursor="pointer">
         {children}
       </Box>
 
-      <Drawer size="xs" placement={"bottom"} onClose={onClose} isOpen={isOpen}>
+      <Drawer size="xs" placement={'bottom'} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton color={"red"} />
+          <DrawerCloseButton color={'red'} />
 
           <DrawerBody>
             <Flex
@@ -52,8 +53,8 @@ function DrawerComponent({
               mt={10}
               mb={4}
               gap={4}
-              justifyContent={"center"}
-              width={"90%"}
+              justifyContent={'center'}
+              width={'90%'}
             >
               <Flex align="center" mb={2}>
                 <Icon as={FaMale} boxSize={6} mr={2} />
@@ -96,17 +97,17 @@ function DrawerComponent({
 
             <Flex
               align="center"
-              flexDir={"row"}
+              flexDir={'row'}
               gap={4}
-              justifyContent={"center"}
-              width={"90%"}
+              justifyContent={'center'}
+              width={'90%'}
             >
               <Link as={ReactLink} to="/cart" mr={4} onClick={handleLinkClick}>
                 <Icon as={FaShoppingCart} boxSize={6} mr={2} />
                 <Box>
                   <Text fontWeight="bold">Cart</Text>
                   <Text>
-                    {" "}
+                    {' '}
                     {isAuth && totalCartQunatity ? totalCartQunatity : 0}items
                   </Text>
                 </Box>
@@ -121,7 +122,7 @@ function DrawerComponent({
                 <Box>
                   <Text fontWeight="bold">Wishlist</Text>
                   <Text>
-                    {" "}
+                    {' '}
                     {isAuth && totalWishlistQunatity
                       ? totalWishlistQunatity
                       : 0}
@@ -133,7 +134,10 @@ function DrawerComponent({
                 <Icon as={FaShoppingBag} boxSize={6} mr={2} />
                 <Box>
                   <Text fontWeight="bold">Order</Text>
-                  <Text>{4} items</Text>
+                  <Text>
+                    {' '}
+                    {isAuth && orderData.length ? orderData.length : 0} items
+                  </Text>
                 </Box>
               </Link>
             </Flex>
