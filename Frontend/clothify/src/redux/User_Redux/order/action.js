@@ -37,6 +37,7 @@ export const orderDeleteHandler = (payload) => {
   };
 };
 
+
 export const orderUpdateHandler = (payload) => {
   return {
     type: types.order_Update_Success_status,
@@ -76,6 +77,8 @@ export const handleDeleteToOrderData = (id) => async (dispatch) => {
     dispatch(isErrorHandler());
   }
 };
+
+
 
 export const handleUpdateToOrderData = (id, data) => async (dispatch) => {
   dispatch(isLoadingHandler());

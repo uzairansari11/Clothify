@@ -47,6 +47,7 @@ export const delete_order_to_api = async (id) => {
   }
 };
 
+
 export const update_order_to_api = async (id, payload) => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
   try {

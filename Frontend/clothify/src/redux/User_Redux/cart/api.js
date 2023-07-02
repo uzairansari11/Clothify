@@ -43,6 +43,21 @@ export const delete_cart_to_api = async (id) => {
   }
 };
 
+export const delete_all_cart_to_api = async () => {
+  const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
+  try {
+    const res = await axios.delete(`${process.env.REACT_APP_URL}/cart`, {
+      headers: {
+        Authorization: `token ${token}`,
+      },
+    });
+    console.log(res);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const update_cart_to_api = async (id, payload) => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
   try {
