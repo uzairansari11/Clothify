@@ -20,6 +20,7 @@ import { FaArrowRight, FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleAddToOrderData } from '../redux/User_Redux/order/action';
 import { useNavigate } from 'react-router-dom';
+import { handleDeleteAllToCartData } from '../redux/User_Redux/cart/action';
 
 function CheckoutPage() {
   const [name, setName] = useState('');
@@ -80,6 +81,7 @@ function CheckoutPage() {
             duration: 5000,
             isClosable: true,
           });
+          dispatch(handleDeleteAllToCartData());
           setTimeout(() => {
             setLoading(false);
             navigate('/', { replace: true });

@@ -1,10 +1,11 @@
 import {
   add_cart_to_api,
+  delete_all_cart_to_api,
   delete_cart_to_api,
   get_cart_from_api,
   update_cart_to_api,
-} from "./api";
-import * as types from "./types";
+} from './api';
+import * as types from './types';
 export const isLoadingHandler = () => {
   return {
     type: types.cart_Loading_status,
@@ -33,6 +34,13 @@ export const cartAddHandler = (payload) => {
 export const cartDeleteHandler = (payload) => {
   return {
     type: types.cart_Delete_Success_status,
+    payload,
+  };
+};
+
+export const cartDeleteAllHandler = (payload) => {
+  return {
+    type: types.cart_Delete_All_Success_status,
     payload,
   };
 };
@@ -74,11 +82,21 @@ export const handleDeleteToCartData = (id) => async (dispatch) => {
   }
 };
 
+export const handleDeleteAllToCartData = () => async (dispatch) => {
+  dispatch(isLoadingHandler());
+
+  try {
+    const payload = await delete_all_cart_to_api();
+    dispatch(cartDeleteAllHandler(payload));
+  } catch (error) {
+    dispatch(isErrorHandler());
+  }
+};
 export const handleUpdateToCartData = (id, data) => async (dispatch) => {
   dispatch(isLoadingHandler());
   try {
     const payload = await update_cart_to_api(id, data);
-      dispatch(cartUpdateHandler(payload));
+    dispatch(cartUpdateHandler(payload));
   } catch (error) {
     dispatch(isErrorHandler());
   }

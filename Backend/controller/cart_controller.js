@@ -122,19 +122,20 @@ const deleteCart = async (req, res) => {
   }
 };
 
-const deleteAllCart = async () => {
+const deleteAllCart = async (req,res) => {
   try {
     const deletedItem = await CartModel.deleteMany({ user: req.user.id });
+    console.log(deletedItem);
     if (!deletedItem) {
       res.status(400).json({ message: 'Item does not exist' });
     } else {
       res
         .status(200)
-        .json({ data: deletedItem, message: 'Item deleted successfully' });
+        .json({ data: [], message: 'Item deleted successfully' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { getCart, postCart, updateCart, deleteCart,deleteAllCart };
+module.exports = { getCart, postCart, updateCart, deleteCart, deleteAllCart };
