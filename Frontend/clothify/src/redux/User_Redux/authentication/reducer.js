@@ -1,7 +1,8 @@
-
 import { cookiesGetter } from '../../../utils/coockies';
-import * as types from "./types";
-const userDetailsinCookies = cookiesGetter("uzair_app_token");
+import * as types from './types';
+const userDetailsinCookies = cookiesGetter(
+  `${process.env.REACT_APP_USER_TOKEN}`,
+);
 const initialState = {
   userDetails: userDetailsinCookies || null,
   isLoading: false,

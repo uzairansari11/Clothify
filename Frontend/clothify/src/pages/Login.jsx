@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -11,22 +11,22 @@ import {
   InputRightElement,
   Spinner,
   useToast,
-} from "@chakra-ui/react";
-import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
-import { cookiesGetter } from "../utils/coockies";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { handleLoginFunction } from "../redux/User_Redux/authentication/action";
+} from '@chakra-ui/react';
+import { FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
+import { cookiesGetter } from '../utils/coockies';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useDispatch } from 'react-redux';
+import { handleLoginFunction } from '../redux/User_Redux/authentication/action';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
-  const comingFrom = location.state?.data || "/";
+  const comingFrom = location.state?.data || '/';
   const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,14 +38,16 @@ const Login = () => {
       const userDetails = { email, password };
       dispatch(handleLoginFunction(userDetails)).then((res) => {
         if (res === true) {
-          const userDetails = cookiesGetter("uzair_app_token");
+          const userDetails = cookiesGetter(
+            `${process.env.REACT_APP_USER_TOKEN}`,
+          );
           setTimeout(() => {
             toast({
               title: `Welcome Back ${userDetails.name.toUpperCase()}`,
-              status: "success",
+              status: 'success',
               duration: 3000,
               isClosable: true,
-              position: "top",
+              position: 'top',
             });
           }, 1000);
 
@@ -54,11 +56,11 @@ const Login = () => {
         } else {
           setTimeout(() => {
             toast({
-              title: "Login Failed",
-              status: "warning",
+              title: 'Login Failed',
+              status: 'warning',
               duration: 3000,
               isClosable: true,
-              position: "top",
+              position: 'top',
             });
           }, 1000);
           setIsLoading(false);
@@ -81,7 +83,7 @@ const Login = () => {
   return (
     <Flex align="center" justify="center" height="100vh">
       <Box
-        width={{ base: "90%", sm: "400px" }}
+        width={{ base: '90%', sm: '400px' }}
         padding="6"
         borderRadius="md"
         boxShadow="lg"
@@ -123,7 +125,7 @@ const Login = () => {
           />
           <InputGroup size="lg">
             <Input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -136,7 +138,7 @@ const Login = () => {
                 size="sm"
                 onClick={handleTogglePassword}
                 icon={showPassword ? <FiEyeOff /> : <FiEye />}
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
                 variant="unstyled"
               />
             </InputRightElement>
@@ -150,17 +152,17 @@ const Login = () => {
             isLoading={isLoading}
             loadingText="Logging In..."
             spinner={<Spinner color="white" size="sm" />}
-            isDisabled={email === "" || password === ""}
+            isDisabled={email === '' || password === ''}
             _hover={{
-              transform: "translateY(-2px)",
-              boxShadow: "lg",
+              transform: 'translateY(-2px)',
+              boxShadow: 'lg',
             }}
           >
             Login
           </Button>
         </form>
         <Text mt="4" textAlign="center" color="gray.500">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link to="/signup" color="teal.500">
             Sign up
           </Link>

@@ -38,9 +38,7 @@ const adminRegister = asyncHandler(async (req, res) => {
 
     res.status(200).json(adminResponse);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'An error occurred while registering the admin' });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -77,9 +75,7 @@ const adminLogin = asyncHandler(async (req, res) => {
 
     return res.status(200).json(responseData);
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error: 'An error occurred while logging in the admin' });
+    return res.status(400).json({ error: error.message });
   }
 });
 

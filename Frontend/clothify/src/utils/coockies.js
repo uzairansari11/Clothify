@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-export const cookiesSetter = (payload,key) => {
+export const cookiesSetter = (payload, key) => {
   Cookies.set(key, JSON.stringify(payload), { expires: 7 });
 };
 
@@ -13,7 +13,3 @@ export const cookiesGetter = (key) => {
 export const removeCookie = (key) => {
   Cookies.remove(key);
 };
-
-
-
-
