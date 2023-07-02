@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Heading,
@@ -10,19 +10,18 @@ import {
   useToast,
   ScaleFade,
   Grid,
-} from "@chakra-ui/react";
-import { FaShoppingCart } from "react-icons/fa";
-import { motion } from "framer-motion";
-import CartItemCard from "../components/user/cart/CartItemCard";
-import { useDispatch, useSelector } from "react-redux";
+} from '@chakra-ui/react';
+import { FaShoppingCart } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import CartItemCard from '../components/user/cart/CartItemCard';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   handleDeleteToCartData,
-  handleGetCartData,
   handleUpdateToCartData,
-} from "../redux/User_Redux/cart/action";
-import LoadingSpinner from "../components/user/spinner/Spinner";
-import { Link } from "react-router-dom";
+} from '../redux/User_Redux/cart/action';
+import LoadingSpinner from '../components/user/spinner/Spinner';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
@@ -41,7 +40,7 @@ const CartPage = () => {
   const calculateTotalPrice =
     cartData?.length &&
     Math.ceil(
-      cartData?.reduce((total, item) => total + item.price * item.quantity, 0)
+      cartData?.reduce((total, item) => total + item.price * item.quantity, 0),
     );
 
   useEffect(() => {
@@ -60,9 +59,9 @@ const CartPage = () => {
           size="xl"
           textAlign="center"
           color="teal.500"
-          fontFamily={"cursive"}
-          fontSize={"xl"}
-          fontWeight={"extrabold"}
+          fontFamily={'cursive'}
+          fontSize={'xl'}
+          fontWeight={'extrabold'}
         >
           Your Cart
         </Heading>
@@ -84,25 +83,25 @@ const CartPage = () => {
         size="xl"
         textAlign="center"
         color="teal.500"
-        fontFamily={"cursive"}
-        fontSize={"xl"}
-        fontWeight={"extrabold"}
+        fontFamily={'cursive'}
+        fontSize={'xl'}
+        fontWeight={'extrabold'}
       >
         Your Cart
       </Heading>
       <Divider my={4} />
 
-      <Flex flexDirection={{ base: "column-reverse", md: "row" }}>
+      <Flex flexDirection={{ base: 'column-reverse', md: 'row' }}>
         <Flex
           flexDirection="column"
-          flex={{ base: "none", md: "3" }}
-          pr={{ base: "0", md: "4" }}
+          flex={{ base: 'none', md: '3' }}
+          pr={{ base: '0', md: '4' }}
           css={{
-            overflowY: "auto",
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": {
-              display: "none",
+            overflowY: 'auto',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': {
+              display: 'none',
             },
           }}
         >
@@ -113,11 +112,11 @@ const CartPage = () => {
           ) : cartData?.length ? (
             <Grid
               gridTemplateColumns={{
-                base: "repeat(1,1fr)",
-                md: "repeat(1,1fr)",
-                lg: "repeat(2,1fr)",
+                base: 'repeat(1,1fr)',
+                md: 'repeat(1,1fr)',
+                lg: 'repeat(2,1fr)',
               }}
-              gap={{ sm: "4" }}
+              gap={{ sm: '4' }}
             >
               {cartData.map((ele) => (
                 <CartItemCard
@@ -136,7 +135,7 @@ const CartPage = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 0.5,
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 150,
                   }}
                 >
@@ -148,16 +147,18 @@ const CartPage = () => {
             </Flex>
           )}
         </Flex>
-        {isAuth && cartData?.length ? (
+        {loading ? (
+          <></>
+        ) : isAuth && cartData?.length ? (
           <Flex
             flexDirection="column"
-            flex={{ base: "none", md: "1" }}
-            pl={{ base: "0", md: "4" }}
+            flex={{ base: 'none', md: '1' }}
+            pl={{ base: '0', md: '4' }}
             position="sticky"
             top={0}
             alignSelf="flex-start"
-            background={"white"}
-            margin={{ base: "auto", md: "0" }}
+            background={'white'}
+            margin={{ base: 'auto', md: '0' }}
           >
             <Flex justifyContent="space-around" alignItems="center" mt={4}>
               <Text fontWeight="bold">Total:</Text>
@@ -170,9 +171,9 @@ const CartPage = () => {
                 <Button
                   colorScheme="teal"
                   size="md"
-                  width={{ base: "100%", md: "auto%" }}
+                  width={{ base: '100%', md: 'auto%' }}
                   rightIcon={<FaShoppingCart />}
-                  margin={"auto"}
+                  margin={'auto'}
                 >
                   Proceed to Checkout
                 </Button>

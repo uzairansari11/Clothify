@@ -13,7 +13,6 @@ const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);
   const { wishlistData } = useSelector((store) => store.wishlistReducer);
   const { orderData } = useSelector((store) => store.orderReducer);
-
   const { isAuth } = useSelector((store) => store.authReducer);
 
   const dispatch = useDispatch();
