@@ -1,34 +1,34 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Input,
   InputGroup,
   InputLeftElement,
   Text,
-} from "@chakra-ui/react";
-import axios from "axios";
-import { debounce } from "lodash";
+} from '@chakra-ui/react';
+import axios from 'axios';
+import { debounce } from 'lodash';
 
 const Searchbar = () => {
-  const [color, setColor] = useState("#edf2f2");
+  const [color, setColor] = useState('#edf2f2');
   const [show, setShow] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [data, setData] = useState([]);
 
   const fetchData = useCallback(
     debounce(async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4500/product?search=${text}`
+          `${process.env.REACT_APP_URL}/product?search=${text}`,
         );
         setData(response.data.data);
       } catch (error) {
         console.log(error);
       }
     }, 1000),
-    []
+    [],
   );
 
   const handleInputChange = (e) => {
@@ -44,19 +44,19 @@ const Searchbar = () => {
   }, [fetchData]);
 
   const handleBlur = () => {
-    setColor("gray.100");
+    setColor('gray.100');
     setTimeout(() => {
       setShow(false);
     }, 200);
   };
 
   const handleFocus = () => {
-    setColor("white");
+    setColor('white');
     setShow(true);
   };
 
   const handleItemClick = () => {
-    setText("");
+    setText('');
   };
 
   return (
@@ -72,9 +72,9 @@ const Searchbar = () => {
           outline="none"
           onChange={handleInputChange}
           _focus={{
-            boxShadow: "none",
-            border: "1px solid #787373",
-            outline: "none",
+            boxShadow: 'none',
+            border: '1px solid #787373',
+            outline: 'none',
           }}
           placeholder="Search for products, brands, and more"
           onBlur={handleBlur}
@@ -91,8 +91,8 @@ const Searchbar = () => {
           borderRadius="md"
           overflowY="auto"
           sx={{
-            "::-webkit-scrollbar": {
-              display: "none",
+            '::-webkit-scrollbar': {
+              display: 'none',
             },
           }}
         >
@@ -101,10 +101,10 @@ const Searchbar = () => {
               to={`/product/${item._id}`}
               key={item.id} // Assuming `item` has an `id` property for the key
               onClick={handleItemClick}
-              _hover={{ textDecoration: "none", bg: "gray.200" }}
+              _hover={{ textDecoration: 'none', bg: 'gray.200' }}
             >
               <Text padding="8px" pb="1.7px" pl="15px" borderBottomWidth="1px">
-                {item.title}{" "}
+                {item.title}{' '}
               </Text>
             </Link>
           ))}

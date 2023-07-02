@@ -1,11 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 import { cookiesGetter } from '../../../utils/coockies';
-
+const { token } = cookiesGetter('uzair_app_token');
 
 export const get_cart_from_api = async () => {
-  const { token } = cookiesGetter("uzair_app_token");
   try {
-    const res = await axios.get("http://localhost:4500/cart", {
+    const res = await axios.get(`${process.env.REACT_APP_URL}/cart`, {
       headers: {
         Authorization: `token ${token}`,
       },
@@ -17,9 +16,8 @@ export const get_cart_from_api = async () => {
 };
 
 export const add_cart_to_api = async (payload) => {
-  const { token } = cookiesGetter("uzair_app_token");
   try {
-    const res = await axios.post("http://localhost:4500/cart", payload, {
+    const res = await axios.post(`${process.env.REACT_APP_URL}/cart`, payload, {
       headers: {
         Authorization: `token ${token}`,
       },
@@ -31,9 +29,8 @@ export const add_cart_to_api = async (payload) => {
 };
 
 export const delete_cart_to_api = async (id) => {
-  const { token } = cookiesGetter("uzair_app_token");
   try {
-    const res = await axios.delete(`http://localhost:4500/cart/${id}`, {
+    const res = await axios.delete(`${process.env.REACT_APP_URL}/cart/${id}`, {
       headers: {
         Authorization: `token ${token}`,
       },
@@ -45,13 +42,16 @@ export const delete_cart_to_api = async (id) => {
 };
 
 export const update_cart_to_api = async (id, payload) => {
-  const { token } = cookiesGetter("uzair_app_token");
   try {
-    const res = await axios.patch(`http://localhost:4500/cart/${id}`, payload, {
-      headers: {
-        Authorization: `token ${token}`,
+    const res = await axios.patch(
+      `${process.env.REACT_APP_URL}/cart/${id}`,
+      payload,
+      {
+        headers: {
+          Authorization: `token ${token}`,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
     console.log(error);
