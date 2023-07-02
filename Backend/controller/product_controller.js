@@ -1,38 +1,37 @@
 const { ProductModel } = require('../model/product_model');
 
+// Get products based on filters, search, pagination, and sorting
 const getProduct = async (req, res) => {
   try {
-    const query = req.query;
-    const filter = {};
+    const { query } = req;
 
-    // Build the filter dynamically based on query parameters
+    const filter = {};
+    const sort = {};
+
+    // Build the filter and sort objects dynamically based on query parameters
     for (const key in query) {
-      if (
-        key !== 'page' &&
-        key !== 'limit' &&
-        key !== 'sortField' &&
-        key !== 'sortOrder' &&
-        key !== 'search'
-      ) {
-        if (query[key].includes('lte')) {
-          const value = query[key].replace('lte', '');
-          filter[key] = { $lte: value };
-        } else if (query[key].includes('gte')) {
-          const value = query[key].replace('gte', '');
-          filter[key] = { $gte: value };
-        } else if (query[key].includes('lt')) {
-          const value = query[key].replace('lt', '');
-          filter[key] = { $lt: value };
-        } else {
-          filter[key] = query[key];
-        }
+      if (['page', 'limit', 'sortField', 'sortOrder', 'search'].includes(key)) {
+        continue;
+      }
+
+      if (query[key].includes('lte')) {
+        const value = query[key].replace('lte', '');
+        filter[key] = { $lte: value };
+      } else if (query[key].includes('gte')) {
+        const value = query[key].replace('gte', '');
+        filter[key] = { $gte: value };
+      } else if (query[key].includes('lt')) {
+        const value = query[key].replace('lt', '');
+        filter[key] = { $lt: value };
+      } else {
+        filter[key] = query[key];
       }
     }
 
     // Add search functionality
     if (query.search) {
       const searchQuery = new RegExp(query.search, 'i');
-      filter.$or = [{ title: searchQuery }];
+      filter.title = searchQuery;
     }
 
     const page = parseInt(query.page) || 1;
@@ -41,17 +40,10 @@ const getProduct = async (req, res) => {
 
     const sortField = query.sortField || 'price';
     const sortOrder = query.sortOrder || 'asc';
-    const sort = {};
     sort[sortField] = sortOrder === 'desc' ? -1 : 1;
 
-    const queryOptions = {
-      skip,
-      limit,
-      sort,
-    };
-
     const [data, totalCount] = await Promise.all([
-      ProductModel.find(filter, null, queryOptions),
+      ProductModel.find(filter).sort(sort).skip(skip).limit(limit).lean(),
       ProductModel.countDocuments(filter),
     ]);
 
@@ -64,6 +56,7 @@ const getProduct = async (req, res) => {
   }
 };
 
+// Get a single product by ID
 const getSingleProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -80,6 +73,7 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
+// Create a new product
 const postProduct = async (req, res) => {
   const {
     title,
@@ -93,7 +87,6 @@ const postProduct = async (req, res) => {
     rating,
     total_rating,
     sizes,
-
     quantity,
   } = req.body;
 
@@ -104,7 +97,7 @@ const postProduct = async (req, res) => {
     !brand ||
     !price ||
     discount === undefined ||
-    images.length == 0 ||
+    images.length === 0 ||
     !description ||
     rating === undefined ||
     !total_rating ||
@@ -115,15 +108,16 @@ const postProduct = async (req, res) => {
   }
 
   try {
-    let productDetails = await new ProductModel(req.body);
-    productDetails.save();
+    const productDetails = await new ProductModel(req.body).save();
     res.status(200).json(productDetails);
   } catch (error) {
     res
       .status(500)
-      .json({ error: 'An error occurred while posting the  new  product' });
+      .json({ error: 'An error occurred while posting the new product' });
   }
 };
+
+// Update a product
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
@@ -143,10 +137,11 @@ const updateProduct = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: 'An error occurred while updating the   product' });
+      .json({ error: 'An error occurred while updating the product' });
   }
 };
 
+// Delete a product
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -159,7 +154,7 @@ const deleteProduct = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: 'An error occurred while deleting the   product' });
+      .json({ error: 'An error occurred while deleting the product' });
   }
 };
 

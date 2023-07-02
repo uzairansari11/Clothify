@@ -10,7 +10,7 @@ const AvatarNavbar = (props) => {
             size={{ base: "xs", md: "sm" }}
             fontWeight={'bold'}
             fontStyle={'italic'}
-          
+
             name={props?.authDetails?.userDetails?.name}
             bg={props.authDetails.isAuth ? "white" : "red"}
             boxShadow="md"

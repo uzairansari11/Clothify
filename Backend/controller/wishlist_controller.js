@@ -1,14 +1,16 @@
 const { WishlistModel } = require("../model/wishlist_model");
 
+// Get wishlist items for the logged-in user
 const getWishlist = async (req, res) => {
   try {
     const wishData = await WishlistModel.find({ user: req.user.id });
     res.status(200).json(wishData);
   } catch (error) {
-    res.status(500).json({ error: "Soemting Went Wrong" });
+    res.status(500).json({ error: "Something Went Wrong" });
   }
 };
 
+// Add a product to the wishlist
 const postWishlist = async (req, res) => {
   const {
     title,
@@ -29,9 +31,9 @@ const postWishlist = async (req, res) => {
     !subcategory ||
     !brand ||
     !price ||
-    discount == undefined ||
-    quantity == undefined ||
-    images.length == 0 ||
+    discount === undefined ||
+    quantity === undefined ||
+    images.length === 0 ||
     !size ||
     !productId
   ) {
@@ -53,7 +55,7 @@ const postWishlist = async (req, res) => {
           { $inc: { quantity: 1 } },
           { new: true }
         ).lean();
-        res.status(200).json(cartItem);
+        res.status(200).json(wishlistItem);
       } else {
         const wishlistDetails = new WishlistModel({
           title,
@@ -80,6 +82,7 @@ const postWishlist = async (req, res) => {
   }
 };
 
+// Update a wishlist item
 const updateWishlist = async (req, res) => {
   const payload = req.body;
   const productId = req.params.id;
@@ -92,15 +95,16 @@ const updateWishlist = async (req, res) => {
       }
     );
     if (!updatedItem) {
-      res.status(400).json({ message: "Item does not exists" });
+      res.status(400).json({ message: "Item does not exist" });
     } else {
       res.status(200).json(updatedItem);
     }
   } catch (error) {
-    res.status(500).json({ error: "Soemting Went Wrong" });
+    res.status(500).json({ error: "Something Went Wrong" });
   }
 };
 
+// Delete a wishlist item
 const deleteWishlist = async (req, res) => {
   const productId = req.params.id;
   try {
@@ -109,15 +113,20 @@ const deleteWishlist = async (req, res) => {
       { user: req.user.id }
     );
     if (!deletedItem) {
-      res.status(400).json({ message: "Item does not exists" });
+      res.status(400).json({ message: "Item does not exist" });
     } else {
       res
         .status(200)
         .json({ data: deletedItem, message: "Item deleted successfully" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Soemting Went Wrong" });
+    res.status(500).json({ error: "Something Went Wrong" });
   }
 };
 
-module.exports = { getWishlist, postWishlist, updateWishlist, deleteWishlist };
+module.exports = {
+  getWishlist,
+  postWishlist,
+  updateWishlist,
+  deleteWishlist,
+};

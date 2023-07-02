@@ -7,6 +7,7 @@ const {
   deleteProduct,
   getSingleProduct,
 } = require("../controller/product_controller");
+const { adminMiddleware } = require("../middleware/adminMiddleware");
 
 const productRouter = express.Router();
 
@@ -14,10 +15,10 @@ productRouter.get("/", getProduct);
 
 productRouter.get("/:id", getSingleProduct);
 
-productRouter.post("/", postProduct);
+productRouter.post("/",adminMiddleware, postProduct);
 
-productRouter.patch("/:id", updateProduct);
+productRouter.patch("/:id",adminMiddleware, updateProduct);
 
-productRouter.delete("/:id", deleteProduct);
+productRouter.delete("/:id",adminMiddleware, deleteProduct);
 
 module.exports = { productRouter };
