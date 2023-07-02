@@ -59,7 +59,10 @@ const postOrder = async (req, res) => {
 const updateOrder = async (req, res) => { };
 
 // Delete an order
-const deleteOrder = async (req, res) => { };
+const deleteOrder = async (req, res) => {
+
+  
+};
 
 // Get orders grouped by user for admin
 const getOrderByAdmin = async (req, res) => {

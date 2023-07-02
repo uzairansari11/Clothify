@@ -12,5 +12,6 @@ cartRouter.get('/', getCart);
 cartRouter.post('/', postCart);
 cartRouter.patch('/:id', updateCart);
 cartRouter.delete('/:id', deleteCart);
+cartRouter.delete('/', deleteCart);
 
 module.exports = { cartRouter };

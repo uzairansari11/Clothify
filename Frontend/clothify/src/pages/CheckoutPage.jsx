@@ -12,11 +12,15 @@ import {
   Icon,
   Spinner,
   Textarea,
+  CircularProgress,
+  useToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FaArrowRight, FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleAddToOrderData } from '../redux/User_Redux/order/action';
+import { useNavigate } from 'react-router-dom';
+
 function CheckoutPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,13 +29,17 @@ function CheckoutPage() {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const { cartData } = useSelector((store) => store.cartReducer);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     const storedData = localStorage.getItem('checkoutData');
     if (storedData) {
       const { name, email, address } = JSON.parse(storedData);
@@ -39,7 +47,7 @@ function CheckoutPage() {
       setEmail(email);
       setAddress(address);
     }
-  }, []);
+  }, [loading]);
 
   const handlePlaceOrder = (event) => {
     event.preventDefault();
@@ -62,9 +70,41 @@ function CheckoutPage() {
       };
     });
     const payload = { name, email, address, items };
-
-    dispatch(handleAddToOrderData(payload));
+    setLoading(true);
+    dispatch(handleAddToOrderData(payload))
+      .then((res) => {
+        if (res) {
+          toast({
+            title: 'Order Successful',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+          setTimeout(() => {
+            setLoading(false);
+            navigate('/', { replace: true });
+          }, 2000);
+        } else {
+          toast({
+            title: 'Something Went Wrong!',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast({
+          title: 'Something Went Wrong!',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      });
   };
+
   useEffect(() => {
     localStorage.setItem(
       'checkoutData',
@@ -72,15 +112,32 @@ function CheckoutPage() {
     );
   }, [name, email, address]);
 
-  const calculateTotalPrice =
-    cartData.length > 0
-      ? Math.ceil(
-          cartData.reduce(
-            (total, item) => total + item.price * item.quantity,
-            0,
-          ),
-        )
-      : 0;
+  const calculateTotalPrice = cartData.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  );
+
+  if (loading) {
+    return (
+      <Box
+        height={'80vh'}
+        margin={'auto'}
+        display={'flex'}
+        alignItems={'center'}
+      >
+        <CircularProgress
+          isIndeterminate
+          margin={'auto'}
+          color={'teal'}
+          value={30}
+          size="200px"
+          thickness={'3px'}
+          speed={'5s'}
+          capIsRound
+        />
+      </Box>
+    );
+  }
 
   return (
     <ChakraProvider>
@@ -118,9 +175,7 @@ function CheckoutPage() {
             </FormControl>
             <FormControl id="address" isRequired mb={4}>
               <FormLabel>Address</FormLabel>
-
               <Textarea
-                type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter your address"
@@ -167,7 +222,8 @@ function CheckoutPage() {
               <FormControl id="cardNumber" isRequired mb={4}>
                 <FormLabel>Card Number</FormLabel>
                 <Input
-                  type="text"
+                  type="number"
+                  maxLength={16}
                   {...register('cardNumber', {
                     required: 'Card number is required',
                     pattern: {
@@ -175,7 +231,7 @@ function CheckoutPage() {
                       message: 'Invalid card number',
                     },
                   })}
-                  placeholder="Enter your card number"
+                  placeholder="Enter your 16 digits card number"
                 />
                 {errors.cardNumber && (
                   <Text color="red.500">{errors.cardNumber.message}</Text>
@@ -184,7 +240,7 @@ function CheckoutPage() {
               <FormControl id="cvv" isRequired mb={4}>
                 <FormLabel>CVV</FormLabel>
                 <Input
-                  type="text"
+                  type="number"
                   {...register('cvv', {
                     required: 'CVV is required',
                     pattern: {
