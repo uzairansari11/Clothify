@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const signupFunction = async (payload) => {
   try {
     const res = await axios.post(
-      "http://localhost:4500/user/register",
-      payload
+      `${process.env.REACT_APP_URL}/user/register`,
+      payload,
     );
 
     if (res.status === 200) {
@@ -15,13 +15,11 @@ export const signupFunction = async (payload) => {
   }
 };
 
-
-
 export const adminsignupFunction = async (payload) => {
   try {
     const res = await axios.post(
-      "http://localhost:4500/admin/register",
-      payload
+      `${process.env.REACT_APP_URL}/admin/register`,
+      payload,
     );
 
     if (res.status === 200) {

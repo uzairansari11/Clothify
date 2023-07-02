@@ -4,7 +4,7 @@ import { cookiesGetter } from '../../../utils/coockies';
 export const get_order_from_api = async () => {
   const { token } = cookiesGetter('uzair_app_admin_login');
   try {
-    const res = await axios.get('http://localhost:4500/order/admin', {
+    const res = await axios.get(`${process.env.REACT_APP_URL}/order/admin`, {
       headers: {
         Authorization: `token ${token}`,
       },
