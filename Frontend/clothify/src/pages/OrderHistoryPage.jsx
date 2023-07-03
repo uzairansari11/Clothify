@@ -1,15 +1,15 @@
 import {
   Box,
   Container,
-  Heading,
-  Text,
-  Flex,
-  ScaleFade,
-  Image,
   Divider,
+  Flex,
+  Heading,
+  Image,
+  ScaleFade,
+  Text,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const OrderHistoryPage = () => {
   const { orderData } = useSelector((store) => store.orderReducer);

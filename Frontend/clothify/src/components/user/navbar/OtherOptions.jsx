@@ -1,13 +1,13 @@
+import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { Box, Tooltip, Flex } from "@chakra-ui/react";
-import { BsCart2, BsBagHeartFill } from "react-icons/bs";
+import { BsBagHeartFill, BsCart2 } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getQuantity } from "../../../utils/getquanity";
+import { Link } from "react-router-dom";
 import { handleGetCartData } from "../../../redux/User_Redux/cart/action";
-import { handleWishlistCartData } from "../../../redux/User_Redux/wishlist/action";
 import { handleGetOrderData } from "../../../redux/User_Redux/order/action";
+import { handleWishlistCartData } from "../../../redux/User_Redux/wishlist/action";
+import { getQuantity } from "../../../utils/getquanity";
 
 const OtherOptions = () => {
   const { cartData } = useSelector((store) => store.cartReducer);

@@ -1,4 +1,4 @@
-import { Box, Spinner as ChakraSpinner } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 const LoadingSpinner = () => {
   return (
@@ -19,27 +19,7 @@ const LoadingSpinner = () => {
           animation="spin 5s linear infinite"
           margin={'auto'}
         >
-          {/*
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-            width="50%"
-            height="50%"
-            borderRadius="50%"
-            border="10px dotted teal"
-          />
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-            width="30%"
-            height="30%"
-            borderRadius="50%"
-            border="4px dotted teal"
-          /> */}
+         
           <Box
             position="absolute"
             top="50%"

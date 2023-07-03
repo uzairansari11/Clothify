@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from 'react';
 import {
   Box,
-  Heading,
-  Text,
+  Button,
   Divider,
   Flex,
-  Button,
-  Tooltip,
-  useToast,
-  ScaleFade,
   Grid,
+  Heading,
+  ScaleFade,
+  Text,
+  Tooltip
 } from '@chakra-ui/react';
-import { FaShoppingCart } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import CartItemCard from '../components/user/cart/CartItemCard';
+import React, { useEffect, useState } from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import CartItemCard from '../components/user/cart/CartItemCard';
 
+import { Link } from 'react-router-dom';
+import LoadingSpinner from '../components/user/spinner/Spinner';
 import {
   handleDeleteToCartData,
   handleUpdateToCartData,
 } from '../redux/User_Redux/cart/action';
-import LoadingSpinner from '../components/user/spinner/Spinner';
-import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cartData } = useSelector((store) => store.cartReducer);

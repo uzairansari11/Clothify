@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { Box, IconButton } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { BsFillRocketFill } from "react-icons/bs";
 
 const ScrollToTopButton = () => {

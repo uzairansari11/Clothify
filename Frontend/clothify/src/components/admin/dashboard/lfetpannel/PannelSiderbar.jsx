@@ -1,16 +1,16 @@
-import { Box, Flex, Text, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import {
   AiOutlineDashboard,
-  AiOutlineUser,
-  AiOutlineTool,
-  AiOutlineShopping,
-  AiOutlinePlus,
   AiOutlineFile,
+  AiOutlinePlus,
+  AiOutlineShopping,
+  AiOutlineTool,
+  AiOutlineUser,
 } from "react-icons/ai";
 import { IoLogOutOutline } from "react-icons/io5";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { handleLogoutFunction } from "../../../../redux/Admin_Redux/authentication/action";
 
 const PannelSiderbar = () => {

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   Flex,
   Heading,
-  Text,
-  Input,
-  Button,
   IconButton,
+  Input,
   InputGroup,
   InputRightElement,
   Spinner,
+  Text,
   useToast,
 } from '@chakra-ui/react';
-import { FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
-import { cookiesGetter } from '../utils/coockies';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { handleLoginFunction } from '../redux/User_Redux/authentication/action';
+import { cookiesGetter } from '../utils/coockies';
 
 const Login = () => {
   const [email, setEmail] = useState('');

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
 import { Box, Image, Text } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { Link } from "react-router-dom";

@@ -49,7 +49,7 @@ export const handleLogoutFunction = () => (dispatch) => {
   dispatch(isLoadingHandler());
   setTimeout(() => {
     dispatch(logoutHandler());
-    removeCookie('uzair_app_admin_login');
+    removeCookie(`${process.env.REACT_APP_ADMIN_TOKEN}`);
   }, 1500);
   dispatch(isErrorHandler());
 };

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Flex,
+  IconButton,
   Image,
   Text,
-  Button,
   useToast,
-  IconButton,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
-import { useParams } from "react-router-dom";
-import { handlesingleproduct } from "../utils/handlesingleproduct";
-import LoadingSpinner from "../components/user/spinner/Spinner";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import LoadingSpinner from "../components/user/spinner/Spinner";
 import { handleAddToCartData } from "../redux/User_Redux/cart/action";
 import { handleAddToWishlistData } from "../redux/User_Redux/wishlist/action";
+import { handlesingleproduct } from "../utils/handlesingleproduct";
 
 const SingleProduct = () => {
   const { id } = useParams();

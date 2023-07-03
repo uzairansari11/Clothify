@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, Text, Flex, VStack, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon, Text, VStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import React from "react";
 import { FaAward, FaGem, FaStar } from "react-icons/fa";
 
 const AboutPage = () => {

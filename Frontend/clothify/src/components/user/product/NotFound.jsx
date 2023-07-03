@@ -1,5 +1,5 @@
+import { Box, Flex, Heading, Icon, Link, Text } from "@chakra-ui/react";
 import React from "react";
-import { Box, Heading, Text, Link, Icon, Flex } from "@chakra-ui/react";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
 
 const NotFound = () => {

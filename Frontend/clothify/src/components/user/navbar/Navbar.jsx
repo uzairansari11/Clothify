@@ -1,16 +1,16 @@
-import React from 'react';
 import { Box } from '@chakra-ui/react';
-import Logo from './Logo';
-import Container from '../Container';
-import Searchbar from './Searchbar';
-import Menuitem from './Menuitem';
-import Options from './ProductOptions';
-import AvatarNavbar from './AvatarNavbar';
-import HamburgerOptions from './Hamburger';
-import OtherOptions from './OtherOptions';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import DrawerComponent from './DrawerComponent';
 import { getQuantity } from '../../../utils/getquanity';
+import Container from '../Container';
+import AvatarNavbar from './AvatarNavbar';
+import DrawerComponent from './DrawerComponent';
+import HamburgerOptions from './Hamburger';
+import Logo from './Logo';
+import Menuitem from './Menuitem';
+import OtherOptions from './OtherOptions';
+import Options from './ProductOptions';
+import Searchbar from './Searchbar';
 
 const Navbar = () => {
   const { cartData } = useSelector((store) => store.cartReducer);

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -14,10 +13,11 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
 import { FcApproval } from "react-icons/fc";
-import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { adminsignupFunction } from "../../../utils/signup";
 

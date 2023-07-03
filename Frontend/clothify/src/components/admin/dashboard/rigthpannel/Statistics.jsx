@@ -7,19 +7,19 @@ import {
   StatNumber,
   Text,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { GrUserAdmin } from 'react-icons/gr';
 import {
+  RiFileList2Line,
+  RiMoneyDollarCircleLine,
   RiShoppingCart2Line,
   RiUser3Line,
-  RiMoneyDollarCircleLine,
-  RiFileList2Line,
 } from 'react-icons/ri';
-import { GrUserAdmin } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleGetUser } from '../../../../redux/Admin_Redux/users/action';
 import { handleProductData } from '../../../../redux/Admin_Redux/admin_products/action';
-import { useEffect } from 'react';
 import { handleGetAdmin } from '../../../../redux/Admin_Redux/admins/action';
 import { handleGetOrderData } from '../../../../redux/Admin_Redux/order/action';
+import { handleGetUser } from '../../../../redux/Admin_Redux/users/action';
 import { getOrderQuantity } from '../../utils/order';
 import { getTotalRevenue } from '../../utils/totalRevanu';
 

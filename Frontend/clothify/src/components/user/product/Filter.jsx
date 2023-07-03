@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
-  Flex,
-  FormControl,
   Checkbox,
   CheckboxGroup,
-  Text,
-  Button,
-  useColorModeValue,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+  Flex,
+  FormControl,
+  Radio,
+  RadioGroup,
   Slider,
-  SliderTrack,
   SliderFilledTrack,
   SliderThumb,
-  RadioGroup,
-  Radio,
+  SliderTrack,
+  Text, useColorModeValue
 } from "@chakra-ui/react";
-import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
+import React, { useEffect, useState } from "react";
+import { BiBuilding, BiCategory, BiSort } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -32,7 +30,7 @@ const FilterComponent = () => {
   const initialDiscount = searchParams.get("discount");
   const initialSubcategory = searchParams.getAll("subcategory");
   const initialBrand = searchParams.getAll("brand");
-  
+
 
   const { products } = useSelector((store) => store.productReducer);
 
@@ -64,7 +62,7 @@ const FilterComponent = () => {
 
   const handleBrandChange = (selectedBrands) => {
     setSelectedBrand(selectedBrands);
-     
+
   };
 
   const handleDiscountRangeChange = (values) => {
@@ -100,7 +98,7 @@ const FilterComponent = () => {
     if (Number(selectedDiscountRange.slice(3))) {
       params.discount = selectedDiscountRange;
     }
- 
+
     params.page = page;
     setSearchParams(params);
   }, [
