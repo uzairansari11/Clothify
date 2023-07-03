@@ -1,7 +1,7 @@
 
-![Logo](https://www.linkpicture.com/q/logo_163.png)
 
 
+# Clothify 
 Clothify is an innovative online platform that offers a diverse range of high-quality branded clothing at affordable prices. With a keen focus on style and value, we curate a collection that caters to all fashion enthusiasts. Experience the convenience of shopping for top-notch apparel while enjoying significant savings at Clothify.
 
 ## Color Reference
@@ -104,17 +104,34 @@ To run this project, you will need to add the following environment variables to
 | ![Product](https://github.com/uzairansari11/Clothify/assets/112272822/2ebafd74-d00e-4a4f-bf1a-7dd331b5a1c7) | ![Product](https://github.com/uzairansari11/Clothify/assets/112272822/12e29319-9017-4129-99ae-6994b5e198e2) |
 
 
+### Admin Dashboard
+| Small Screen           | Large Screen            |
+| ---------------------- | ---------------------- |
+| ![Product](https://github.com/uzairansari11/Clothify/assets/112272822/2f0eb753-f233-41c7-98ef-1a45e500d350) | ![Product](https://github.com/uzairansari11/Clothify/assets/112272822/81b5e561-943e-4673-880f-3cafc512140c) |
 
 
 
 
+### User Section
+
+ ![mobile (13)](https://github.com/uzairansari11/Clothify/assets/112272822/e8843116-df65-4097-80d2-250df4ce80dc) 
+
+### Admin Section
+
+
+![mobile (14)](https://github.com/uzairansari11/Clothify/assets/112272822/e1f2ef69-6e13-474e-a862-67f0da2d1e19)
+
+
+### Add Product Section
+
+![mobile (15)](https://github.com/uzairansari11/Clothify/assets/112272822/a346b027-23cb-4cd2-b7de-b6c05d6a5e0a)
 
 
 ## FAQ
 
-#### Question : Is it fully responsive?
+#### Question: Is it fully responsive?
 
-Answer : yes
+Answer: yes
 
 
 
