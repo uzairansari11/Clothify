@@ -1,14 +1,14 @@
+import { Box, Grid } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import {
 	handleDeleteProductData,
 	handleProductData,
 	handleUpdateProductData,
 } from "../../../../redux/Admin_Redux/admin_products/action";
-import { useSearchParams } from "react-router-dom";
-import { Box, Grid } from "@chakra-ui/react";
-import Pagination from "./Pagination";
 import Card from "./Card";
+import Pagination from "./Pagination";
 export const Products = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const initialLimit = Number(searchParams.get("limit")) || 8;
@@ -37,7 +37,7 @@ export const Products = () => {
       limit: limit,
       page: page,
     };
-  
+
     setSearchParams(params);
     dispatch(handleProductData(params));
     setTimeout(() => {

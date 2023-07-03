@@ -1,15 +1,14 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import PannelSiderbar from "./lfetpannel/PannelSiderbar";
+import AdminTable from "./rigthpannel/AdminTable";
 import Statistics from "./rigthpannel/Statistics";
 import UserTable from "./rigthpannel/UserTable";
-import AdminTable from "./rigthpannel/AdminTable";
-
+import { useSelector } from "react-redux";
+import Logo from "../../user/navbar/Logo";
+import AdminAvatar from "../authentication/AdminAvatar";
 import { Products } from "./rigthpannel/Products";
 import AddProduct from "./rigthpannel/addproduct/AddProduct";
-import AdminAvatar from "../authentication/AdminAvatar";
-import Logo from "../../user/navbar/Logo";
-import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -22,7 +21,7 @@ const Dashboard = () => {
       top={0}
       left={0}
       width={"100%"}
-      
+
     >
       <Box
         bg={"white"}
@@ -34,7 +33,7 @@ const Dashboard = () => {
         alignItems={"center"}
       >
         <Logo />
-      
+
         <AdminAvatar adminDetails={adminDetails} />
       </Box>
       <Box display={"flex"}>

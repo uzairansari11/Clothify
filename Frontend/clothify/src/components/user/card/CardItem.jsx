@@ -1,23 +1,23 @@
-import React, { useState } from "react";
 import {
-  Box,
-  Image,
-  Text,
-  Button,
-  IconButton,
-  useColorModeValue,
-  Flex,
-  Select,
   Badge,
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Image,
+  Select,
   Spinner,
+  Text,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { handleAddToWishlistData } from "../../../redux/User_Redux/wishlist/action";
 import { handleAddToCartData } from "../../../redux/User_Redux/cart/action";
+import { handleAddToWishlistData } from "../../../redux/User_Redux/wishlist/action";
 
 const CartItem = ({
   title,

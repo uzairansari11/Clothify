@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
-  Heading,
-  Text,
+  Center,
   Divider,
   Flex,
-  ScaleFade,
-  Center,
   Grid,
+  Heading,
+  ScaleFade,
+  Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingSpinner from "../components/user/spinner/Spinner";
 import WishlistCard from "../components/user/wishlist/WishlistCard";
+import { handleAddToCartData } from "../redux/User_Redux/cart/action";
 import {
   handleDeleteToWishlistData,
 } from "../redux/User_Redux/wishlist/action";
-import { handleAddToCartData } from "../redux/User_Redux/cart/action";
-import LoadingSpinner from "../components/user/spinner/Spinner";
 
 const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(true);

@@ -1,6 +1,5 @@
 import { Box, Button, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
   const isFirstPage = currentPage === 1;

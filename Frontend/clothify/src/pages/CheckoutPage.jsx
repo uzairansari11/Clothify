@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from 'react';
 import {
-  ChakraProvider,
   Box,
-  Heading,
-  FormControl,
-  FormLabel,
-  Input,
   Button,
   Flex,
-  Text,
+  FormControl,
+  FormLabel,
+  Heading,
   Icon,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
+  Text,
   Textarea,
-  CircularProgress,
-  useToast,
   useDisclosure,
+  useToast
 } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaArrowRight, FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleAddToOrderData } from '../redux/User_Redux/order/action';
 import { useNavigate } from 'react-router-dom';
-import { handleDeleteAllToCartData } from '../redux/User_Redux/cart/action';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react';
 import LoadingSpinner from '../components/user/spinner/Spinner';
+import { handleDeleteAllToCartData } from '../redux/User_Redux/cart/action';
+import { handleAddToOrderData } from '../redux/User_Redux/order/action';
 
 function CheckoutPage() {
   const [name, setName] = useState('');
@@ -105,7 +101,6 @@ function CheckoutPage() {
         }
       })
       .catch((error) => {
-        console.log(error);
         setLoading(false);
         toast({
           title: 'Something Went Wrong!',

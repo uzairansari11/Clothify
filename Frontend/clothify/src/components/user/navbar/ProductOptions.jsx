@@ -1,6 +1,6 @@
-import { Box, Text, Icon } from "@chakra-ui/react";
-import React from "react";
+import { Box, Icon, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import React from "react";
 import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
 import { MdOutlineChildCare } from "react-icons/md";
 import { NavLink } from "react-router-dom";

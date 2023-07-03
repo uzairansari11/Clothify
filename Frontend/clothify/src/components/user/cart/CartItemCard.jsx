@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Flex,
   Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
   Text,
   Tooltip,
-  Select,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import {
   AiOutlineDelete,
   AiOutlineDollar,
   AiOutlineTag,
 } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CartItemCard = ({
   images,

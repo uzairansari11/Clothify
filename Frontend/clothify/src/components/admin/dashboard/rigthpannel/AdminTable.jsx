@@ -1,6 +1,24 @@
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Table,
   Tbody,
   Td,
@@ -9,25 +27,7 @@ import {
   Thead,
   Tr,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  AlertDialogFooter,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogCloseButton,
-  AlertDialogBody,
-  AlertDialog,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -35,7 +35,6 @@ import {
   handleGetAdmin,
   handleUpdateAdmin,
 } from "../../../../redux/Admin_Redux/admins/action";
-import { motion } from "framer-motion";
 const AdminTable = ({ users, onDelete, onEdit }) => {
   const { admins } = useSelector((store) => store.adminReducer);
   const dispatch = useDispatch();

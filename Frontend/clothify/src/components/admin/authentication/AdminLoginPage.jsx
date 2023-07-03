@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   Flex,
   Heading,
-  Text,
-  Input,
-  Button,
   IconButton,
+  Input,
   InputGroup,
   InputRightElement,
   Spinner,
+  Text,
   useToast,
 } from '@chakra-ui/react';
-import { FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { handleLoginFunction } from '../../../redux/Admin_Redux/authentication/action';
 import { cookiesGetter } from '../../../utils/coockies';
 const AdminLoginPage = () => {

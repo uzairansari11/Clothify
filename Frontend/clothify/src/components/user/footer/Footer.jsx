@@ -1,22 +1,22 @@
-import React from "react";
 import {
   Box,
+  Divider,
   Flex,
-  Text,
   IconButton,
   Link,
+  Text,
   Tooltip,
-  Divider,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import React from "react";
+import { AiFillSafetyCertificate } from "react-icons/ai";
 import {
-  FaTwitter,
-  FaInstagram,
   FaFacebook,
+  FaInstagram,
+  FaTwitter,
   FaUserCircle,
   FaWhatsapp,
 } from "react-icons/fa";
-import { AiFillSafetyCertificate } from "react-icons/ai";
 
 const Footer = () => {
   const hoverEffect = {

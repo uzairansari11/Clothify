@@ -1,6 +1,3 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FiSearch } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
 import {
   Box,
   Input,
@@ -10,6 +7,9 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { debounce } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Searchbar = () => {
   const [color, setColor] = useState('#edf2f2');

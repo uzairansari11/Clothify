@@ -1,21 +1,21 @@
-import React, { Routes, Route } from "react-router-dom";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import SingleProduct from "../pages/SingleProduct";
-import AboutPage from "../pages/About";
-import CartPage from "../pages/Cart";
-import MenPage from "../pages/MenPage";
-import WomenPage from "../pages/WomenPage";
-import KidPage from "../pages/KidPage";
-import WishlistPage from "../pages/WishlistPage";
-import Homepage from "../pages/HomePage";
-import OrderHistoryPage from "../pages/OrderHistoryPage";
-import CheckoutPage from "../pages/CheckoutPage";
-import PrivateRoute from "../components/hoc/PrivateRoute";
+import React, { Route, Routes } from "react-router-dom";
+import AdminLoginPage from "../components/admin/authentication/AdminLoginPage";
 import AdminSignupPage from "../components/admin/authentication/AdminSignupPage";
 import Dashboard from "../components/admin/dashboard/Dashboard";
-import AdminLoginPage from "../components/admin/authentication/AdminLoginPage";
 import AdminPrivateRoute from "../components/hoc/AdminPrivateRoute";
+import PrivateRoute from "../components/hoc/PrivateRoute";
+import AboutPage from "../pages/About";
+import CartPage from "../pages/Cart";
+import CheckoutPage from "../pages/CheckoutPage";
+import Homepage from "../pages/HomePage";
+import KidPage from "../pages/KidPage";
+import Login from "../pages/Login";
+import MenPage from "../pages/MenPage";
+import OrderHistoryPage from "../pages/OrderHistoryPage";
+import Signup from "../pages/Signup";
+import SingleProduct from "../pages/SingleProduct";
+import WishlistPage from "../pages/WishlistPage";
+import WomenPage from "../pages/WomenPage";
 
 const Routing = () => {
   return (

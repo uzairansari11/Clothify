@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
     Box,
     Button,
@@ -7,11 +7,11 @@ import {
     Heading,
     Text,
 } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleProductData } from "../redux/User_Redux/products/action";
-import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import Carousel from '../components/user/carousel/Carousel';
+import { handleProductData } from "../redux/User_Redux/products/action";
 
 const Homepage = () => {
     const { products } = useSelector((store) => store.productReducer);

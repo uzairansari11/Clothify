@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import CardItem from "../card/CardItem";
-import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import Pagination from "../product/Pagination";
-import NotFound from "./NotFound";
 import {
+	Accordion,
+	AccordionButton,
+	AccordionIcon,
+	AccordionItem,
+	AccordionPanel,
 	Box,
-	Flex,
-	FormControl,
+	Button,
 	Checkbox,
 	CheckboxGroup,
-	Text,
+	Flex,
+	FormControl,
 	Grid,
-	Accordion,
-	AccordionItem,
-	AccordionButton,
-	AccordionPanel,
-	AccordionIcon,
+	Icon,
+	Radio,
+	RadioGroup,
 	Slider,
-	SliderTrack,
 	SliderFilledTrack,
 	SliderThumb,
-	RadioGroup,
-	Radio,
-	Button,
-	Icon,
+	SliderTrack,
+	Text,
 } from "@chakra-ui/react";
-import { BiSort, BiCategory, BiBuilding } from "react-icons/bi";
+import React, { useEffect, useState } from "react";
+import { BiBuilding, BiCategory, BiSort } from "react-icons/bi";
 import { BsAlexa } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
-import LoadingSpinner from "../spinner/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { handleProductData } from "../../../redux/User_Redux/products/action";
+import CardItem from "../card/CardItem";
+import Pagination from "../product/Pagination";
+import LoadingSpinner from "../spinner/Spinner";
+import NotFound from "./NotFound";
 
 const Product = ({ category, subcategory, brands }) => {
 	const [searchParams, setSearchParams] = useSearchParams();

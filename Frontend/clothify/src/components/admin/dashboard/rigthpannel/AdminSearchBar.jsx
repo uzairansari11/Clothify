@@ -1,9 +1,9 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { useLayoutEffect, useCallback, useState } from 'react';
+import { SearchIcon } from '@chakra-ui/icons';
+import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { useCallback, useLayoutEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 const AdminSearchBar = () => {
   const location = useLocation();

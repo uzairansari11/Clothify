@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { UnlockIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Flex,
   Heading,
-  Text,
-  Input,
-  Button,
   IconButton,
+  Input,
   InputGroup,
   InputRightElement,
   Spinner,
+  Text,
   useToast,
 } from "@chakra-ui/react";
-import { FiUserPlus, FiEye, FiEyeOff} from "react-icons/fi";
-import { signupFunction } from "../utils/signup";
-import { useNavigate, Link } from "react-router-dom";
-import { UnlockIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { FiEye, FiEyeOff, FiUserPlus } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
+import { signupFunction } from "../utils/signup";
 
 const Signup = () => {
   const [name, setName] = useState("");

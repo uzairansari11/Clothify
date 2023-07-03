@@ -1,5 +1,5 @@
+import { Badge, Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { Text, Flex, Box, Image, Badge } from "@chakra-ui/react";
 
 const Preview = ({ productData }) => {
   return (

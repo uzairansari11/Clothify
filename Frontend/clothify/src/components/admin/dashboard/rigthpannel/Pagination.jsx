@@ -1,4 +1,4 @@
-import { Select, Flex, ScaleFade } from "@chakra-ui/react";
+import { Flex, ScaleFade, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const [isMounted, setIsMounted] = useState(false);

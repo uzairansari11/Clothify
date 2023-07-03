@@ -1,23 +1,23 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
+  FormErrorMessage,
   FormLabel,
+  HStack,
   Input,
   Select,
   Textarea,
   VStack,
-  Checkbox,
-  FormErrorMessage,
-  HStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { FaUserShield } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { handleAddProductData } from "../../../../../redux/Admin_Redux/admin_products/action";
 import { data } from "../../../../../utils/data";
 import Preview from "./Preview";
 import { productInitialState } from "./productinitialState";
-import { handleAddProductData } from "../../../../../redux/Admin_Redux/admin_products/action";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
 
 const AddProduct = () => {
   const [productData, setProductData] = useState(productInitialState);
