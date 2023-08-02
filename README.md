@@ -1,5 +1,6 @@
 # Clothify 
 Clothify is an innovative online platform that offers a diverse range of high-quality branded clothing at affordable prices. With a keen focus on style and value, we curate a collection that caters to all fashion enthusiasts. Experience the convenience of shopping for top-notch apparel while enjoying significant savings at Clothify.
+![Image20230802234300](https://github.com/uzairansari11/Clothify/assets/112272822/0373a7f2-be54-4c84-b572-2f2274632bc9)
 
 ## Color Reference
 
