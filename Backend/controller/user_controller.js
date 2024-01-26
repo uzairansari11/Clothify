@@ -80,6 +80,7 @@ const userLogin = asyncHandler(async (req, res) => {
 
     return res.status(200).json(responseData);
   } catch (error) {
+    console.log(error);
     return res
       .status(400)
       .json({ error: "An error occurred while logging in the user" });

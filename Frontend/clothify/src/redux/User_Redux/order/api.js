@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { cookiesGetter } from '../../../utils/coockies';
+import axios from "axios";
+import { cookiesGetter } from "../../../utils/cookies";
 
 export const get_order_from_api = async () => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
@@ -25,7 +25,7 @@ export const add_order_to_api = async (payload) => {
         headers: {
           Authorization: `token ${token}`,
         },
-      },
+      }
     );
     return res.data;
   } catch (error) {
@@ -47,7 +47,6 @@ export const delete_order_to_api = async (id) => {
   }
 };
 
-
 export const update_order_to_api = async (id, payload) => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
   try {
@@ -58,7 +57,7 @@ export const update_order_to_api = async (id, payload) => {
         headers: {
           Authorization: `token ${token}`,
         },
-      },
+      }
     );
     return res.data;
   } catch (error) {

@@ -1,4 +1,4 @@
-import { cookiesGetter } from '../../../utils/coockies';
+import { cookiesGetter } from '../../../utils/cookies';
 import * as types from './types';
 const adminDetailsinCookies = cookiesGetter(
   `${process.env.REACT_APP_ADMIN_TOKEN}`,

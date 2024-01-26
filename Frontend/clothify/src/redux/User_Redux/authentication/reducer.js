@@ -1,13 +1,12 @@
-import { cookiesGetter } from '../../../utils/coockies';
-import * as types from './types';
-const userDetailsinCookies = cookiesGetter(
-  `${process.env.REACT_APP_USER_TOKEN}`,
-);
+
+import { cookiesGetter } from "../../../utils/cookies";
+import * as types from "./types";
+
 const initialState = {
-  userDetails: userDetailsinCookies || null,
+  userDetails: cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`) || null,
   isLoading: false,
   isError: false,
-  isAuth: userDetailsinCookies ? true : false,
+  isAuth: cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`) ? true : false,
 };
 
 export const authReducer = (state = initialState, { type, payload }) => {

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { cookiesGetter } from '../../../utils/coockies';
+import axios from "axios";
+import { cookiesGetter } from "../../../utils/cookies";
 
 export const get_cart_from_api = async () => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_USER_TOKEN}`);
@@ -68,7 +68,7 @@ export const update_cart_to_api = async (id, payload) => {
         headers: {
           Authorization: `token ${token}`,
         },
-      },
+      }
     );
     return res.data;
   } catch (error) {

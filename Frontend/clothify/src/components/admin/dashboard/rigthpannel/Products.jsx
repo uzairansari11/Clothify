@@ -43,7 +43,7 @@ export const Products = () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
-  }, [page, limit, setSearchParams, dispatch]);
+  }, [page]);
 	return (
 		<div>
 			<Grid

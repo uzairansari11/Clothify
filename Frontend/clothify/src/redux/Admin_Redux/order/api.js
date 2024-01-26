@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { cookiesGetter } from '../../../utils/coockies';
+import { cookiesGetter } from '../../../utils/cookies';
+
 
 export const get_order_from_api = async () => {
   const { token } = cookiesGetter(`${process.env.REACT_APP_ADMIN_TOKEN}`);

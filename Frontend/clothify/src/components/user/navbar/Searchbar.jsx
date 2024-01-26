@@ -99,7 +99,7 @@ const Searchbar = () => {
           {data.map((item) => (
             <Link
               to={`/product/${item._id}`}
-              key={item.id} // Assuming `item` has an `id` property for the key
+              key={item._id} 
               onClick={handleItemClick}
               _hover={{ textDecoration: 'none', bg: 'gray.200' }}
             >

@@ -1,6 +1,6 @@
-import { cookiesSetter, removeCookie } from '../../../utils/coockies';
-import { login_user } from './api';
-import * as types from './types';
+import { cookiesSetter, removeCookie } from "../../../utils/cookies";
+import { login_user } from "./api";
+import * as types from "./types";
 
 export const isLoadingHandler = () => {
   return {
