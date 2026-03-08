@@ -51,9 +51,10 @@ const Carousel = ({ products }) => {
   }, []);
 
   const items = products.map((product) => {
+    const discount = Math.min(Math.max(product.discount || 0, 0), 90);
     const originalPrice =
-      product.discount > 0
-        ? Math.round(product.price / (1 - product.discount / 100))
+      discount > 0
+        ? Math.round(product.price / (1 - discount / 100))
         : null;
 
     return (
@@ -99,7 +100,7 @@ const Carousel = ({ products }) => {
                 _groupHover={{ transform: "scale(1.06)" }}
               />
 
-              {product.discount > 0 && (
+              {discount > 0 && (
                 <Badge
                   position="absolute"
                   top={3}
@@ -114,7 +115,7 @@ const Carousel = ({ products }) => {
                   py={0.5}
                   boxShadow="sm"
                 >
-                  {product.discount}% OFF
+                  {discount}% OFF
                 </Badge>
               )}
             </Box>

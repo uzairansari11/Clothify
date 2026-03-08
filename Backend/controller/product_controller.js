@@ -99,4 +99,24 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { getProduct, postProduct, updateProduct, deleteProduct, getSingleProduct };
+const getFilters = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const filter = category ? { category } : {};
+
+    const [subcategories, brands] = await Promise.all([
+      ProductModel.distinct('subcategory', filter),
+      ProductModel.distinct('brand', filter),
+    ]);
+
+    return sendSuccess(
+      res,
+      { subcategories: subcategories.sort(), brands: brands.sort() },
+      'Filters fetched successfully'
+    );
+  } catch (error) {
+    return sendError(res, 'An error occurred while fetching filters');
+  }
+};
+
+module.exports = { getProduct, postProduct, updateProduct, deleteProduct, getSingleProduct, getFilters };

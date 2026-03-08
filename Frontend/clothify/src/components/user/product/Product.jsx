@@ -25,26 +25,23 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FiFilter, FiRefreshCcw, FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { handleProductData } from "../../../redux/User_Redux/products/action";
+import useProducts from "../../../hooks/useProducts";
+import useFilters from "../../../hooks/useFilters";
 import CardItem from "../card/CardItem";
 import Pagination from "../product/Pagination";
 import LoadingSpinner from "../spinner/Spinner";
 import NotFound from "./NotFound";
 
-const Product = ({ category, subcategory, brands }) => {
+const Product = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSortOrder = searchParams.get("sortOrder");
   const initialPage = searchParams.get("page");
   const initialDiscount = searchParams.get("discount");
   const initialSubcategory = searchParams.getAll("subcategory");
   const initialBrand = searchParams.getAll("brand");
-  const { products, totalCount } = useSelector((store) => store.productReducer);
 
   const [page, setPage] = useState(initialPage || 1);
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(
@@ -57,6 +54,21 @@ const Product = ({ category, subcategory, brands }) => {
   const [selectedDiscountRange, setSelectedDiscountRange] = useState(
     initialDiscount || "gte0"
   );
+
+  // Dynamic filters from API
+  const { subcategories, brands, isLoading: filtersLoading } = useFilters(category);
+
+  // Products via React Query
+  const { products, totalCount, isLoading: productsLoading } = useProducts({
+    category,
+    subcategory: selectedCategory,
+    brand: selectedBrand,
+    sortField: selectedPriceSort ? "price" : undefined,
+    sortOrder: selectedPriceSort || undefined,
+    discount: Number(selectedDiscountRange.slice(3)) ? selectedDiscountRange : undefined,
+    page,
+    limit: 12,
+  });
 
   // Color tokens
   const mainBg = useColorModeValue("gray.50", "gray.900");
@@ -103,25 +115,7 @@ const Product = ({ category, subcategory, brands }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const params = {
-      category,
-      subcategory: searchParams.getAll("subcategory"),
-      brand: searchParams.getAll("brand"),
-      sortField: searchParams.get("sortField"),
-      sortOrder: searchParams.get("sortOrder"),
-      discount: searchParams.get("discount"),
-      page,
-      limit: 12,
-    };
-    dispatch(handleProductData(params));
-  }, [category, searchParams, page, dispatch, setSearchParams]);
-
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => setLoading(false), 300);
-  }, []);
-
-  if (loading) return <LoadingSpinner />;
+  }, [page]);
 
   const filterContent = (
     <>
@@ -226,9 +220,9 @@ const Product = ({ category, subcategory, brands }) => {
             <FormControl>
               <CheckboxGroup value={selectedCategory} onChange={handleCategoryChange}>
                 <Flex direction="column" gap={1.5}>
-                  {subcategory.map((item) => (
-                    <Checkbox key={item._id} value={item.subcategory} size="sm">
-                      <Text fontSize="13px">{item.subcategory}</Text>
+                  {subcategories.map((item) => (
+                    <Checkbox key={item} value={item} size="sm">
+                      <Text fontSize="13px">{item}</Text>
                     </Checkbox>
                   ))}
                 </Flex>
@@ -261,8 +255,8 @@ const Product = ({ category, subcategory, brands }) => {
               <CheckboxGroup value={selectedBrand} onChange={handleBrandChange}>
                 <Flex direction="column" gap={1.5}>
                   {brands.map((item) => (
-                    <Checkbox key={item._id} value={item.brand} size="sm">
-                      <Text fontSize="13px">{item.brand}</Text>
+                    <Checkbox key={item} value={item} size="sm">
+                      <Text fontSize="13px">{item}</Text>
                     </Checkbox>
                   ))}
                 </Flex>
@@ -389,7 +383,9 @@ const Product = ({ category, subcategory, brands }) => {
 
         {/* Product Grid */}
         <Box flex="1" p={{ base: 3, md: 5 }} minH="100vh">
-          {products?.length > 0 ? (
+          {productsLoading ? (
+            <LoadingSpinner />
+          ) : products?.length > 0 ? (
             <>
               <Grid
                 templateColumns={{

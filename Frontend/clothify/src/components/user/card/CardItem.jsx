@@ -61,8 +61,9 @@ const CardItem = ({
   const resolvedCardBg = isHovered ? cardHoverBg : cardBaseBg;
 
   // --- Derived values ---
+  const safeDiscount = Math.min(Math.max(discount || 0, 0), 90);
   const originalPrice =
-    discount > 0 ? Math.round(price / (1 - discount / 100)) : null;
+    safeDiscount > 0 ? Math.round(price / (1 - safeDiscount / 100)) : null;
 
   const payload = {
     title,
@@ -146,7 +147,7 @@ const CardItem = ({
         </Link>
 
         {/* SALE text overlay — top-right, minimal */}
-        {discount > 0 && (
+        {safeDiscount > 0 && (
           <Box
             position="absolute"
             top={3}
@@ -232,14 +233,14 @@ const CardItem = ({
             </Text>
           )}
 
-          {discount > 0 && (
+          {safeDiscount > 0 && (
             <Text
               fontSize="10px"
               fontWeight="500"
               color="green.500"
               lineHeight="1"
             >
-              {discount}% off
+              {safeDiscount}% off
             </Text>
           )}
         </Flex>

@@ -6,12 +6,15 @@ const {
   updateProduct,
   deleteProduct,
   getSingleProduct,
+  getFilters,
 } = require("../controller/product_controller");
 const { adminMiddleware } = require("../middleware/adminMiddleware");
 
 const productRouter = express.Router();
 
 productRouter.get("/", getProduct);
+
+productRouter.get("/filters", getFilters);
 
 productRouter.get("/:id", getSingleProduct);
 

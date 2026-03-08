@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -10,6 +9,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
   FiHeadphones,
@@ -18,7 +18,7 @@ import {
   FiTruck,
 } from "react-icons/fi";
 import Carousel from "../components/user/carousel/Carousel";
-import { handleProductData } from "../redux/User_Redux/products/action";
+import API from "../api/axiosInstance";
 import LoadingSpinner from "../components/user/spinner/Spinner";
 
 const MotionBox = motion(Box);
@@ -74,11 +74,46 @@ const SECTIONS = [
 /* ════════════════════════════════════════════
    Homepage component
 ════════════════════════════════════════════ */
+/** Fetch a small set of products for a homepage carousel section */
+const fetchSectionProducts = async (category) => {
+  const response = await API.get("/product", {
+    params: { category, limit: 10, page: 1 },
+  });
+  return response.data.data.products;
+};
+
 const Homepage = () => {
-  /* ── Redux / router ─────────────────────── */
-  const { products, isLoading } = useSelector((store) => store.productReducer);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  /* ── Per-category React Query fetches ───── */
+  const menQuery = useQuery({
+    queryKey: ["homepage", "Men"],
+    queryFn: () => fetchSectionProducts("Men"),
+    staleTime: 10 * 60 * 1000,
+  });
+  const womenQuery = useQuery({
+    queryKey: ["homepage", "Women"],
+    queryFn: () => fetchSectionProducts("Women"),
+    staleTime: 10 * 60 * 1000,
+  });
+  const kidsQuery = useQuery({
+    queryKey: ["homepage", "Kids"],
+    queryFn: () => fetchSectionProducts("Kids"),
+    staleTime: 10 * 60 * 1000,
+  });
+
+  const sectionData = {
+    "New Arrival": [...(menQuery.data || []).slice(0, 3), ...(womenQuery.data || []).slice(0, 4), ...(kidsQuery.data || []).slice(0, 3)],
+    Men: menQuery.data || [],
+    Women: womenQuery.data || [],
+    Kids: kidsQuery.data || [],
+  };
+  const sectionLoading = {
+    "New Arrival": menQuery.isLoading || womenQuery.isLoading || kidsQuery.isLoading,
+    Men: menQuery.isLoading,
+    Women: womenQuery.isLoading,
+    Kids: kidsQuery.isLoading,
+  };
 
   /* ── Color tokens — ALL at top level ────── */
   const pageBg              = useColorModeValue("white",      "gray.900");
@@ -126,8 +161,6 @@ const Homepage = () => {
   /* ── Side-effects ───────────────────────── */
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(handleProductData());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* ── Navigation helper ──────────────────── */
@@ -136,12 +169,6 @@ const Homepage = () => {
       navigate(`/${category.toLowerCase()}`);
     }
   };
-
-  /* ── Product filter helper ──────────────── */
-  const filterProducts = (category) =>
-    products?.filter((ele, i) =>
-      category === "New Arrival" ? i % 2 === 0 : ele.category === category
-    ) || [];
 
   /* ══════════════════════════════════════════
      RENDER
@@ -501,12 +528,12 @@ const Homepage = () => {
             </Flex>
 
             {/* Carousel or loading state */}
-            {isLoading ? (
+            {sectionLoading[category] ? (
               <LoadingSpinner />
             ) : (
               <>
                 <Box w={{ base: "100%", md: "94%" }} mx="auto">
-                  <Carousel products={filterProducts(category)} />
+                  <Carousel products={sectionData[category]} />
                 </Box>
 
                 {/* Explore button — hidden for New Arrival */}
