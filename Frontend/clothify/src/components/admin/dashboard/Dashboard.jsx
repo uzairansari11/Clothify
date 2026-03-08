@@ -8,17 +8,19 @@ import {
   Flex,
   IconButton,
   Text,
+  Tooltip,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiSettings } from "react-icons/fi";
 import PannelSiderbar from "./lfetpannel/PannelSiderbar";
 import AdminTable from "./rigthpannel/AdminTable";
 import Statistics from "./rigthpannel/Statistics";
 import UserTable from "./rigthpannel/UserTable";
 import { useSelector } from "react-redux";
 import AdminAvatar from "../authentication/AdminAvatar";
+import PreferenceDrawer from "../../user/PreferenceDrawer";
 import { Products } from "./rigthpannel/Products";
 import AddProduct from "./rigthpannel/addproduct/AddProduct";
 import OrderTable from "./rigthpannel/OrderTable";
@@ -36,6 +38,7 @@ const SECTION_TITLES = {
 
 const Dashboard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isPrefOpen, onOpen: onPrefOpen, onClose: onPrefClose } = useDisclosure();
 
   const location = useLocation();
   const finalPath = location.pathname.split("/")[2];
@@ -139,10 +142,22 @@ const Dashboard = () => {
             </Box>
           </Flex>
 
-          {/* Right: admin avatar */}
-          <Box flexShrink={0} ml={4}>
+          {/* Right: settings + admin avatar */}
+          <Flex align="center" gap={1} flexShrink={0} ml={4}>
+            <Tooltip label="Preferences" hasArrow placement="bottom">
+              <IconButton
+                icon={<FiSettings />}
+                size="sm"
+                variant="ghost"
+                color={menuBtnColor}
+                borderRadius="lg"
+                _hover={{ color: "accent.solid", bg: "accent.bg" }}
+                onClick={onPrefOpen}
+                aria-label="Preferences"
+              />
+            </Tooltip>
             <AdminAvatar adminDetails={adminDetails} />
-          </Box>
+          </Flex>
         </Flex>
 
         {/* ── Scrollable content area ── */}
@@ -160,6 +175,9 @@ const Dashboard = () => {
           {finalPath === "order"      && <OrderTable />}
         </Box>
       </Flex>
+
+      {/* Preference Drawer */}
+      <PreferenceDrawer isOpen={isPrefOpen} onClose={onPrefClose} />
     </Flex>
   );
 };

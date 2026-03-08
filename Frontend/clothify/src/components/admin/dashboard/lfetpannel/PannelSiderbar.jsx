@@ -18,8 +18,8 @@ const menuItems = [
   { label: "Users",       icon: FiUsers,       path: "/admin/user"        },
   { label: "Admins",      icon: FiShield,      path: "/admin/admin"       },
   { label: "Products",    icon: FiPackage,     path: "/admin/product"     },
-  { label: "Add Product", icon: FiPlus,        path: "/admin/addproduct"  },
   { label: "Orders",      icon: FiShoppingBag, path: "/admin/order"       },
+  { label: "Add Product", icon: FiPlus,        path: "/admin/addproduct"  },
 ];
 
 const PannelSiderbar = ({ onClose }) => {
