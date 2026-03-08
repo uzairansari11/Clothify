@@ -67,7 +67,6 @@ const AdminTable = () => {
   // All useColorModeValue calls at top level
   const headerBg = useColorModeValue("gray.50", "gray.700");
   const headerColor = useColorModeValue("gray.500", "gray.400");
-  const tableBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.100", "gray.700");
   const rowHoverBg = useColorModeValue("gray.50", "gray.700");
   const nameColor = useColorModeValue("gray.800", "white");
@@ -90,6 +89,7 @@ const AdminTable = () => {
 
   useEffect(() => {
     dispatch(handleGetAdmin());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEdit = (admin) => {

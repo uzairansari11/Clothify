@@ -35,7 +35,7 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                users: [...state.users.filter((ele) => ele._id != action.payload._id)],
+                users: [...state.users.filter((ele) => ele._id !== action.payload._id)],
             };
         }
 

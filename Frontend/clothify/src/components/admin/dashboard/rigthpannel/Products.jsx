@@ -421,6 +421,7 @@ export const Products = () => {
     const params = { limit, page };
     setSearchParams(params);
     dispatch(handleProductData(params));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

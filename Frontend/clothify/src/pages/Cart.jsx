@@ -23,10 +23,9 @@ import {
 } from "../redux/User_Redux/cart/action";
 
 const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
 
 const CartPage = () => {
-  const { cartData, isError } = useSelector((store) => store.cartReducer);
+  const { cartData } = useSelector((store) => store.cartReducer);
   const { isAuth } = useSelector((store) => store.authReducer);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();

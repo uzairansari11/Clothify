@@ -34,7 +34,7 @@ export const wishlistReducer = (state = initialState, action) => {
     case types.wishlist_Add_Success_status: {
       const updatedCWishlistData = [...state.wishlistData];
       const index = updatedCWishlistData.findIndex(
-        (ele) => ele.productId == action.payload.productId && ele.size == action.payload.size
+        (ele) => ele.productId === action.payload.productId && ele.size === action.payload.size
       );
 
       if (index !== -1) {

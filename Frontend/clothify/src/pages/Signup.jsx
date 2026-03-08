@@ -20,7 +20,6 @@ import { FiEye, FiEyeOff, FiLock, FiMail, FiPhone, FiShoppingBag, FiUser, FiUser
 import { Link, useNavigate } from "react-router-dom";
 import { signupFunction } from "../utils/signup";
 
-const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
 
 const Signup = () => {
@@ -79,6 +78,7 @@ const Signup = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isCreated) navigate("/login", { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreated]);
 
   return (

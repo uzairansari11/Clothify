@@ -127,6 +127,7 @@ const Homepage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(handleProductData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* ── Navigation helper ──────────────────── */

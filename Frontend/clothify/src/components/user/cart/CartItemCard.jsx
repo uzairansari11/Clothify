@@ -23,7 +23,6 @@ import {
   AiOutlineTag,
 } from "react-icons/ai";
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const CartItemCard = ({
@@ -39,8 +38,6 @@ const CartItemCard = ({
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(quantity);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
-
   // Color mode values
   const cardBg = useColorModeValue("white", "gray.800");
   const cardBorder = "accent.subtle";

@@ -18,7 +18,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Stack,
   Text,
@@ -39,7 +38,6 @@ import {
   FiLock,
   FiMapPin,
   FiMail,
-  FiPackage,
   FiShield,
   FiShoppingBag,
   FiTruck,
@@ -54,7 +52,6 @@ import { handleDeleteAllToCartData } from '../redux/User_Redux/cart/action';
 import { handleAddToOrderData } from '../redux/User_Redux/order/action';
 
 const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
 const MotionVStack = motion(VStack);
 
 // ─── Step Indicator ──────────────────────────────────────────────────────────

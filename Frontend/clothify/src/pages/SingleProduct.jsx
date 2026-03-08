@@ -32,7 +32,6 @@ import { handleAddToWishlistData } from "../redux/User_Redux/wishlist/action";
 import { handlesingleproduct } from "../utils/handlesingleproduct";
 
 const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
 
 // ---------------------------------------------------------------------------
 // Animation variants
@@ -165,7 +164,6 @@ const SingleProduct = () => {
   // callbacks or .map())
   // ---------------------------------------------------------------------------
   const pageBg            = useColorModeValue("gray.50",    "gray.900");
-  const cardBg            = useColorModeValue("white",      "gray.800");
   const borderColor       = useColorModeValue("gray.200",   "gray.700");
   const titleColor        = useColorModeValue("gray.900",   "white");
   const textColor         = useColorModeValue("gray.700",   "gray.300");
@@ -193,7 +191,6 @@ const SingleProduct = () => {
   const deliveryCardBorder = useColorModeValue("accent.bg", "gray.700");
   const deliveryIconBg    = useColorModeValue("white",      "gray.700");
   const deliveryHeadingColor = "accent.text";
-  const starFilledColor   = useColorModeValue("amber.500",  "amber.400");
   const starEmptyColor    = useColorModeValue("gray.300",   "gray.600");
   const breadcrumbColor   = useColorModeValue("gray.500",   "gray.400");
   const breadcrumbHighlight = "accent.text";

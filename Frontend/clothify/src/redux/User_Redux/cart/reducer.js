@@ -33,8 +33,8 @@ export const cartReducer = (state = initialState, action) => {
       const updatedCartData = [...state.cartData];
       const index = updatedCartData.findIndex(
         (ele) =>
-          ele.productId == action.payload.productId &&
-          ele.size == action.payload.size,
+          ele.productId === action.payload.productId &&
+          ele.size === action.payload.size,
       );
 
       if (index !== -1) {

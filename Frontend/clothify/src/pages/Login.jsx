@@ -22,7 +22,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { handleLoginFunction } from "../redux/User_Redux/authentication/action";
 import { cookiesGetter } from "../utils/cookies";
 
-const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
 
 const Login = () => {
@@ -82,6 +81,7 @@ const Login = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isLogin) navigate(comingFrom, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin]);
 
   return (

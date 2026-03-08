@@ -1,4 +1,4 @@
-import { Box, Flex, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { FiHeart, FiPackage, FiShoppingBag } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +29,7 @@ const OtherOptions = () => {
       dispatch(handleWishlistCartData());
       dispatch(handleGetOrderData());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
   const navItems = [

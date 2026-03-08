@@ -65,7 +65,6 @@ const Product = ({ category, subcategory, brands }) => {
   const mutedColor = useColorModeValue("gray.500", "gray.400");
   const sliderTrackBg = useColorModeValue("gray.200", "gray.600");
   const accordionHoverBg = "accent.bg";
-  const sectionBg = useColorModeValue("gray.50", "gray.700");
   const resultCountBg = "accent.bg";
 
   const activeFilterCount =
@@ -99,6 +98,7 @@ const Product = ({ category, subcategory, brands }) => {
       params.discount = selectedDiscountRange;
     params.page = page;
     setSearchParams(params);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, selectedBrand, selectedPriceSort, selectedDiscountRange, page]);
 
   useEffect(() => {
