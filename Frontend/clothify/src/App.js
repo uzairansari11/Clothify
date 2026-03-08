@@ -1,5 +1,6 @@
 import './App.css';
 import { Box } from '@chakra-ui/react';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/user/navbar/Navbar';
 import Routing from './routing/Routing';
 import Footer from './components/user/footer/Footer';
@@ -24,6 +25,24 @@ function App() {
 
   return (
     <div className="App">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            borderRadius: '12px',
+            padding: '12px 20px',
+            fontSize: '14px',
+            fontWeight: '500',
+          },
+          success: {
+            iconTheme: { primary: '#38A169', secondary: '#fff' },
+          },
+          error: {
+            iconTheme: { primary: '#E53E3E', secondary: '#fff' },
+          },
+        }}
+      />
       {showNavbar && <Navbar />}
       <Box mt={showNavbar ? { base: 12, md: 20 } : 0} overflow={isAdmin ? "hidden" : undefined}>
         <Routing />

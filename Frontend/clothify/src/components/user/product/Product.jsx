@@ -57,10 +57,10 @@ const Product = ({ category }) => {
   );
 
   // Dynamic filters from API
-  const { subcategories, brands, isLoading: filtersLoading } = useFilters(category);
+  const { subcategories, brands, isLoading: filtersLoading, isError: filtersError } = useFilters(category);
 
   // Products via React Query
-  const { products, totalCount, isLoading: productsLoading, isError: productsError } = useProducts({
+  const { products, totalCount, isLoading: productsLoading, isError: productsError, refetch } = useProducts({
     category,
     subcategory: selectedCategory,
     brand: selectedBrand,
@@ -218,17 +218,31 @@ const Product = ({ category }) => {
             <AccordionIcon color={mutedColor} />
           </AccordionButton>
           <AccordionPanel px={3} pb={3} pt={2}>
-            <FormControl>
-              <CheckboxGroup value={selectedCategory} onChange={handleCategoryChange}>
-                <Flex direction="column" gap={1.5}>
-                  {subcategories.map((item) => (
-                    <Checkbox key={item} value={item} size="sm">
-                      <Text fontSize="13px">{item}</Text>
-                    </Checkbox>
-                  ))}
-                </Flex>
-              </CheckboxGroup>
-            </FormControl>
+            {filtersError ? (
+              <Text fontSize="12px" color="red.400" textAlign="center" py={2}>
+                Failed to load categories
+              </Text>
+            ) : filtersLoading ? (
+              <Text fontSize="12px" color={mutedColor} textAlign="center" py={2}>
+                Loading...
+              </Text>
+            ) : subcategories.length === 0 ? (
+              <Text fontSize="12px" color={mutedColor} textAlign="center" py={2}>
+                No categories available
+              </Text>
+            ) : (
+              <FormControl>
+                <CheckboxGroup value={selectedCategory} onChange={handleCategoryChange}>
+                  <Flex direction="column" gap={1.5}>
+                    {subcategories.map((item) => (
+                      <Checkbox key={item} value={item} size="sm">
+                        <Text fontSize="13px">{item}</Text>
+                      </Checkbox>
+                    ))}
+                  </Flex>
+                </CheckboxGroup>
+              </FormControl>
+            )}
           </AccordionPanel>
         </AccordionItem>
 
@@ -252,17 +266,31 @@ const Product = ({ category }) => {
             <AccordionIcon color={mutedColor} />
           </AccordionButton>
           <AccordionPanel px={3} pb={3} pt={2} maxH="180px" overflowY="auto">
-            <FormControl>
-              <CheckboxGroup value={selectedBrand} onChange={handleBrandChange}>
-                <Flex direction="column" gap={1.5}>
-                  {brands.map((item) => (
-                    <Checkbox key={item} value={item} size="sm">
-                      <Text fontSize="13px">{item}</Text>
-                    </Checkbox>
-                  ))}
-                </Flex>
-              </CheckboxGroup>
-            </FormControl>
+            {filtersError ? (
+              <Text fontSize="12px" color="red.400" textAlign="center" py={2}>
+                Failed to load brands
+              </Text>
+            ) : filtersLoading ? (
+              <Text fontSize="12px" color={mutedColor} textAlign="center" py={2}>
+                Loading...
+              </Text>
+            ) : brands.length === 0 ? (
+              <Text fontSize="12px" color={mutedColor} textAlign="center" py={2}>
+                No brands available
+              </Text>
+            ) : (
+              <FormControl>
+                <CheckboxGroup value={selectedBrand} onChange={handleBrandChange}>
+                  <Flex direction="column" gap={1.5}>
+                    {brands.map((item) => (
+                      <Checkbox key={item} value={item} size="sm">
+                        <Text fontSize="13px">{item}</Text>
+                      </Checkbox>
+                    ))}
+                  </Flex>
+                </CheckboxGroup>
+              </FormControl>
+            )}
           </AccordionPanel>
         </AccordionItem>
 
@@ -386,11 +414,12 @@ const Product = ({ category }) => {
         <Box flex="1" p={{ base: 3, md: 5 }} minH="100vh">
           {productsError ? (
             <EmptyState
+              variant="error"
               icon={FiAlertCircle}
               title="Failed to load products"
-              message="Something went wrong while fetching products. Please check your connection and try again."
-              actionLabel="Retry"
-              onAction={() => window.location.reload()}
+              message="We couldn't reach the server. Please check your internet connection and try again."
+              actionLabel="Try Again"
+              onAction={refetch}
             />
           ) : productsLoading ? (
             <LoadingSpinner />

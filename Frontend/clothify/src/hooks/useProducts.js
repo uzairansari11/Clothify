@@ -39,7 +39,7 @@ const useProducts = (params = {}) => {
     limit = 6,
   } = params;
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     // Include every param in the key so the query refetches whenever any filter changes.
     queryKey: [
       "products",
@@ -65,6 +65,7 @@ const useProducts = (params = {}) => {
     totalCount: data?.totalCount ?? 0,
     isLoading,
     isError,
+    refetch,
   };
 };
 

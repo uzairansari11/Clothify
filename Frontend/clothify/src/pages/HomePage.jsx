@@ -120,8 +120,16 @@ const Homepage = () => {
     Women: womenQuery.isError,
     Kids: kidsQuery.isError,
   };
+  const sectionRefetch = {
+    "New Arrival": () => { menQuery.refetch(); womenQuery.refetch(); kidsQuery.refetch(); },
+    Men: menQuery.refetch,
+    Women: womenQuery.refetch,
+    Kids: kidsQuery.refetch,
+  };
 
   /* ── Color tokens — ALL at top level ────── */
+  const errorIconBg         = useColorModeValue("red.50",     "rgba(254,178,178,0.08)");
+  const errorIconColor      = useColorModeValue("red.400",    "red.300");
   const pageBg              = useColorModeValue("white",      "gray.900");
   const trustStripBg        = useColorModeValue("gray.50",    "gray.800");
   const trustStripBorder    = useColorModeValue("gray.100",   "gray.700");
@@ -536,17 +544,33 @@ const Homepage = () => {
             {/* Carousel or loading/error state */}
             {sectionError[category] ? (
               <Flex direction="column" align="center" py={10}>
-                <Icon as={FiRefreshCw} boxSize={8} color="gray.400" mb={3} />
-                <Text color="gray.500" fontSize="sm" mb={3}>
-                  Unable to load {title.toLowerCase()}. Please try again.
+                <Flex
+                  align="center"
+                  justify="center"
+                  bg={errorIconBg}
+                  w="56px"
+                  h="56px"
+                  borderRadius="full"
+                  mb={4}
+                >
+                  <Icon as={FiRefreshCw} boxSize={6} color={errorIconColor} />
+                </Flex>
+                <Text color={sectionTextColor} fontSize="sm" mb={4} fontWeight="500">
+                  Unable to load {title.toLowerCase()}
                 </Text>
                 <Button
                   size="sm"
-                  variant="outline"
+                  bg="accent.solid"
+                  color="white"
                   borderRadius="full"
-                  onClick={() => window.location.reload()}
+                  px={6}
+                  fontWeight="600"
+                  fontSize="13px"
+                  onClick={sectionRefetch[category]}
+                  _hover={{ transform: "translateY(-2px)", boxShadow: "lg", opacity: 0.9 }}
+                  transition="all 0.25s"
                 >
-                  Retry
+                  Try Again
                 </Button>
               </Flex>
             ) : sectionLoading[category] ? (
