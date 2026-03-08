@@ -4,33 +4,35 @@ import {
   Flex,
   Heading,
   Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Text,
   VStack,
   useColorModeValue,
-  useToast,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { FiEye, FiEyeOff, FiLock, FiLogIn, FiMail, FiShield } from 'react-icons/fi';
+import toast from 'react-hot-toast';
+import { FiLock, FiLogIn, FiMail, FiShield } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleLoginFunction } from '../../../redux/Admin_Redux/authentication/action';
 import { cookiesGetter } from '../../../utils/cookies';
+import FormField from '../../common/FormField';
+import { useFormValidation } from '../../common/useFormValidation';
+import { isEmail, minLength, required } from '../../common/validators';
 
 const MotionFlex = motion(Flex);
 
 const AdminLoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const { values, errors, handleChange, handleBlur, validateAll } = useFormValidation(
+    { email: '', password: '' },
+    {
+      email: [required('Email is required'), isEmail()],
+      password: [required('Password is required'), minLength(6, 'Password must be at least 6 characters')],
+    }
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,39 +41,22 @@ const AdminLoginPage = () => {
   const cardBorder = useColorModeValue('gray.200', 'gray.700');
   const headingColor = useColorModeValue('gray.900', 'white');
   const subtextColor = useColorModeValue('gray.500', 'gray.400');
-  const inputBg = useColorModeValue('gray.50', 'gray.700');
-  const inputBorder = useColorModeValue('gray.200', 'gray.600');
-  const inputIconColor = useColorModeValue('gray.400', 'gray.500');
   const linkColor = 'accent.solid';
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateAll()) return;
     setIsLoading(true);
-    if (email && password) {
-      dispatch(handleLoginFunction({ email, password })).then((res) => {
-        if (res === true) {
-          const adminDetails = cookiesGetter(`${process.env.REACT_APP_ADMIN_TOKEN}`);
-          toast({
-            title: `Welcome back, ${adminDetails?.name || 'Admin'}`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          });
-          setIsLogin(true);
-        } else {
-          toast({
-            title: 'Login failed',
-            description: 'Invalid email or password.',
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          });
-        }
-        setIsLoading(false);
-      });
-    }
+    dispatch(handleLoginFunction({ email: values.email, password: values.password })).then((res) => {
+      if (res === true) {
+        const adminDetails = cookiesGetter(`${process.env.REACT_APP_ADMIN_TOKEN}`);
+        toast.success(`Welcome back, ${adminDetails?.name || 'Admin'}!`);
+        setIsLogin(true);
+      } else {
+        toast.error('Invalid email or password.');
+      }
+      setIsLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -179,73 +164,31 @@ const AdminLoginPage = () => {
 
           <form onSubmit={handleSubmit}>
             <VStack spacing={4} align="stretch">
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Email
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="48px">
-                    <Icon as={FiMail} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="email"
-                    placeholder="admin@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    h="48px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+                placeholder="admin@example.com"
+                icon={FiMail}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Password
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="48px">
-                    <Icon as={FiLock} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    h="48px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                  <InputRightElement h="48px">
-                    <IconButton
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setShowPassword(!showPassword)}
-                      icon={showPassword ? <FiEyeOff /> : <FiEye />}
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
-                      color={inputIconColor}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Password"
+                name="password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.password}
+                placeholder="Enter your password"
+                icon={FiLock}
+                variant="auth"
+              />
 
               <Button
                 type="submit"
@@ -258,7 +201,7 @@ const AdminLoginPage = () => {
                 leftIcon={<FiLogIn />}
                 isLoading={isLoading}
                 loadingText="Signing in..."
-                isDisabled={!email || !password}
+                isDisabled={!values.email || !values.password}
                 borderRadius="xl"
                 fontWeight="700"
                 fontSize="sm"

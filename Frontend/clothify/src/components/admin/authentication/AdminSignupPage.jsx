@@ -4,21 +4,14 @@ import {
   Flex,
   Heading,
   Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Text,
   VStack,
   useColorModeValue,
-  useToast,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
-  FiEye,
-  FiEyeOff,
   FiKey,
   FiLock,
   FiMail,
@@ -29,18 +22,25 @@ import {
 } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { adminsignupFunction } from '../../../utils/signup';
+import FormField from '../../common/FormField';
+import { useFormValidation } from '../../common/useFormValidation';
+import { isEmail, isPhone, minLength, required } from '../../common/validators';
 
 const MotionFlex = motion(Flex);
 
 const AdminSignupPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [secretKey, setSecretKey] = useState('');
+  const { values, errors, handleChange, handleBlur, validateAll } = useFormValidation(
+    { name: '', email: '', mobile: '', password: '', secretKey: '' },
+    {
+      name: [required('Full name is required'), minLength(2, 'Name must be at least 2 characters')],
+      email: [required('Email is required'), isEmail()],
+      mobile: [required('Mobile number is required'), isPhone()],
+      password: [required('Password is required'), minLength(8, 'Password must be at least 8 characters')],
+      secretKey: [required('Secret key is required')],
+    }
+  );
+
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
 
   const pageBg = useColorModeValue('gray.100', 'gray.900');
@@ -48,46 +48,31 @@ const AdminSignupPage = () => {
   const cardBorder = useColorModeValue('gray.200', 'gray.700');
   const headingColor = useColorModeValue('gray.900', 'white');
   const subtextColor = useColorModeValue('gray.500', 'gray.400');
-  const inputBg = useColorModeValue('gray.50', 'gray.700');
-  const inputBorder = useColorModeValue('gray.200', 'gray.600');
-  const inputIconColor = useColorModeValue('gray.400', 'gray.500');
   const linkColor = 'accent.solid';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateAll()) return;
     setIsLoading(true);
     const response = await adminsignupFunction({
-      name,
-      email,
-      mobile,
-      password,
-      code: secretKey,
+      name: values.name,
+      email: values.email,
+      mobile: values.mobile,
+      password: values.password,
+      code: values.secretKey,
     });
     if (response === true) {
-      toast({
-        title: 'Admin account created!',
-        description: 'You can now sign in with your credentials.',
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-        position: 'top',
-      });
+      toast.success('Admin account created! You can now sign in.');
       setIsLoading(false);
       navigate('/admin/login', { replace: true });
     } else {
-      toast({
-        title: 'Signup failed',
-        description: typeof response === 'string' ? response : 'Could not create account.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      });
+      toast.error(typeof response === 'string' ? response : 'Could not create account.');
       setIsLoading(false);
     }
   };
 
-  const isFormValid = name && email && mobile && password && secretKey;
+  const isFormValid =
+    values.name && values.email && values.mobile && values.password && values.secretKey;
 
   return (
     <Flex align="center" justify="center" minH="100vh" bg={pageBg} px={4} py={12}>
@@ -189,160 +174,70 @@ const AdminSignupPage = () => {
 
           <form onSubmit={handleSubmit}>
             <VStack spacing={3} align="stretch">
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Full Name
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="44px">
-                    <Icon as={FiUser} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="text"
-                    placeholder="Your full name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    h="44px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Full Name"
+                name="name"
+                type="text"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.name}
+                placeholder="Your full name"
+                icon={FiUser}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Email
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="44px">
-                    <Icon as={FiMail} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="email"
-                    placeholder="admin@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    h="44px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+                placeholder="admin@example.com"
+                icon={FiMail}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Mobile
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="44px">
-                    <Icon as={FiPhone} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="tel"
-                    placeholder="10-digit mobile number"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                    h="44px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Mobile"
+                name="mobile"
+                type="tel"
+                value={values.mobile}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.mobile}
+                placeholder="10-digit mobile number"
+                icon={FiPhone}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Password
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="44px">
-                    <Icon as={FiLock} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Min 8 characters"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    h="44px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                  <InputRightElement h="44px">
-                    <IconButton
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setShowPassword(!showPassword)}
-                      icon={showPassword ? <FiEyeOff /> : <FiEye />}
-                      aria-label={showPassword ? 'Hide' : 'Show'}
-                      color={inputIconColor}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Password"
+                name="password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.password}
+                placeholder="Min 8 characters"
+                icon={FiLock}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Secret Key
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="44px">
-                    <Icon as={FiKey} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="password"
-                    placeholder="Admin secret key"
-                    value={secretKey}
-                    onChange={(e) => setSecretKey(e.target.value)}
-                    h="44px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: 'accent.solid',
-                      boxShadow: '0 0 0 1px var(--chakra-colors-accent-solid)',
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Secret Key"
+                name="secretKey"
+                type="password"
+                value={values.secretKey}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.secretKey}
+                placeholder="Admin secret key"
+                icon={FiKey}
+                variant="auth"
+              />
 
               <Button
                 type="submit"

@@ -4,33 +4,34 @@ import {
   Flex,
   Heading,
   Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Text,
   VStack,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { FiEye, FiEyeOff, FiLock, FiMail, FiPhone, FiShoppingBag, FiUser, FiUserPlus } from "react-icons/fi";
+import toast from "react-hot-toast";
+import { FiLock, FiMail, FiPhone, FiShoppingBag, FiUser, FiUserPlus } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
+import FormField from "../components/common/FormField";
+import { useFormValidation } from "../components/common/useFormValidation";
+import { required, isEmail, minLength, isPhone } from "../components/common/validators";
 import { signupFunction } from "../utils/signup";
 
 const MotionFlex = motion(Flex);
 
 const Signup = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const { values, errors, handleChange, handleBlur, validateAll } = useFormValidation(
+    { name: "", email: "", password: "", mobile: "" },
+    {
+      name: [required("Full name is required"), minLength(2, "Name must be at least 2 characters")],
+      email: [required("Email is required"), isEmail()],
+      password: [required("Password is required"), minLength(8, "Password must be at least 8 characters")],
+      mobile: [required("Mobile number is required"), isPhone()],
+    }
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
 
   const pageBg = useColorModeValue("gray.50", "gray.900");
@@ -38,41 +39,28 @@ const Signup = () => {
   const cardBorder = useColorModeValue("gray.100", "gray.700");
   const headingColor = useColorModeValue("gray.900", "white");
   const subtextColor = useColorModeValue("gray.500", "gray.400");
-  const inputBg = useColorModeValue("gray.50", "gray.700");
-  const inputBorder = useColorModeValue("gray.200", "gray.600");
-  const inputIconColor = useColorModeValue("gray.400", "gray.500");
   const brandDotColor = "accent.solid";
   const linkColor = "accent.solid";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateAll()) return;
     setIsLoading(true);
 
-    if (email && password && mobile && name) {
-      const res = await signupFunction({ email, password, name, mobile });
+    const res = await signupFunction({
+      email: values.email,
+      password: values.password,
+      name: values.name,
+      mobile: values.mobile,
+    });
 
-      if (res === true) {
-        toast({
-          title: "Account created!",
-          description: "You can now sign in with your credentials.",
-          status: "success",
-          duration: 4000,
-          isClosable: true,
-          position: "top",
-        });
-        setIsCreated(true);
-      } else {
-        toast({
-          title: "Signup failed",
-          description: typeof res === "string" ? res : "Could not create account. Please try again.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
-      }
-      setIsLoading(false);
+    if (res === true) {
+      toast.success("Account created! You can now sign in.");
+      setIsCreated(true);
+    } else {
+      toast.error(typeof res === "string" ? res : "Could not create account. Please try again.");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -205,134 +193,57 @@ const Signup = () => {
 
           <form onSubmit={handleSubmit}>
             <VStack spacing={3.5} align="stretch">
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Full Name
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="46px">
-                    <Icon as={FiUser} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="text"
-                    placeholder="Your full name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    h="46px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: "accent.solid",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-accent-solid)",
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Full Name"
+                name="name"
+                type="text"
+                placeholder="Your full name"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.name}
+                icon={FiUser}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Email
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="46px">
-                    <Icon as={FiMail} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    h="46px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: "accent.solid",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-accent-solid)",
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+                icon={FiMail}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Password
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="46px">
-                    <Icon as={FiLock} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Min 8 characters"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    minLength={8}
-                    h="46px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: "accent.solid",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-accent-solid)",
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                  <InputRightElement h="46px">
-                    <IconButton
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setShowPassword(!showPassword)}
-                      icon={showPassword ? <FiEyeOff /> : <FiEye />}
-                      aria-label={showPassword ? "Hide" : "Show"}
-                      color={inputIconColor}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Password"
+                name="password"
+                type="password"
+                placeholder="Min 8 characters"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.password}
+                icon={FiLock}
+                variant="auth"
+              />
 
-              <Box>
-                <Text fontSize="xs" fontWeight="600" color={subtextColor} mb={1.5} textTransform="uppercase" letterSpacing="0.05em">
-                  Mobile
-                </Text>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none" h="46px">
-                    <Icon as={FiPhone} color={inputIconColor} boxSize={4} />
-                  </InputLeftElement>
-                  <Input
-                    type="text"
-                    placeholder="10-digit mobile number"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                    minLength={10}
-                    maxLength={10}
-                    h="46px"
-                    bg={inputBg}
-                    border="1px solid"
-                    borderColor={inputBorder}
-                    borderRadius="xl"
-                    fontSize="sm"
-                    _focus={{
-                      borderColor: "accent.solid",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-accent-solid)",
-                      bg: cardBg,
-                    }}
-                    _placeholder={{ color: inputIconColor }}
-                  />
-                </InputGroup>
-              </Box>
+              <FormField
+                label="Mobile"
+                name="mobile"
+                type="tel"
+                placeholder="10-digit mobile number"
+                value={values.mobile}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.mobile}
+                icon={FiPhone}
+                variant="auth"
+              />
 
               <Button
                 type="submit"
@@ -345,7 +256,7 @@ const Signup = () => {
                 leftIcon={<FiUserPlus />}
                 isLoading={isLoading}
                 loadingText="Creating account..."
-                isDisabled={!name || !email || !password || !mobile}
+                isDisabled={!values.name || !values.email || !values.password || !values.mobile}
                 borderRadius="xl"
                 fontWeight="700"
                 fontSize="sm"
