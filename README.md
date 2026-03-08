@@ -84,6 +84,9 @@ Clothify is a full-stack e-commerce web application for fashion retail. It provi
 |:---:|:---:|
 | ![Admin Login](./Frontend/clothify/screenshots/09-admin-login.png) | ![Admin Signup](./Frontend/clothify/screenshots/10-admin-signup.png) |
 
+### Single Product
+![Single Product](./Frontend/clothify/screenshots/06-single-product.png)
+
 ### Shopping Experience
 | Shopping Cart | Wishlist |
 |:---:|:---:|
@@ -91,6 +94,11 @@ Clothify is a full-stack e-commerce web application for fashion retail. It provi
 
 ### Order History
 ![Order History](./Frontend/clothify/screenshots/21-orderhistory.png)
+
+### Dark Mode
+| Homepage (Dark) | Login (Dark) |
+|:---:|:---:|
+| ![Homepage Dark](./Frontend/clothify/screenshots/12-homepage-dark.png) | ![Login Dark](./Frontend/clothify/screenshots/13-login-dark.png) |
 
 ### About Page
 ![About](./Frontend/clothify/screenshots/11-about.png)
