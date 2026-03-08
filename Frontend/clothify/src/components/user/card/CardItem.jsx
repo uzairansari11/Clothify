@@ -6,10 +6,10 @@ import {
   Spinner,
   Text,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -39,21 +39,21 @@ const CardItem = ({
 
   const dispatch = useDispatch();
   const { isAuth } = useSelector((store) => store.authReducer);
-  const toast = useToast();
-
   // --- All useColorModeValue calls at top level ---
   const cardHoverBg = useColorModeValue("accent.bg", "gray.750");
   const cardBaseBg = useColorModeValue("white", "gray.800");
-  const titleColor = useColorModeValue("gray.800", "gray.50");
+  const titleColor = useColorModeValue("gray.800", "gray.100");
   const brandColor = "accent.text";
-  const priceColor = useColorModeValue("gray.800", "white");
-  const strikePriceColor = useColorModeValue("gray.500", "gray.500");
-  const ratingColor = useColorModeValue("gray.600", "gray.400");
-  const iconColor = useColorModeValue("gray.500", "gray.300");
+  const priceColor = useColorModeValue("gray.900", "white");
+  const strikePriceColor = useColorModeValue("gray.400", "gray.500");
+  const ratingColor = useColorModeValue("gray.500", "gray.300");
+  const ratingStarColor = useColorModeValue("yellow.500", "yellow.400");
+  const iconColor = useColorModeValue("gray.400", "gray.400");
   const iconHoverColor = "accent.text";
-  const saleTextColor = useColorModeValue("gray.800", "gray.100");
+  const saleTextColor = useColorModeValue("white", "white");
+  const saleBg = useColorModeValue("gray.900", "accent.solid");
   const activeSizeColor = "accent.text";
-  const inactiveSizeColor = useColorModeValue("gray.500", "gray.500");
+  const inactiveSizeColor = useColorModeValue("gray.600", "gray.300");
   const separatorColor = useColorModeValue("gray.200", "gray.600");
   const gradientLineStart = useColorModeValue("var(--chakra-colors-accent-solid)", "var(--chakra-colors-accent-solid)");
 
@@ -81,13 +81,7 @@ const CardItem = ({
   // --- Handlers ---
   const handleAddToCart = () => {
     if (!isAuth) {
-      toast({
-        title: "Please login first",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+      toast.error("Please login first");
       return;
     }
     setIsCartLoading(true);
@@ -96,13 +90,7 @@ const CardItem = ({
 
   const handleAddToWishlist = () => {
     if (!isAuth) {
-      toast({
-        title: "Please login first",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+      toast.error("Please login first");
       return;
     }
     setIsWishlistLoading(true);
@@ -160,10 +148,11 @@ const CardItem = ({
               color={saleTextColor}
               letterSpacing="2.5px"
               textTransform="uppercase"
-              bg="whiteAlpha.900"
-              px={1.5}
-              py={0.5}
-              lineHeight="1.6"
+              bg={saleBg}
+              px={2}
+              py={1}
+              borderRadius="sm"
+              lineHeight="1.4"
             >
               SALE
             </Text>
@@ -245,16 +234,13 @@ const CardItem = ({
           )}
         </Flex>
 
-        {/* Rating — plain text only */}
-        <Text
-          fontSize="11px"
-          color={ratingColor}
-          fontWeight="400"
-          mb={2.5}
-          lineHeight="1"
-        >
-          ★ {rating} ({total_rating})
-        </Text>
+        {/* Rating */}
+        <Flex align="center" gap={1} mb={2.5}>
+          <Text fontSize="11px" color={ratingStarColor} lineHeight="1">★</Text>
+          <Text fontSize="11px" color={ratingColor} fontWeight="500" lineHeight="1">
+            {rating} ({total_rating})
+          </Text>
+        </Flex>
 
         {/* Sizes — plain clickable text, no boxes */}
         {sizes?.length > 0 && (
