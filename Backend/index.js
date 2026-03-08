@@ -35,11 +35,12 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, error: 'Internal server error' });
 });
 
-app.listen(process.env.PORT, async () => {
-  try {
-    await connection();
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(`Server is running at ${process.env.PORT}`);
-});
+connection().catch((error) => console.log(error));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(process.env.PORT, () => {
+    console.log(`Server is running at ${process.env.PORT}`);
+  });
+}
+
+module.exports = app;
