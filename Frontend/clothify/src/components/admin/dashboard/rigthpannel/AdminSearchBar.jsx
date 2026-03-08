@@ -1,6 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
-import axios from 'axios';
+import API from '../../../../api/axiosInstance';
 import { debounce } from 'lodash';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -19,10 +19,8 @@ const AdminSearchBar = () => {
       params = { ...params, search: search, page: 1, limit: 6 };
       setSearchParams(params);
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_URL}/product?search=${text}`,
-        );
-        setData(response.data.data);
+        const response = await API.get('/product', { params: { search: text } });
+        setData(response.data.data.products);
       } catch (error) {
         console.log(error);
       }
