@@ -6,7 +6,7 @@ const getCart = async (req, res) => {
     const cartData = await CartModel.find({ user: req.user.id });
     return sendSuccess(res, cartData, 'Cart fetched successfully');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while fetching the cart');
   }
 };
 
@@ -55,7 +55,7 @@ const updateCart = async (req, res) => {
     }
     return sendSuccess(res, updatedItem, 'Cart item updated');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while updating the cart item');
   }
 };
 
@@ -70,7 +70,7 @@ const deleteCart = async (req, res) => {
     }
     return sendSuccess(res, deletedItem, 'Item removed from cart');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while removing the cart item');
   }
 };
 

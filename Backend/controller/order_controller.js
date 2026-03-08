@@ -6,7 +6,7 @@ const getOrder = async (req, res) => {
     const orderData = await OrderModel.find({ user: req.user.id }).sort({ date: -1, time: -1 });
     return sendSuccess(res, orderData, 'Orders fetched successfully');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while fetching orders');
   }
 };
 
@@ -72,7 +72,7 @@ const getOrderByAdmin = async (req, res) => {
     ]);
     return sendSuccess(res, orderData, 'Orders fetched successfully');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while fetching admin orders');
   }
 };
 

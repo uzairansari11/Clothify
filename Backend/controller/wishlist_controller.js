@@ -6,7 +6,7 @@ const getWishlist = async (req, res) => {
     const wishData = await WishlistModel.find({ user: req.user.id });
     return sendSuccess(res, wishData, 'Wishlist fetched successfully');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while fetching the wishlist');
   }
 };
 
@@ -55,7 +55,7 @@ const updateWishlist = async (req, res) => {
     }
     return sendSuccess(res, updatedItem, 'Wishlist item updated');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while updating the wishlist item');
   }
 };
 
@@ -70,7 +70,7 @@ const deleteWishlist = async (req, res) => {
     }
     return sendSuccess(res, deletedItem, 'Item removed from wishlist');
   } catch (error) {
-    return sendError(res, 'Something went wrong');
+    return sendError(res, 'An error occurred while removing the wishlist item');
   }
 };
 
