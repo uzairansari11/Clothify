@@ -1,4 +1,5 @@
 import { cookiesSetter, removeCookie } from '../../../utils/cookies';
+import { ADMIN_LOGOUT_RESET } from '../../store';
 import { login_admin } from './api';
 import * as types from './types';
 
@@ -49,7 +50,7 @@ export const handleLogoutFunction = () => (dispatch) => {
   dispatch(isLoadingHandler());
   setTimeout(() => {
     dispatch(logoutHandler());
+    dispatch({ type: ADMIN_LOGOUT_RESET });
     removeCookie(`${process.env.REACT_APP_ADMIN_TOKEN}`);
   }, 1500);
-  dispatch(isErrorHandler());
 };

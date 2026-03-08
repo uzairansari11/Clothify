@@ -18,7 +18,10 @@ import { productReducer } from './User_Redux/products/reducer';
 import { wishlistReducer } from './User_Redux/wishlist/reducer';
 const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
+export const USER_LOGOUT_RESET = 'USER_LOGOUT_RESET';
+export const ADMIN_LOGOUT_RESET = 'ADMIN_LOGOUT_RESET';
+
+const appReducer = combineReducers({
   authReducer,
   productReducer,
   cartReducer,
@@ -30,6 +33,32 @@ const rootReducer = combineReducers({
   orderReducer,
   adminOrderReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === USER_LOGOUT_RESET) {
+    // Clear user-specific state, keep admin + products
+    state = {
+      ...state,
+      authReducer: undefined,
+      cartReducer: undefined,
+      wishlistReducer: undefined,
+      orderReducer: undefined,
+    };
+  }
+  if (action.type === ADMIN_LOGOUT_RESET) {
+    // Clear admin-specific state
+    state = {
+      ...state,
+      adminAuthReducer: undefined,
+      adminProductReducer: undefined,
+      adminReducer: undefined,
+      adminOrderReducer: undefined,
+      userReducer: undefined,
+    };
+  }
+  return appReducer(state, action);
+};
+
 export const store = legacy_createStore(
   rootReducer,
   enhancer(applyMiddleware(thunk)),

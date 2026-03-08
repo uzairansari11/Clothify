@@ -1,4 +1,5 @@
 import { cookiesSetter, removeCookie } from "../../../utils/cookies";
+import { USER_LOGOUT_RESET } from "../../store";
 import { login_user } from "./api";
 import * as types from "./types";
 
@@ -49,7 +50,7 @@ export const handleLogoutFunction = () => (dispatch) => {
   dispatch(isLoadingHandler());
   setTimeout(() => {
     dispatch(logoutHandler());
+    dispatch({ type: USER_LOGOUT_RESET });
     removeCookie(`${process.env.REACT_APP_USER_TOKEN}`);
   }, 1500);
-  dispatch(isErrorHandler());
 };
