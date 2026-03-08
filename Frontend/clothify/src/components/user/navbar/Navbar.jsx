@@ -96,6 +96,7 @@ const Navbar = () => {
                   totalWishlistQuantity={totalWishlistQuantity}
                   isAuth={authDetails.isAuth}
                   orderData={orderData}
+                  onOpenPreferences={onOpen}
                 >
                   <HamburgerOptions />
                 </DrawerComponent>

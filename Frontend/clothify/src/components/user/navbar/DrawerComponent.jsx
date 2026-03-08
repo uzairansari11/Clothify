@@ -24,6 +24,7 @@ import {
   FaFemale,
   FaChild,
 } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
 import { Link as ReactLink } from "react-router-dom";
 
 function DrawerComponent({
@@ -32,6 +33,7 @@ function DrawerComponent({
   isAuth,
   totalWishlistQuantity,
   orderData,
+  onOpenPreferences,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -262,6 +264,56 @@ function DrawerComponent({
                 </Link>
               ))}
             </VStack>
+
+            {/* Preferences */}
+            <Divider borderColor={dividerColor} my={4} />
+            <Box
+              as="button"
+              w="full"
+              onClick={() => {
+                onClose();
+                onOpenPreferences?.();
+              }}
+              _hover={{ textDecoration: "none" }}
+            >
+              <Flex
+                align="center"
+                bg={navItemBg}
+                borderWidth="1px"
+                borderColor="transparent"
+                borderRadius="xl"
+                px={4}
+                py={3}
+                transition="all 0.15s ease"
+                _hover={{
+                  bg: navItemBgHover,
+                  borderColor: navItemBorderHover,
+                  transform: "translateX(2px)",
+                }}
+              >
+                <HStack spacing={3}>
+                  <Flex
+                    align="center"
+                    justify="center"
+                    w="36px"
+                    h="36px"
+                    bg={navIconContainerBg}
+                    borderRadius="lg"
+                    flexShrink={0}
+                  >
+                    <Icon as={FiSettings} boxSize={4} color={navIconColor} />
+                  </Flex>
+                  <Text
+                    fontSize="sm"
+                    fontWeight="600"
+                    color={navLabelColor}
+                    lineHeight="1.2"
+                  >
+                    Preferences
+                  </Text>
+                </HStack>
+              </Flex>
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
