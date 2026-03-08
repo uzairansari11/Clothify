@@ -1,11 +1,11 @@
 import API from '../../../api/axiosInstance';
 import { getAdminAuthHeader } from '../../../api/authHelper';
 
-export const get_order_from_api = async () => {
+export const get_order_from_api = async (params = {}) => {
   try {
-    const res = await API.get('/order/admin', { headers: getAdminAuthHeader() });
+    const res = await API.get('/order/admin', { params, headers: getAdminAuthHeader() });
     return res.data.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

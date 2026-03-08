@@ -18,10 +18,10 @@ export const getOrderHandler = (payload) => {
   };
 };
 
-export const handleGetOrderData = () => async (dispatch) => {
+export const handleGetOrderData = (params = {}) => async (dispatch) => {
   dispatch(isLoadingHandler());
   try {
-    const payload = await get_order_from_api();
+    const payload = await get_order_from_api(params);
     dispatch(getOrderHandler(payload));
   } catch (error) {
     dispatch(isErrorHandler());

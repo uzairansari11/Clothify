@@ -3,6 +3,7 @@ const initialState = {
     isLoading: false,
     isError: false,
     users: [],
+    totalCount: 0,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -26,7 +27,8 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                users: action.payload,
+                users: action.payload.users || action.payload,
+                totalCount: action.payload.totalCount ?? (action.payload.users || action.payload).length,
             };
         }
 

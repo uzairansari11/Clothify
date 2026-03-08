@@ -35,10 +35,10 @@ export const updateAdminHanlder = (payload) => {
     }
 }
 
-export const handleGetAdmin = () => async (dispatch) => {
+export const handleGetAdmin = (params = {}) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
-        const data = await get_Admin_Data_FromApi();
+        const data = await get_Admin_Data_FromApi(params);
         dispatch(adminHandler(data));
     } catch (error) {
         dispatch(isErrorHandler());

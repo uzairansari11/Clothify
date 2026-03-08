@@ -3,6 +3,7 @@ const initialState = {
     isLoading: false,
     isError: false,
     admins: [],
+    totalCount: 0,
 };
 
 export const adminReducer = (state = initialState, action) => {
@@ -26,7 +27,8 @@ export const adminReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                admins: action.payload,
+                admins: action.payload.admins || action.payload,
+                totalCount: action.payload.totalCount ?? (action.payload.admins || action.payload).length,
             };
         }
 

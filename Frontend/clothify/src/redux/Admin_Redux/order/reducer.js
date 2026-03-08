@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   orderData: [],
+  totalCount: 0,
 };
 
 export const adminOrderReducer = (state = initialState, action) => {
@@ -26,7 +27,8 @@ export const adminOrderReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        orderData: action.payload,
+        orderData: action.payload.orders || action.payload,
+        totalCount: action.payload.totalCount ?? (action.payload.orders || action.payload).length,
       };
     }
 

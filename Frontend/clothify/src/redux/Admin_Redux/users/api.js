@@ -1,12 +1,12 @@
 import API from '../../../api/axiosInstance';
 import { getAdminAuthHeader } from '../../../api/authHelper';
 
-export const get_UserData_FromApi = async () => {
+export const get_UserData_FromApi = async (params = {}) => {
   try {
-    const res = await API.get('/user', { headers: getAdminAuthHeader() });
+    const res = await API.get('/user', { params, headers: getAdminAuthHeader() });
     return res.data.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 

@@ -35,10 +35,10 @@ export const updateUserHanlder = (payload) => {
     }
 }
 
-export const handleGetUser = () => async (dispatch) => {
+export const handleGetUser = (params = {}) => async (dispatch) => {
     dispatch(isLoadingHandler());
     try {
-        const data = await get_UserData_FromApi();
+        const data = await get_UserData_FromApi(params);
         dispatch(userHandler(data));
     } catch (error) {
         dispatch(isErrorHandler());
