@@ -26,7 +26,7 @@ export const adminProductReducer = (state = initialState, { type, payload }) => 
                 ...state,
                 isLoading: false,
                 isError: false,
-                products: payload.data,
+                products: payload.products,
                 totalCount: payload.totalCount,
             };
         }

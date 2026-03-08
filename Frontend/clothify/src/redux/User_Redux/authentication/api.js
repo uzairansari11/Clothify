@@ -1,13 +1,10 @@
-import axios from 'axios';
+import API from '../../../api/axiosInstance';
 
 export const login_user = async (payload) => {
   try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_URL}/user/login`,
-      payload,
-    );
-    return res.data;
+    const res = await API.post('/user/login', payload);
+    return res.data.data;
   } catch (error) {
-    return error.response.data.error;
+    return error.response?.data?.error || 'Login failed';
   }
 };

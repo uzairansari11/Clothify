@@ -1,11 +1,9 @@
-import axios from 'axios';
+import API from '../../../api/axiosInstance';
 
 export const get_product_from_api = async (params) => {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_URL}/product`, {
-      params,
-    });
-    return response.data;
+    const response = await API.get('/product', { params });
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }
