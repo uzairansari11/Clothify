@@ -1,90 +1,91 @@
-import React, { Route, Routes } from "react-router-dom";
-import AdminLoginPage from "../components/admin/authentication/AdminLoginPage";
-import AdminSignupPage from "../components/admin/authentication/AdminSignupPage";
-import Dashboard from "../components/admin/dashboard/Dashboard";
+import React, { Suspense, lazy } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import AdminPrivateRoute from "../components/hoc/AdminPrivateRoute";
 import PrivateRoute from "../components/hoc/PrivateRoute";
-import AboutPage from "../pages/About";
-import CartPage from "../pages/Cart";
-import CheckoutPage from "../pages/CheckoutPage";
-import Homepage from "../pages/HomePage";
-import KidPage from "../pages/KidPage";
-import Login from "../pages/Login";
-import MenPage from "../pages/MenPage";
-import OrderHistoryPage from "../pages/OrderHistoryPage";
-import Signup from "../pages/Signup";
-import SingleProduct from "../pages/SingleProduct";
-import WishlistPage from "../pages/WishlistPage";
-import WomenPage from "../pages/WomenPage";
+import LoadingScreen from "../components/common/LoadingScreen";
+import PageTransition from "../components/common/PageTransition";
+
+// Lazy-loaded pages
+const Homepage = lazy(() => import("../pages/HomePage"));
+const SingleProduct = lazy(() => import("../pages/SingleProduct"));
+const MenPage = lazy(() => import("../pages/MenPage"));
+const WomenPage = lazy(() => import("../pages/WomenPage"));
+const KidPage = lazy(() => import("../pages/KidPage"));
+const Signup = lazy(() => import("../pages/Signup"));
+const Login = lazy(() => import("../pages/Login"));
+const AboutPage = lazy(() => import("../pages/About"));
+const CartPage = lazy(() => import("../pages/Cart"));
+const CheckoutPage = lazy(() => import("../pages/CheckoutPage"));
+const WishlistPage = lazy(() => import("../pages/WishlistPage"));
+const OrderHistoryPage = lazy(() => import("../pages/OrderHistoryPage"));
+const AdminLoginPage = lazy(() => import("../components/admin/authentication/AdminLoginPage"));
+const AdminSignupPage = lazy(() => import("../components/admin/authentication/AdminSignupPage"));
+const Dashboard = lazy(() => import("../components/admin/dashboard/Dashboard"));
 
 const Routing = () => {
+  const location = useLocation();
+
   return (
-    <Routes>
-      <Route path="/" element={<Homepage />} />
-      <Route path="/product/:id" element={<SingleProduct />} />
-      <Route path="/men" element={<MenPage />} />
-      <Route path="/women" element={<WomenPage />} />
-      <Route path="/kids" element={<KidPage />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/about" element={<AboutPage />} />
+    <Suspense fallback={<LoadingScreen message="Loading..." height="80vh" />}>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageTransition><Homepage /></PageTransition>} />
+          <Route path="/product/:id" element={<PageTransition><SingleProduct /></PageTransition>} />
+          <Route path="/men" element={<PageTransition><MenPage /></PageTransition>} />
+          <Route path="/women" element={<PageTransition><WomenPage /></PageTransition>} />
+          <Route path="/kids" element={<PageTransition><KidPage /></PageTransition>} />
+          <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
+          <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+          <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
 
-      <Route
-        path="/cart"
-        element={
-          <PrivateRoute>
-            {" "}
-            <CartPage />
-          </PrivateRoute>
-        }
-      />
+          <Route
+            path="/cart"
+            element={
+              <PrivateRoute>
+                <PageTransition><CartPage /></PageTransition>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <PageTransition><CheckoutPage /></PageTransition>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <PrivateRoute>
+                <PageTransition><WishlistPage /></PageTransition>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/orderhistory"
+            element={
+              <PrivateRoute>
+                <PageTransition><OrderHistoryPage /></PageTransition>
+              </PrivateRoute>
+            }
+          />
 
-      <Route
-        path="/checkout"
-        element={
-          <PrivateRoute>
-            <CheckoutPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/wishlist"
-        element={
-          <PrivateRoute>
-            <WishlistPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/checkout"
-        element={
-          <PrivateRoute>
-            <CheckoutPage />{" "}
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/orderhistory"
-        element={
-          <PrivateRoute>
-            <OrderHistoryPage />{" "}
-          </PrivateRoute>
-        }
-      />
-
-      {/* Admin Route */}
-      <Route path="/admin/signup" element={<AdminSignupPage />} />
-      <Route path="/admin/login" element={<AdminLoginPage />} />
-
-      <Route
-        path="/admin/*"
-        element={
-          <AdminPrivateRoute>
-            <Dashboard />
-          </AdminPrivateRoute>
-        }
-      />
-    </Routes>
+          {/* Admin Routes */}
+          <Route path="/admin/signup" element={<PageTransition><AdminSignupPage /></PageTransition>} />
+          <Route path="/admin/login" element={<PageTransition><AdminLoginPage /></PageTransition>} />
+          <Route
+            path="/admin/*"
+            element={
+              <AdminPrivateRoute>
+                <Dashboard />
+              </AdminPrivateRoute>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+    </Suspense>
   );
 };
 
