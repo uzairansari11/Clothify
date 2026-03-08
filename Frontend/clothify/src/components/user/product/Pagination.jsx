@@ -31,10 +31,9 @@ const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
             onClick={() => handlePageChange(currentPage - 1)}
             isDisabled={isFirstPage}
             borderRadius="full"
-            colorScheme="teal"
-            animate
+            size="sm"
             _hover={{
-              transform: "scale(1.1)",
+              transform: "scale(1.05)",
             }}
           >
             Prev
@@ -44,12 +43,13 @@ const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
               key={page}
               onClick={() => handlePageChange(page)}
               borderRadius="full"
-              colorScheme={page === currentPage ? "teal" : "gray"}
+              size="sm"
+              variant="ghost"
               bg={
                 page === storedCurrentPage
-                  ? "teal.500"
+                  ? "accent.solid"
                   : page === currentPage
-                  ? "teal.500"
+                  ? "accent.solid"
                   : "transparent"
               }
               color={
@@ -57,13 +57,12 @@ const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
                   ? "white"
                   : page === currentPage
                   ? "white"
-                  : "teal.500"
+                  : "accent.solid"
               }
-              animate
               _hover={{
-                transform: "scale(1.1)",
-                bg: page === currentPage ? "teal.500" : "gray.200",
-                color: page === currentPage ? "white" : "teal.500",
+                transform: "scale(1.05)",
+                bg: page === currentPage ? "accent.solid" : "gray.200",
+                color: page === currentPage ? "white" : "accent.solid",
               }}
             >
               {page}
@@ -73,10 +72,9 @@ const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
             onClick={() => handlePageChange(currentPage + 1)}
             isDisabled={isLastPage}
             borderRadius="full"
-            colorScheme="teal"
-            animate
+            size="sm"
             _hover={{
-              transform: "scale(1.1)",
+              transform: "scale(1.05)",
             }}
           >
             Next

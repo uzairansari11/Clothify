@@ -1,25 +1,24 @@
 import {
-  Badge,
   Box,
-  Button,
   Flex,
   IconButton,
   Image,
-  Select,
   Spinner,
   Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { FiHeart, FiShoppingBag } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { handleAddToCartData } from "../../../redux/User_Redux/cart/action";
 import { handleAddToWishlistData } from "../../../redux/User_Redux/wishlist/action";
 
-const CartItem = ({
+const MotionBox = motion(Box);
+
+const CardItem = ({
   title,
   brand,
   price,
@@ -35,11 +34,36 @@ const CartItem = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isCartLoading, setIsCartLoading] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
-  const heartColor = useColorModeValue("red.500", "red.200");
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || "");
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
   const dispatch = useDispatch();
   const { isAuth } = useSelector((store) => store.authReducer);
   const toast = useToast();
+
+  // --- All useColorModeValue calls at top level ---
+  const cardHoverBg = useColorModeValue("accent.bg", "gray.750");
+  const cardBaseBg = useColorModeValue("white", "gray.800");
+  const titleColor = useColorModeValue("gray.800", "gray.50");
+  const brandColor = "accent.text";
+  const priceColor = useColorModeValue("gray.800", "white");
+  const strikePriceColor = useColorModeValue("gray.500", "gray.500");
+  const ratingColor = useColorModeValue("gray.600", "gray.400");
+  const iconColor = useColorModeValue("gray.500", "gray.300");
+  const iconHoverColor = "accent.text";
+  const saleTextColor = useColorModeValue("gray.800", "gray.100");
+  const activeSizeColor = "accent.text";
+  const inactiveSizeColor = useColorModeValue("gray.500", "gray.500");
+  const separatorColor = useColorModeValue("gray.200", "gray.600");
+  const gradientLineStart = useColorModeValue("var(--chakra-colors-accent-solid)", "var(--chakra-colors-accent-solid)");
+
+  // Resolved background for hover tint (used in style prop, not sx)
+  const resolvedCardBg = isHovered ? cardHoverBg : cardBaseBg;
+
+  // --- Derived values ---
+  const originalPrice =
+    discount > 0 ? Math.round(price / (1 - discount / 100)) : null;
+
   const payload = {
     title,
     category,
@@ -53,10 +77,11 @@ const CartItem = ({
     productId: _id,
   };
 
+  // --- Handlers ---
   const handleAddToCart = () => {
     if (!isAuth) {
       toast({
-        title: `Please Login First`,
+        title: "Please login first",
         status: "warning",
         duration: 3000,
         isClosable: true,
@@ -65,16 +90,13 @@ const CartItem = ({
       return;
     }
     setIsCartLoading(true);
-    setTimeout(() => {
-      dispatch(handleAddToCartData(payload));
-      setIsCartLoading(false);
-    }, 300);
+    dispatch(handleAddToCartData(payload)).then(() => setIsCartLoading(false));
   };
 
   const handleAddToWishlist = () => {
     if (!isAuth) {
       toast({
-        title: `Please Login First`,
+        title: "Please login first",
         status: "warning",
         duration: 3000,
         isClosable: true,
@@ -83,117 +105,240 @@ const CartItem = ({
       return;
     }
     setIsWishlistLoading(true);
-    setTimeout(() => {
-      dispatch(handleAddToWishlistData(payload));
+    dispatch(handleAddToWishlistData(payload)).then(() => {
       setIsWishlistLoading(false);
-    }, 300);
+      setIsWishlisted(true);
+    });
   };
 
   return (
-    <Box
-      maxW="sm"
-      borderWidth="1px"
+    <MotionBox
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      bg={resolvedCardBg}
       borderRadius="lg"
       overflow="hidden"
       position="relative"
+      border="1px solid"
+      borderColor={useColorModeValue("gray.100", "gray.700")}
+      sx={{ transition: "all 0.3s ease" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      bg={isHovered ? "gray.100" : "white"}
-      boxShadow={isHovered ? "md" : "none"}
-      transition="background-color 0.3s, box-shadow 0.3s"
+      cursor="default"
     >
-      <Link to={`/product/${_id}`}>
-        <Image
-          src={isHovered ? images[1] : images[0]}
-          alt="Product"
-          width="100%"
-          height="300px"
-          objectFit="contain"
-        />
-      </Link>
-      <Box p="4" textAlign="center">
-        <Badge colorScheme="teal" fontWeight="semibold" fontSize="sm" mb="2">
-          {brand}
-        </Badge>
-        <Text
-          fontWeight="semibold"
-          fontSize="lg"
-          mb="2"
-          color={isHovered ? "teal.500" : "black"}
-        >
-          {title}
-        </Text>
-        <Flex alignItems="center" justifyContent="space-between" mb="2">
-          <Flex alignItems="center">
-            <Text fontWeight="semibold" fontSize="lg" mr="1">
-              $ {price}
-            </Text>
-            <Text fontSize="sm" color="gray.500">
-              ({discount}% off)
-            </Text>
-          </Flex>
-          <Flex alignItems="center">
-            <Text fontSize="sm" fontWeight="bold" mr="1" color="gray.500">
-              Rating:
-            </Text>
-            <Box as="span" color="yellow.400">
-              {rating}
-            </Box>
-            <Box as="span" color="gray.500" ml="1">
-              ({total_rating})
-            </Box>
-          </Flex>
-        </Flex>
-        <Flex alignItems="center" justifyContent="space-between" mb="2">
-          <Flex alignItems="center">
-            <Text fontSize="sm" fontWeight="bold" mr="1" color="gray.500">
-              Sizes:
-            </Text>
-            <Select
-              value={selectedSize}
-              onChange={(e) => setSelectedSize(e.target.value)}
-              size="sm"
-              width="auto"
-              mr="1"
-              variant="outline"
-              colorScheme="teal"
-              borderRadius="md"
-            >
-              {sizes.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </Select>
-          </Flex>
-          <Button
-            colorScheme="teal"
-            size="sm"
-            leftIcon={<FiShoppingBag />}
-            onClick={handleAddToCart}
-            isLoading={isCartLoading}
-            loadingText="Adding..."
-            _hover={{ opacity: "0.8" }}
+      {/* ── IMAGE SECTION ── */}
+      <Box position="relative" overflow="hidden">
+        <Link to={`/product/${_id}`}>
+          <Image
+            src={images?.[0]}
+            alt={title}
+            width="100%"
+            height={{ base: "220px", md: "260px" }}
+            objectFit="cover"
+            borderRadius="0"
+            style={{
+              transform: isHovered ? "scale(1.03)" : "scale(1)",
+              transition: "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
+              display: "block",
+            }}
+          />
+        </Link>
+
+        {/* SALE text overlay — top-right, minimal */}
+        {discount > 0 && (
+          <Box
+            position="absolute"
+            top={3}
+            right={3}
+            pointerEvents="none"
           >
-            Add to Cart
-          </Button>
-        </Flex>
-        <IconButton
-          icon={isWishlistLoading ? <Spinner size="sm" /> : <FiHeart />}
-          color={heartColor}
-          size="md"
-          aria-label="Add to Wishlist"
-          position="absolute"
-          top="2"
-          right="2"
-          opacity={isHovered ? "1" : "0"}
-          transition="opacity 0.3s"
-          onClick={handleAddToWishlist}
-          disabled={isWishlistLoading}
-        />
+            <Text
+              fontSize="9px"
+              fontWeight="700"
+              color={saleTextColor}
+              letterSpacing="2.5px"
+              textTransform="uppercase"
+              bg="whiteAlpha.900"
+              px={1.5}
+              py={0.5}
+              lineHeight="1.6"
+            >
+              SALE
+            </Text>
+          </Box>
+        )}
       </Box>
-    </Box>
+
+      {/* ── GRADIENT SEPARATOR LINE ── */}
+      <Box
+        height="2px"
+        style={{
+          background: `linear-gradient(to right, ${gradientLineStart}, transparent)`,
+        }}
+      />
+
+      {/* ── CONTENT SECTION ── */}
+      <Box px={3} pt={3} pb={3}>
+        {/* Brand — bare uppercase text, no pill */}
+        <Text
+          fontSize="9px"
+          fontWeight="700"
+          color={brandColor}
+          textTransform="uppercase"
+          letterSpacing="2px"
+          mb={1}
+          lineHeight="1"
+        >
+          {brand}
+        </Text>
+
+        {/* Title */}
+        <Link to={`/product/${_id}`}>
+          <Text
+            fontWeight="500"
+            fontSize="sm"
+            color={titleColor}
+            noOfLines={1}
+            lineHeight="1.5"
+            mb={2}
+            letterSpacing="-0.1px"
+          >
+            {title}
+          </Text>
+        </Link>
+
+        {/* Price row */}
+        <Flex align="baseline" gap={2} mb={1.5}>
+          <Text
+            fontWeight="700"
+            fontSize="sm"
+            color={priceColor}
+            letterSpacing="-0.3px"
+            lineHeight="1"
+          >
+            ${price}
+          </Text>
+
+          {originalPrice && (
+            <Text
+              fontSize="xs"
+              color={strikePriceColor}
+              textDecoration="line-through"
+              fontWeight="400"
+              lineHeight="1"
+            >
+              ${originalPrice}
+            </Text>
+          )}
+
+          {discount > 0 && (
+            <Text
+              fontSize="10px"
+              fontWeight="500"
+              color="green.500"
+              lineHeight="1"
+            >
+              {discount}% off
+            </Text>
+          )}
+        </Flex>
+
+        {/* Rating — plain text only */}
+        <Text
+          fontSize="11px"
+          color={ratingColor}
+          fontWeight="400"
+          mb={2.5}
+          lineHeight="1"
+        >
+          ★ {rating} ({total_rating})
+        </Text>
+
+        {/* Sizes — plain clickable text, no boxes */}
+        {sizes?.length > 0 && (
+          <Flex gap={3} align="center" mb={3} flexWrap="wrap">
+            {sizes.slice(0, 6).map((option, index) => (
+              <Text
+                key={index}
+                as="button"
+                onClick={() => setSelectedSize(option)}
+                fontSize="11px"
+                fontWeight={selectedSize === option ? "600" : "400"}
+                color={
+                  selectedSize === option ? activeSizeColor : inactiveSizeColor
+                }
+                letterSpacing="0.5px"
+                textDecoration={selectedSize === option ? "underline" : "none"}
+                textUnderlineOffset="3px"
+                textDecorationThickness="1.5px"
+                lineHeight="1"
+                transition="color 0.15s ease"
+                _hover={{ color: activeSizeColor }}
+                cursor="pointer"
+                bg="transparent"
+                border="none"
+                p={0}
+              >
+                {option}
+              </Text>
+            ))}
+          </Flex>
+        )}
+
+        {/* Bottom: two icon buttons separated by a thin vertical line */}
+        <Flex align="center" gap={0}>
+          <IconButton
+            aria-label="Add to cart"
+            icon={isCartLoading ? <Spinner size="xs" /> : <FiShoppingBag size={15} />}
+            size="sm"
+            variant="ghost"
+            color={iconColor}
+            borderRadius="full"
+            _hover={{ color: iconHoverColor, bg: "transparent" }}
+            onClick={handleAddToCart}
+            isDisabled={isCartLoading}
+            p={1}
+            minW="32px"
+            h="32px"
+          />
+
+          {/* Thin vertical separator */}
+          <Box
+            height="16px"
+            width="1px"
+            bg={separatorColor}
+            mx={1}
+            flexShrink={0}
+          />
+
+          <IconButton
+            aria-label="Add to wishlist"
+            icon={
+              isWishlistLoading ? (
+                <Spinner size="xs" />
+              ) : (
+                <FiHeart
+                  size={15}
+                  fill={isWishlisted ? "currentColor" : "none"}
+                />
+              )
+            }
+            size="sm"
+            variant="ghost"
+            color={isWishlisted ? "red.400" : iconColor}
+            borderRadius="full"
+            _hover={{ color: isWishlisted ? "red.500" : iconHoverColor, bg: "transparent" }}
+            onClick={handleAddToWishlist}
+            isDisabled={isWishlistLoading}
+            p={1}
+            minW="32px"
+            h="32px"
+          />
+        </Flex>
+      </Box>
+    </MotionBox>
   );
 };
 
-export default React.memo(CartItem);
+export default React.memo(CardItem);

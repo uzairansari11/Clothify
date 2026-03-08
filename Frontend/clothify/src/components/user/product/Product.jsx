@@ -1,29 +1,30 @@
 import {
-	Accordion,
-	AccordionButton,
-	AccordionIcon,
-	AccordionItem,
-	AccordionPanel,
-	Box,
-	Button,
-	Checkbox,
-	CheckboxGroup,
-	Flex,
-	FormControl,
-	Grid,
-	Icon,
-	Radio,
-	RadioGroup,
-	Slider,
-	SliderFilledTrack,
-	SliderThumb,
-	SliderTrack,
-	Text,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Badge,
+  Box,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Flex,
+  FormControl,
+  Grid,
+  Heading,
+  Icon,
+  Radio,
+  RadioGroup,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BiBuilding, BiCategory, BiSort } from "react-icons/bi";
-import { BsAlexa } from "react-icons/bs";
-import { FiRefreshCcw } from "react-icons/fi";
+import { FiFilter, FiRefreshCcw, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { handleProductData } from "../../../redux/User_Redux/products/action";
@@ -33,299 +34,393 @@ import LoadingSpinner from "../spinner/Spinner";
 import NotFound from "./NotFound";
 
 const Product = ({ category, subcategory, brands }) => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const initialSortOrder = searchParams.get("sortOrder");
-	const initialPage = searchParams.get("page");
-	const initialDiscount = searchParams.get("discount");
-	const initialSubcategory = searchParams.getAll("subcategory");
-	const initialBrand = searchParams.getAll("brand");
-	const { products, totalCount } = useSelector((store) => store.productReducer);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialSortOrder = searchParams.get("sortOrder");
+  const initialPage = searchParams.get("page");
+  const initialDiscount = searchParams.get("discount");
+  const initialSubcategory = searchParams.getAll("subcategory");
+  const initialBrand = searchParams.getAll("brand");
+  const { products, totalCount } = useSelector((store) => store.productReducer);
 
-	const [page, setPage] = useState(initialPage || 1);
-	const dispatch = useDispatch();
+  const [page, setPage] = useState(initialPage || 1);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
-	const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialSubcategory || []
+  );
+  const [selectedBrand, setSelectedBrand] = useState(initialBrand || []);
+  const [selectedPriceSort, setSelectedPriceSort] = useState(
+    initialSortOrder || ""
+  );
+  const [selectedDiscountRange, setSelectedDiscountRange] = useState(
+    initialDiscount || "gte0"
+  );
 
-	const [selectedCategory, setSelectedCategory] = useState(
-		initialSubcategory || []
-	);
-	const [selectedBrand, setSelectedBrand] = useState(initialBrand || []);
-	const [selectedPriceSort, setSelectedPriceSort] = useState(
-		initialSortOrder || ""
-	);
-	const [selectedDiscountRange, setSelectedDiscountRange] = useState(
-		initialDiscount || "gte0"
-	);
+  // Color tokens
+  const mainBg = useColorModeValue("gray.50", "gray.900");
+  const sidebarBg = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.700", "gray.200");
+  const mutedColor = useColorModeValue("gray.500", "gray.400");
+  const sliderTrackBg = useColorModeValue("gray.200", "gray.600");
+  const accordionHoverBg = "accent.bg";
+  const sectionBg = useColorModeValue("gray.50", "gray.700");
+  const resultCountBg = "accent.bg";
 
-	const handleCategoryChange = (selectedCategories) => {
-		setSelectedCategory(selectedCategories);
-		setPage(1);
-	};
+  const activeFilterCount =
+    selectedCategory.length +
+    selectedBrand.length +
+    (selectedPriceSort ? 1 : 0) +
+    (selectedDiscountRange !== "gte0" ? 1 : 0);
 
-	const handleBrandChange = (selectedBrands) => {
-		setSelectedBrand(selectedBrands);
-		setPage(1);
-	};
+  const handleCategoryChange = (v) => { setSelectedCategory(v); setPage(1); };
+  const handleBrandChange = (v) => { setSelectedBrand(v); setPage(1); };
+  const handleDiscountRangeChange = (v) => { setSelectedDiscountRange("gte" + v); setPage(1); };
+  const handlePriceSortChange = (v) => { setSelectedPriceSort(v); setPage(1); };
+  const handleReset = () => {
+    setSelectedCategory([]);
+    setSelectedBrand([]);
+    setSelectedDiscountRange("gte0");
+    setSelectedPriceSort("");
+    setPage(1);
+  };
+  const handlePageChange = (p) => { setPage(p); };
 
-	const handleDiscountRangeChange = (values) => {
-		setSelectedDiscountRange("gte" + values);
-		setPage(1);
-	};
+  useEffect(() => {
+    const params = {};
+    if (selectedCategory.length) params.subcategory = selectedCategory;
+    if (selectedBrand.length) params.brand = selectedBrand;
+    if (selectedPriceSort) {
+      params.sortField = "price";
+      params.sortOrder = selectedPriceSort;
+    }
+    if (Number(selectedDiscountRange.slice(3)))
+      params.discount = selectedDiscountRange;
+    params.page = page;
+    setSearchParams(params);
+  }, [selectedCategory, selectedBrand, selectedPriceSort, selectedDiscountRange, page]);
 
-	const handlePriceSortChange = (value) => {
-		setSelectedPriceSort(value);
-	};
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const params = {
+      category,
+      subcategory: searchParams.getAll("subcategory"),
+      brand: searchParams.getAll("brand"),
+      sortField: searchParams.get("sortField"),
+      sortOrder: searchParams.get("sortOrder"),
+      discount: searchParams.get("discount"),
+      page,
+      limit: 12,
+    };
+    dispatch(handleProductData(params));
+  }, [category, searchParams, page, dispatch, setSearchParams]);
 
-	const handleReset = () => {
-		setSelectedCategory([]);
-		setSelectedBrand([]);
-		setSelectedDiscountRange("gte0");
-		setSelectedPriceSort("");
-		setPage(1);
-	};
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 300);
+  }, []);
 
-	const handlePageChange = (clickedPage) => {
-		setPage(clickedPage);
-	};
-	useEffect(() => {
-		const params = {};
-		if (selectedCategory.length) {
-			params.subcategory = selectedCategory;
-		}
-		if (selectedBrand.length) {
-			params.brand = selectedBrand;
-		}
-		if (selectedPriceSort) {
-			params.sortField = "price";
-			params.sortOrder = selectedPriceSort;
-		}
-		if (Number(selectedDiscountRange.slice(3))) {
-			params.discount = selectedDiscountRange;
-		}
+  if (loading) return <LoadingSpinner />;
 
-		params.page = page;
-		setSearchParams(params);
-	}, [
-		selectedCategory,
-		selectedBrand,
-		selectedPriceSort,
-		selectedDiscountRange,
-		page,
-		products,
-	]);
+  const filterContent = (
+    <>
+      {/* Header */}
+      <Flex align="center" justify="space-between" mb={5}>
+        <Flex align="center" gap={2}>
+          <Flex
+            align="center"
+            justify="center"
+            w="28px"
+            h="28px"
+            bg="accent.solid"
+            borderRadius="lg"
+          >
+            <Icon as={FiFilter} color="white" boxSize={3.5} />
+          </Flex>
+          <Heading size="sm" color={textColor} fontWeight="700">
+            Filters
+          </Heading>
+          {activeFilterCount > 0 && (
+            <Badge
+                            borderRadius="full"
+              fontSize="10px"
+              px={1.5}
+            >
+              {activeFilterCount}
+            </Badge>
+          )}
+        </Flex>
+        <Badge
+          bg="accent.solid"
+          color="white"
+          fontSize="10px"
+          px={2.5}
+          py={0.5}
+          borderRadius="full"
+          fontWeight="700"
+          letterSpacing="0.5px"
+        >
+          {category}
+        </Badge>
+      </Flex>
 
-	useEffect(() => {
-		window.scrollTo(0, 0);
-		const params = {
-			category: category,
-			subcategory: searchParams.getAll("subcategory"),
-			brand: searchParams.getAll("brand"),
-			sortField: searchParams.get("sortField"),
-			sortOrder: searchParams.get("sortOrder"),
-			discount: searchParams.get("discount"),
-			page: page,
-			limit: 6,
-		};
+      {/* Result count */}
+      <Box bg={resultCountBg} borderRadius="xl" px={3} py={2} mb={4}>
+        <Text fontSize="xs" fontWeight="600" color="accent.solid">
+          {totalCount || 0} products found
+        </Text>
+      </Box>
 
-		dispatch(handleProductData(params));
-	}, [category, searchParams, page, dispatch, setSearchParams]);
+      <Accordion allowMultiple defaultIndex={[0]}>
+        {/* Sort by Price */}
+        <AccordionItem border="none" mb={1}>
+          <AccordionButton
+            px={3}
+            py={2.5}
+            borderRadius="xl"
+            _hover={{ bg: accordionHoverBg }}
+            _expanded={{ bg: accordionHoverBg }}
+          >
+            <Text flex="1" textAlign="left" fontWeight="600" fontSize="13px" color={textColor}>
+              Sort by Price
+            </Text>
+            <AccordionIcon color={mutedColor} />
+          </AccordionButton>
+          <AccordionPanel px={3} pb={3} pt={2}>
+            <FormControl>
+              <RadioGroup value={selectedPriceSort} onChange={handlePriceSortChange}>
+                <Flex direction="column" gap={2}>
+                  <Radio value="asc" size="sm">
+                    <Text fontSize="13px">Low to High</Text>
+                  </Radio>
+                  <Radio value="desc" size="sm">
+                    <Text fontSize="13px">High to Low</Text>
+                  </Radio>
+                </Flex>
+              </RadioGroup>
+            </FormControl>
+          </AccordionPanel>
+        </AccordionItem>
 
-	useEffect(() => {
-		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-		}, 300);
-	}, []);
+        {/* Category */}
+        <AccordionItem border="none" mb={1}>
+          <AccordionButton
+            px={3}
+            py={2.5}
+            borderRadius="xl"
+            _hover={{ bg: accordionHoverBg }}
+            _expanded={{ bg: accordionHoverBg }}
+          >
+            <Text flex="1" textAlign="left" fontWeight="600" fontSize="13px" color={textColor}>
+              Category
+            </Text>
+            {selectedCategory.length > 0 && (
+              <Badge borderRadius="full" fontSize="10px" mr={2} px={1.5}>
+                {selectedCategory.length}
+              </Badge>
+            )}
+            <AccordionIcon color={mutedColor} />
+          </AccordionButton>
+          <AccordionPanel px={3} pb={3} pt={2}>
+            <FormControl>
+              <CheckboxGroup value={selectedCategory} onChange={handleCategoryChange}>
+                <Flex direction="column" gap={1.5}>
+                  {subcategory.map((item) => (
+                    <Checkbox key={item._id} value={item.subcategory} size="sm">
+                      <Text fontSize="13px">{item.subcategory}</Text>
+                    </Checkbox>
+                  ))}
+                </Flex>
+              </CheckboxGroup>
+            </FormControl>
+          </AccordionPanel>
+        </AccordionItem>
 
-	if (loading) {
-		return <LoadingSpinner />;
-	}
+        {/* Brand */}
+        <AccordionItem border="none" mb={1}>
+          <AccordionButton
+            px={3}
+            py={2.5}
+            borderRadius="xl"
+            _hover={{ bg: accordionHoverBg }}
+            _expanded={{ bg: accordionHoverBg }}
+          >
+            <Text flex="1" textAlign="left" fontWeight="600" fontSize="13px" color={textColor}>
+              Brand
+            </Text>
+            {selectedBrand.length > 0 && (
+              <Badge borderRadius="full" fontSize="10px" mr={2} px={1.5}>
+                {selectedBrand.length}
+              </Badge>
+            )}
+            <AccordionIcon color={mutedColor} />
+          </AccordionButton>
+          <AccordionPanel px={3} pb={3} pt={2} maxH="180px" overflowY="auto">
+            <FormControl>
+              <CheckboxGroup value={selectedBrand} onChange={handleBrandChange}>
+                <Flex direction="column" gap={1.5}>
+                  {brands.map((item) => (
+                    <Checkbox key={item._id} value={item.brand} size="sm">
+                      <Text fontSize="13px">{item.brand}</Text>
+                    </Checkbox>
+                  ))}
+                </Flex>
+              </CheckboxGroup>
+            </FormControl>
+          </AccordionPanel>
+        </AccordionItem>
 
-	return (
-		<>
-			<Box display="flex" flexDirection={{ base: "column", md: "row" }}>
-				<Box
-					width={{ base: "100%", md: "20%" }}
-					position={{ base: "fixed", md: "fixed" }}
-					height={{ base: "auto", md: "100vh" }}
-					overflowY={{ base: "auto", md: "scroll" }}
-					zIndex={3}
-					sx={{
-						"&::-webkit-scrollbar": {
-							width: "0.4em",
-							background: "transparent",
-						},
-						"&::-webkit-scrollbar-thumb": {
-							background: "transparent",
-						},
-					}}
-				>
-					<Box
-						p="4"
-						borderWidth="1px"
-						borderRadius="lg"
-						overflow="hidden"
-						backgroundColor="white"
-						mb={20}
-					>
-						<Accordion
-							allowToggle
-							display={{ base: "grid", md: "block" }}
-							gridTemplateColumns={{ base: "repeat(2,1fr)" }}
-						>
-							<AccordionItem>
-								<AccordionButton>
-									<BiSort size={20} color="teal" /> Price
-									<AccordionIcon />
-								</AccordionButton>
-								<AccordionPanel pb={4}>
-									<FormControl>
-										<RadioGroup
-											value={selectedPriceSort}
-											onChange={handlePriceSortChange}
-										>
-											<Flex direction="column" mt={2}>
-												<Radio value="asc">Low to High</Radio>
-												<Radio value="desc">High to Low</Radio>
-											</Flex>
-										</RadioGroup>
-									</FormControl>
-								</AccordionPanel>
-							</AccordionItem>
-							<AccordionItem>
-								<AccordionButton>
-									<BiCategory size={20} color="teal" /> Category
-									<AccordionIcon />
-								</AccordionButton>
-								<AccordionPanel pb={4} textAlign={"left"}>
-									<FormControl>
-										<Flex flexDir={"column"}>
-											<CheckboxGroup
-												value={selectedCategory}
-												onChange={handleCategoryChange}
-											>
-												{subcategory.map((item) => (
-													<Checkbox key={item._id} value={item.subcategory}>
-														{item.subcategory}
-													</Checkbox>
-												))}
-											</CheckboxGroup>
-										</Flex>
-									</FormControl>
-								</AccordionPanel>
-							</AccordionItem>
-							<AccordionItem>
-								<AccordionButton>
-									<BiBuilding size={20} color="teal" /> Brand
-									<AccordionIcon />
-								</AccordionButton>
-								<AccordionPanel pb={4} textAlign={"left"}>
-									<FormControl>
-										<Flex flexDir={"column"}>
-											<CheckboxGroup
-												value={selectedBrand}
-												onChange={handleBrandChange}
-											>
-												{brands.map((item) => (
-													<Checkbox key={item._id} value={item.brand}>
-														{item.brand}
-													</Checkbox>
-												))}
-											</CheckboxGroup>
-										</Flex>
-									</FormControl>
-								</AccordionPanel>
-							</AccordionItem>
-							<AccordionItem>
-								<AccordionButton>
-									<BsAlexa size={20} color="teal" /> Discount
-									<AccordionIcon />
-								</AccordionButton>
-								<AccordionPanel pb={4}>
-									<FormControl>
-										<Slider
-											defaultValue={selectedDiscountRange.slice(3)}
-											min={0}
-											max={100}
-											step={5}
-											onChange={handleDiscountRangeChange}
-										>
-											<SliderTrack>
-												<SliderFilledTrack />
-											</SliderTrack>
-											<SliderThumb />
-										</Slider>
-										<Flex justify="space-between" mt={2}>
-											<Text>0%</Text>
-											<Text>100%</Text>
-										</Flex>
-									</FormControl>
-								</AccordionPanel>
-							</AccordionItem>
-						</Accordion>
-						<Flex justify="flex-end" mt={4}>
-							<Button
-								colorScheme="teal"
-								onClick={handleReset}
-								width="full"
-								leftIcon={<Icon as={FiRefreshCcw} />}
-							>
-								Reset
-							</Button>
-						</Flex>
-					</Box>
-				</Box>
+        {/* Discount */}
+        <AccordionItem border="none" mb={1}>
+          <AccordionButton
+            px={3}
+            py={2.5}
+            borderRadius="xl"
+            _hover={{ bg: accordionHoverBg }}
+            _expanded={{ bg: accordionHoverBg }}
+          >
+            <Text flex="1" textAlign="left" fontWeight="600" fontSize="13px" color={textColor}>
+              Discount
+            </Text>
+            <AccordionIcon color={mutedColor} />
+          </AccordionButton>
+          <AccordionPanel px={3} pb={3} pt={2}>
+            <FormControl>
+              <Flex align="center" justify="center" mb={2}>
+                <Badge variant="subtle" borderRadius="full" px={3} py={0.5}>
+                  {selectedDiscountRange.slice(3)}% +
+                </Badge>
+              </Flex>
+              <Slider
+                defaultValue={Number(selectedDiscountRange.slice(3))}
+                min={0}
+                max={100}
+                step={5}
+                onChange={handleDiscountRangeChange}
+                              >
+                <SliderTrack bg={sliderTrackBg} h="4px" borderRadius="full">
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb
+                  boxSize={4}
+                  border="2px solid"
+                  borderColor="accent.solid"
+                  _focus={{ boxShadow: "0 0 0 3px rgba(128,90,213,0.3)" }}
+                />
+              </Slider>
+              <Flex justify="space-between" mt={1}>
+                <Text fontSize="10px" color={mutedColor}>0%</Text>
+                <Text fontSize="10px" color={mutedColor}>100%</Text>
+              </Flex>
+            </FormControl>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
 
-				<Box
-					width={{ base: "80%", sm: "100%" }}
-					paddingLeft={{ base: 0, md: "20px" }}
-					marginTop={{ base: "200px", md: 0 }}
-					paddingBottom="50px"
-					marginLeft={{ base: 0, md: "20%" }}
-					overflow="auto"
-					marginX={"auto"}
-					sx={{
-						"&::-webkit-scrollbar": {
-							width: "0.4em",
-							background: "transparent",
-						},
-						"&::-webkit-scrollbar-thumb": {
-							background: "transparent",
-						},
-					}}
-				>
-					{products.length > 0 ? (
-						<Grid
-							templateColumns={{
-								base: "repeat(1, 1fr)",
-								sm: "repeat(2, 1fr)",
-								lg: "repeat(3, 1fr)",
-							}}
-							gap={5}
-							justifyContent="center"
-						>
-							{products.length > 0 &&
-								products.map((ele) => {
-									return <CardItem key={ele._id} {...ele} />;
-								})}
-						</Grid>
-					) : (
-						<NotFound />
-					)}
-				</Box>
-			</Box>
-			{products.length ? (
-				<Pagination
-					onPageChange={handlePageChange}
-					currentPage={page}
-					totalPages={Math.ceil(totalCount / 6)}
-					totalCount={totalCount}
-				/>
-			) : (
-				<></>
-			)}
-		</>
-	);
+      {/* Reset Button */}
+      {activeFilterCount > 0 && (
+        <Button
+          onClick={handleReset}
+          width="full"
+          mt={4}
+          size="sm"
+          variant="ghost"
+          color="red.500"
+          leftIcon={<Icon as={FiRefreshCcw} boxSize={3.5} />}
+          borderRadius="xl"
+          fontWeight="600"
+          fontSize="xs"
+          _hover={{ bg: "red.50" }}
+        >
+          Clear all filters
+        </Button>
+      )}
+    </>
+  );
+
+  return (
+    <Box minH="100vh" bg={mainBg}>
+      {/* Mobile Filter Toggle */}
+      <Box display={{ base: "block", md: "none" }} p={3} bg={sidebarBg} position="sticky" top="56px" zIndex={4}>
+        <Button
+          onClick={() => setShowMobileFilter(!showMobileFilter)}
+          size="sm"
+          width="100%"
+          variant="outline"
+          borderRadius="xl"
+          leftIcon={<FiFilter />}
+          rightIcon={showMobileFilter ? <FiChevronUp /> : <FiChevronDown />}
+          fontWeight="600"
+          fontSize="xs"
+        >
+          Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
+        </Button>
+        {showMobileFilter && (
+          <Box mt={3} pb={2}>
+            {filterContent}
+          </Box>
+        )}
+      </Box>
+
+      <Flex direction={{ base: "column", md: "row" }}>
+        {/* Desktop Sidebar */}
+        <Box
+          display={{ base: "none", md: "block" }}
+          width="280px"
+          minW="280px"
+          position="sticky"
+          top="72px"
+          height="calc(100vh - 72px)"
+          overflowY="auto"
+          bg={sidebarBg}
+          p={4}
+          css={{
+            "&::-webkit-scrollbar": { width: "3px" },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgba(128,90,213,0.3)",
+              borderRadius: "4px",
+            },
+            "&::-webkit-scrollbar-track": { background: "transparent" },
+          }}
+        >
+          {filterContent}
+        </Box>
+
+        {/* Product Grid */}
+        <Box flex="1" p={{ base: 3, md: 5 }} minH="100vh">
+          {products?.length > 0 ? (
+            <>
+              <Grid
+                templateColumns={{
+                  base: "repeat(2, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                  xl: "repeat(4, 1fr)",
+                }}
+                gap={{ base: 3, md: 4 }}
+              >
+                {products.map((ele) => (
+                  <CardItem key={ele._id} {...ele} />
+                ))}
+              </Grid>
+
+              <Box pt={6} pb={4}>
+                <Pagination
+                  onPageChange={handlePageChange}
+                  currentPage={page}
+                  totalPages={Math.ceil(totalCount / 12)}
+                  totalCount={totalCount}
+                />
+              </Box>
+            </>
+          ) : (
+            <NotFound />
+          )}
+        </Box>
+      </Flex>
+    </Box>
+  );
 };
 
 export default Product;
