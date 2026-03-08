@@ -25,10 +25,10 @@ import {
   VStack,
   useColorModeValue,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import {
   FiArrowRight,
@@ -992,7 +992,6 @@ function CheckoutPage() {
 
   const { cartData } = useSelector((store) => store.cartReducer);
   const navigate = useNavigate();
-  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     handleSubmit,
@@ -1051,12 +1050,7 @@ function CheckoutPage() {
             }, 5000);
           }, 2000);
         } else {
-          toast({
-            title: 'Something Went Wrong!',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
+          toast.error('Something went wrong! Please try again.');
         }
       })
       .catch(() => {

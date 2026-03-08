@@ -27,19 +27,34 @@ function App() {
     <div className="App">
       <Toaster
         position="top-center"
+        reverseOrder={false}
+        gutter={12}
         toastOptions={{
-          duration: 4000,
+          duration: 3500,
           style: {
-            borderRadius: '12px',
-            padding: '12px 20px',
+            background: '#1a1a2e',
+            color: '#fff',
+            borderRadius: '16px',
+            padding: '14px 22px',
             fontSize: '14px',
             fontWeight: '500',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            maxWidth: '420px',
           },
           success: {
-            iconTheme: { primary: '#38A169', secondary: '#fff' },
+            style: {
+              background: 'linear-gradient(135deg, #065f46 0%, #064e3b 100%)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+            },
+            iconTheme: { primary: '#34d399', secondary: '#fff' },
           },
           error: {
-            iconTheme: { primary: '#E53E3E', secondary: '#fff' },
+            style: {
+              background: 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+            },
+            iconTheme: { primary: '#f87171', secondary: '#fff' },
           },
         }}
       />

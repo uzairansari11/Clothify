@@ -42,7 +42,7 @@ const Product = ({ category }) => {
   const initialSubcategory = searchParams.getAll("subcategory");
   const initialBrand = searchParams.getAll("brand");
 
-  const [page, setPage] = useState(initialPage || 1);
+  const [page, setPage] = useState(Number(initialPage) || 1);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(

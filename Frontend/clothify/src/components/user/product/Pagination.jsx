@@ -49,9 +49,8 @@ function buildPageRange(currentPage, totalPages, siblings = 1) {
   return pages;
 }
 
-const PRODUCTS_PER_PAGE = 6;
-
-const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
+const Pagination = ({ currentPage: rawCurrentPage, onPageChange, totalPages, totalCount, perPage = 12 }) => {
+  const currentPage = Number(rawCurrentPage) || 1;
   const isFirstPage = currentPage === 1;
   const isLastPage  = currentPage === totalPages;
 
@@ -61,8 +60,8 @@ const Pagination = ({ currentPage, onPageChange, totalPages, totalCount }) => {
   }, [currentPage]);
 
   // Range indicator text
-  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE + 1;
-  const endIndex   = Math.min(currentPage * PRODUCTS_PER_PAGE, totalCount);
+  const startIndex = (currentPage - 1) * perPage + 1;
+  const endIndex   = Math.min(currentPage * perPage, totalCount);
 
   // Build the page sequence (memoised — only recomputes when page/total changes)
   const pages = useMemo(

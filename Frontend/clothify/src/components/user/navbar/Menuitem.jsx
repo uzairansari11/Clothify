@@ -6,8 +6,8 @@ import {
   MenuItem,
   MenuList,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
+import toast from "react-hot-toast";
 import { FaUserShield } from "react-icons/fa";
 import { FiLogOut, FiUser, FiUserPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,6 @@ const Menuitem = ({ children }) => {
   const { isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const toast = useToast();
 
   const menuBg = useColorModeValue("white", "gray.800");
   const menuBorder = useColorModeValue("gray.100", "gray.700");
@@ -27,14 +26,7 @@ const Menuitem = ({ children }) => {
   const handleLogout = () => {
     dispatch(handleLogoutFunction());
     setTimeout(() => {
-      toast({
-        title: "Logged out",
-        description: "You've been signed out successfully.",
-        status: "info",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
-      });
+      toast.success("You've been signed out successfully.");
       navigate("/", { replace: true });
     }, 1000);
   };

@@ -9,7 +9,6 @@ import {
   Image,
   Text,
   useColorModeValue,
-  useToast,
   VStack,
   HStack,
   Tooltip,
@@ -23,6 +22,7 @@ import {
   FiShield,
   FiStar,
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -157,8 +157,6 @@ const SingleProduct = () => {
 
   const dispatch = useDispatch();
   const { isAuth } = useSelector((store) => store.authReducer);
-  const toast = useToast();
-
   // ---------------------------------------------------------------------------
   // All color tokens — light / dark mode (ALL at the top, never inside
   // callbacks or .map())
@@ -225,13 +223,7 @@ const SingleProduct = () => {
 
   const handleAddToCart = () => {
     if (!isAuth) {
-      toast({
-        title: "Please Login First",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+      toast.error("Please login first");
       return;
     }
     setIsLoading(true);
@@ -242,13 +234,7 @@ const SingleProduct = () => {
 
   const handleAddToWishlist = () => {
     if (!isAuth) {
-      toast({
-        title: "Please Login First",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+      toast.error("Please login first");
       return;
     }
     setTimeout(() => dispatch(handleAddToWishlistData(payload)), 300);
