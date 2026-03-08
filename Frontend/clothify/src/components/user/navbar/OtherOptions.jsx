@@ -1,7 +1,6 @@
-import { Box, Flex, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { BsBagHeartFill, BsCart2 } from "react-icons/bs";
-import { FaShoppingBag } from "react-icons/fa";
+import { FiHeart, FiPackage, FiShoppingBag } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleGetCartData } from "../../../redux/User_Redux/cart/action";
@@ -16,8 +15,14 @@ const OtherOptions = () => {
   const { isAuth } = useSelector((store) => store.authReducer);
 
   const dispatch = useDispatch();
-  const totalCartQunatity = getQuantity(cartData);
-  const totalWishlistQunatity = getQuantity(wishlistData);
+  const totalCartQuantity = getQuantity(cartData);
+  const totalWishlistQuantity = getQuantity(wishlistData);
+
+  const iconColor = useColorModeValue("gray.600", "gray.300");
+  const hoverColor = "accent.text";
+  const badgeBg = "accent.solid";
+  const hoverBg = "accent.bg";
+
   useEffect(() => {
     if (isAuth) {
       dispatch(handleGetCartData());
@@ -25,87 +30,53 @@ const OtherOptions = () => {
       dispatch(handleGetOrderData());
     }
   }, [isAuth]);
-  return (
-    <Box
-      width="100%"
-      display="flex"
-      alignItems="center"
-      justifyContent="space-around"
-      _hover={{
-        cursor: "pointer",
-      }}
-    >
-      <Tooltip label="Cart" hasArrow placement="top">
-        <Link to="/cart">
-          <Flex position="relative" alignItems="center" justifyContent="center">
-            <BsCart2 size={30} color="teal" />
-            <Box
-              position="absolute"
-              top="-6px"
-              right="-6px"
-              bg="red.500"
-              borderRadius="full"
-              width="18px"
-              height="18px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              fontSize="xs"
-              color="white"
-            >
-              {isAuth && totalCartQunatity ? totalCartQunatity : 0}
-            </Box>
-          </Flex>
-        </Link>
-      </Tooltip>
-      <Tooltip label="Wishlist" hasArrow placement="top">
-        <Link to={"/wishlist"}>
-          <Flex position="relative" alignItems="center" justifyContent="center">
-            <BsBagHeartFill size={30} color="teal" />
-            <Box
-              position="absolute"
-              top="-6px"
-              right="-6px"
-              bg="red.500"
-              borderRadius="full"
-              width="18px"
-              height="18px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              fontSize="xs"
-              color="white"
-            >
-              {isAuth && totalWishlistQunatity ? totalWishlistQunatity : 0}
-            </Box>
-          </Flex>
-        </Link>
-      </Tooltip>
 
-      <Tooltip label="Order" hasArrow placement="top">
-        <Link to={"/orderhistory"}>
-          <Flex position="relative" alignItems="center" justifyContent="center">
-            <FaShoppingBag size={30} color="teal" />
-            <Box
-              position="absolute"
-              top="-6px"
-              right="-6px"
-              bg="red.500"
-              borderRadius="full"
-              width="18px"
-              height="18px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              fontSize="xs"
-              color="white"
+  const navItems = [
+    { label: "Cart", to: "/cart", icon: FiShoppingBag, count: isAuth ? totalCartQuantity : 0 },
+    { label: "Wishlist", to: "/wishlist", icon: FiHeart, count: isAuth ? totalWishlistQuantity : 0 },
+    { label: "Orders", to: "/orderhistory", icon: FiPackage, count: isAuth && orderData?.length ? orderData.length : 0 },
+  ];
+
+  return (
+    <Flex align="center" gap={1} width="100%" justify="center">
+      {navItems.map((item) => (
+        <Tooltip key={item.label} label={item.label} hasArrow placement="bottom">
+          <Link to={item.to}>
+            <Flex
+              position="relative"
+              align="center"
+              justify="center"
+              w="36px"
+              h="36px"
+              borderRadius="lg"
+              color={iconColor}
+              _hover={{ color: hoverColor, bg: hoverBg }}
+              transition="all 0.2s"
             >
-              {isAuth && orderData.length ? orderData.length : 0}
-            </Box>
-          </Flex>
-        </Link>
-      </Tooltip>
-    </Box>
+              <item.icon size={18} />
+              {item.count > 0 && (
+                <Flex
+                  position="absolute"
+                  top="-2px"
+                  right="-2px"
+                  bg={badgeBg}
+                  borderRadius="full"
+                  w="16px"
+                  h="16px"
+                  align="center"
+                  justify="center"
+                  fontSize="9px"
+                  fontWeight="700"
+                  color="white"
+                >
+                  {item.count}
+                </Flex>
+              )}
+            </Flex>
+          </Link>
+        </Tooltip>
+      ))}
+    </Flex>
   );
 };
 

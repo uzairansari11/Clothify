@@ -1,58 +1,46 @@
-import { Box, Icon, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
-import { MdOutlineChildCare } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 const ProductOptions = () => {
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const hoverColor = "accent.text";
+  const activeColor = "accent.text";
+  const activeBg = "accent.bg";
+
   const options = [
-    { id: 1, title: "MEN", route: "/men", icon: AiOutlineMan },
-    { id: 2, title: "WOMEN", route: "/women", icon: AiOutlineWoman },
-    { id: 3, title: "KID", route: "/kids", icon: MdOutlineChildCare },
+    { id: 1, title: "Men", route: "/men" },
+    { id: 2, title: "Women", route: "/women" },
+    { id: 3, title: "Kids", route: "/kids" },
   ];
-  const variants = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    hover: { scale: 1.1 },
-  };
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      width="100%"
-      fontFamily="arial, cursive"
-      fontSize="xl"
-      fontWeight="bold"
-    >
-      {options.map((element, index) => {
-        return (
-          <NavLink to={element.route} key={element.id}>
-            <motion.div whileHover="hover">
-              <motion.div
-                initial="initial"
-                animate="animate"
-                variants={variants}
-                transition={{ duration: 0.3 }}
-              >
-                <Box display="flex" alignItems="center">
-                  <Icon as={element.icon} boxSize={5} mr={1} color={"teal"} />
-                  <Text
-                    cursor="pointer"
-                    _hover={{ textDecoration: "underline" }}
-                    color="gray.700"
-                  >
-                    {element.title}
-                  </Text>
-                </Box>
-              </motion.div>
-            </motion.div>
-          </NavLink>
-        );
-      })}
-    </Box>
+    <Flex align="center" gap={1} width="100%">
+      {options.map((element) => (
+        <NavLink to={element.route} key={element.id}>
+          {({ isActive }) => (
+            <Text
+              px={3}
+              py={1.5}
+              fontSize="sm"
+              fontWeight="600"
+              color={isActive ? activeColor : textColor}
+              bg={isActive ? activeBg : "transparent"}
+              borderRadius="lg"
+              cursor="pointer"
+              transition="all 0.2s ease"
+              _hover={{
+                color: hoverColor,
+                bg: activeBg,
+              }}
+              whiteSpace="nowrap"
+            >
+              {element.title}
+            </Text>
+          )}
+        </NavLink>
+      ))}
+    </Flex>
   );
 };
 

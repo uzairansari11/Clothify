@@ -1,31 +1,32 @@
-import { Image, Tooltip } from "@chakra-ui/react";
+import { Text, useColorModeValue } from "@chakra-ui/react";
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
 const Logo = () => {
   const { pathname } = useLocation();
+  const color = useColorModeValue("gray.900", "white");
+
+  const to =
+    pathname.startsWith("/admin") &&
+    pathname !== "/admin/login" &&
+    pathname !== "/admin/signup"
+      ? "/admin/dashboard"
+      : "/";
+
   return (
-    <ReactLink
-      to={`${
-        pathname.startsWith("/admin") &&
-        pathname !== "/admin/login" &&
-        pathname !== "/admin/signup"
-          ? "/admin/dashboard"
-          : "/"
-      }`}
-    >
-      <Tooltip
-        label="Fashion Redefined"
-        aria-label="Fashion redefined tooltip"
-        hasArrow
+    <ReactLink to={to}>
+      <Text
+        fontSize={{ base: "lg", md: "xl" }}
+        fontWeight="800"
+        color={color}
+        letterSpacing="-0.5px"
+        cursor="pointer"
+        _hover={{ opacity: 0.8 }}
+        transition="opacity 0.2s"
+        whiteSpace="nowrap"
       >
-        <Image
-          src={"/images/logo.png"}
-          alt="Logo"
-          width={{ base: "100px", md: "100px", lg: "120px" }}
-          cursor={"pointer"}
-          margin={"auto"}
-        />
-      </Tooltip>
+        Clothify
+        <Text as="span" color="accent.solid">.</Text>
+      </Text>
     </ReactLink>
   );
 };

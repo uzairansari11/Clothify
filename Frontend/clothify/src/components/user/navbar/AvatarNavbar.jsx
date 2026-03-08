@@ -1,22 +1,22 @@
-import { Avatar, Box, Stack, Tooltip } from '@chakra-ui/react';
+import { Avatar, Tooltip, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
 const AvatarNavbar = (props) => {
+  const bgAuth = "accent.solid";
+  const bgNoAuth = useColorModeValue("gray.200", "gray.600");
+
   return (
-    <Stack direction="row" align="center" spacing={2} cursor="pointer">
-      <Box as="span" display="inline-block">
-        <Tooltip label={props?.authDetails?.userDetails?.name}>
-          <Avatar
-            size={{ base: 'xs', md: 'sm' }}
-            fontWeight={'bold'}
-            fontStyle={'italic'}
-            name={props?.authDetails?.userDetails?.name}
-            bg={props.authDetails.isAuth ? 'white' : 'red'}
-            boxShadow="md"
-          />
-        </Tooltip>
-      </Box>
-    </Stack>
+    <Tooltip label={props?.authDetails?.userDetails?.name || "Account"} hasArrow placement="bottom">
+      <Avatar
+        size="xs"
+        name={props?.authDetails?.userDetails?.name}
+        bg={props.authDetails.isAuth ? bgAuth : bgNoAuth}
+        color="white"
+        fontSize="xs"
+        fontWeight="600"
+        cursor="pointer"
+      />
+    </Tooltip>
   );
 };
 

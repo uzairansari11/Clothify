@@ -2,8 +2,10 @@ import {
   Icon,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import { FaUserShield } from "react-icons/fa";
@@ -11,105 +13,107 @@ import { FiLogOut, FiUser, FiUserPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { handleLogoutFunction } from "../../../redux/User_Redux/authentication/action";
+
 const Menuitem = ({ children }) => {
   const { isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
+
+  const menuBg = useColorModeValue("white", "gray.800");
+  const menuBorder = useColorModeValue("gray.100", "gray.700");
+  const hoverBg = useColorModeValue("gray.50", "gray.700");
+
   const handleLogout = () => {
     dispatch(handleLogoutFunction());
     setTimeout(() => {
       toast({
-        title: "Logout Success",
-        status: "warning",
+        title: "Logged out",
+        description: "You've been signed out successfully.",
+        status: "info",
         duration: 2000,
         isClosable: true,
         position: "top",
       });
-
       navigate("/", { replace: true });
     }, 1000);
   };
 
   return (
-    <Menu closeOnSelect={false}>
+    <Menu closeOnSelect>
       <MenuButton
-        p={1}
+        p={0.5}
         rounded="full"
-        bg={isAuth ? "green" : "red.200"}
-        _hover={{ bg: "gray.300" }}
+        _hover={{ opacity: 0.8 }}
+        transition="opacity 0.2s"
       >
         {children}
       </MenuButton>
-      {isAuth ? (
-        <MenuList
-          position="fixed"
-          right={0}
-          zIndex="100"
-          borderRadius="md"
-          boxShadow="md"
-          bg="white"
-          maxW="30px"
-          padding={1}
-        >
+
+      <MenuList
+        zIndex="100"
+        borderRadius="xl"
+        boxShadow="lg"
+        bg={menuBg}
+        border="1px solid"
+        borderColor={menuBorder}
+        py={1}
+        minW="160px"
+      >
+        {isAuth ? (
           <MenuItem
-            textAlign="center"
             onClick={handleLogout}
-            icon={<Icon as={FiLogOut} boxSize={4} color="red.500" mr={2} />}
-            _hover={{ bg: "red.100" }}
-            transition="background 0.3s ease"
+            icon={<Icon as={FiLogOut} boxSize={4} color="red.500" />}
+            fontSize="sm"
+            fontWeight="500"
+            _hover={{ bg: "red.50" }}
+            borderRadius="md"
+            mx={1}
           >
             Logout
           </MenuItem>
-        </MenuList>
-      ) : (
-        <MenuList
-          maxW="120px"
-          position="fixed"
-          right={0}
-          zIndex="100"
-          borderRadius="md"
-          boxShadow="md"
-          bg="white"
-          padding={1}
-        >
-          <MenuItem
-            as={ReactLink}
-            to="/login"
-            textAlign="center"
-            icon={<Icon as={FiUser} boxSize={4} color="blue.500" mr={2} />}
-            _hover={{ bg: "blue.100" }}
-            transition="background 0.3s ease"
-          >
-            Login
-          </MenuItem>
-
-          <MenuItem
-            as={ReactLink}
-            to="/signup"
-            textAlign="center"
-            icon={
-              <Icon as={FiUserPlus} boxSize={4} color="purple.500" mr={2} />
-            }
-            _hover={{ bg: "purple.100" }}
-            transition="background 0.3s ease"
-          >
-            Signup
-          </MenuItem>
-          <MenuItem
-            as={ReactLink}
-            to="/admin/login"
-            textAlign="center"
-            icon={
-              <Icon as={FaUserShield} boxSize={4} color="purple.500" mr={2} />
-            }
-            _hover={{ bg: "blue.100" }}
-            transition="background 0.3s ease"
-          >
-            Admin Login
-          </MenuItem>
-        </MenuList>
-      )}
+        ) : (
+          <>
+            <MenuItem
+              as={ReactLink}
+              to="/login"
+              icon={<Icon as={FiUser} boxSize={4} color="accent.solid" />}
+              fontSize="sm"
+              fontWeight="500"
+              _hover={{ bg: hoverBg }}
+              borderRadius="md"
+              mx={1}
+            >
+              Login
+            </MenuItem>
+            <MenuItem
+              as={ReactLink}
+              to="/signup"
+              icon={<Icon as={FiUserPlus} boxSize={4} color="accent.solid" />}
+              fontSize="sm"
+              fontWeight="500"
+              _hover={{ bg: hoverBg }}
+              borderRadius="md"
+              mx={1}
+            >
+              Sign Up
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              as={ReactLink}
+              to="/admin/login"
+              icon={<Icon as={FaUserShield} boxSize={4} color="gray.500" />}
+              fontSize="sm"
+              fontWeight="500"
+              _hover={{ bg: hoverBg }}
+              borderRadius="md"
+              mx={1}
+            >
+              Admin
+            </MenuItem>
+          </>
+        )}
+      </MenuList>
     </Menu>
   );
 };
