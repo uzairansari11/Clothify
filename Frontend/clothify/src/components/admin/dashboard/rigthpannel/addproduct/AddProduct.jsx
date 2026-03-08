@@ -2,198 +2,129 @@ import {
   Box,
   Button,
   Checkbox,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Grid,
   GridItem,
-  HStack,
-  Input,
-  Select,
+  Icon,
   Text,
-  Textarea,
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FiPlus, FiPackage } from "react-icons/fi";
+import { FiPlus, FiPackage, FiDollarSign, FiFileText, FiMaximize, FiImage, FiCheck } from "react-icons/fi";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { handleAddProductData } from "../../../../../redux/Admin_Redux/admin_products/action";
 import { data } from "../../../../../utils/data";
 import Preview from "./Preview";
 import { productInitialState } from "./productinitialState";
+import FormField from "../../../../common/FormField";
+import SectionCard from "../../../../common/SectionCard";
+import { useFormValidation } from "../../../../common/useFormValidation";
+import { required, minValue, maxValue } from "../../../../common/validators";
 
+// ── Main component ───────────────────────────────────────────────────────────
 const AddProduct = () => {
-  const [productData, setProductData] = useState(productInitialState);
   const dispatch = useDispatch();
 
-  // --- Color tokens (all at top level, no conditional hook calls) ---
-  const cardBg        = useColorModeValue("white", "gray.800");
-  const cardBorder    = useColorModeValue("gray.200", "gray.700");
-  const sectionLabel  = "accent.text";
-  const inputBg       = useColorModeValue("gray.100", "gray.700");
-  const inputHoverBg  = useColorModeValue("gray.200", "gray.600");
-  const labelColor    = useColorModeValue("gray.600", "gray.300");
-  const placeholderColor = useColorModeValue("gray.400", "gray.500");
-  const dividerColor  = useColorModeValue("gray.200", "gray.700");
-  const helperColor   = useColorModeValue("gray.400", "gray.500");
-  const sizeActiveBg  = "accent.solid";
-  const sizeActiveText = useColorModeValue("white", "white");
-  const sizeIdleBg    = useColorModeValue("gray.100", "gray.700");
-  const sizeIdleText  = useColorModeValue("gray.700", "gray.200");
-  const sizeIdleBorder = useColorModeValue("gray.200", "gray.600");
-  const headerBg      = "accent.bg";
+  const helperColor      = useColorModeValue("gray.400", "gray.500");
+  const sizeActiveBg     = "accent.solid";
+  const sizeActiveText   = "white";
+  const sizeIdleBg       = useColorModeValue("gray.50", "gray.700");
+  const sizeIdleText     = useColorModeValue("gray.700", "gray.200");
+  const sizeIdleBorder   = useColorModeValue("gray.200", "gray.600");
 
-  // --- Handlers (identical logic to original) ---
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProductData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const { values, errors, handleChange, handleBlur, validateAll, setValues, resetForm } =
+    useFormValidation(productInitialState, {
+      title:        [required("Product title is required")],
+      category:     [required("Category is required")],
+      subcategory:  [required("Subcategory is required")],
+      brand:        [required("Brand is required")],
+      price:        [required("Price is required"), minValue(0.01, "Price must be greater than 0")],
+      discount:     [
+        required("Discount is required"),
+        minValue(0, "Discount cannot be negative"),
+        maxValue(100, "Discount cannot exceed 100%"),
+      ],
+      description:  [required("Description is required")],
+      rating:       [
+        required("Rating is required"),
+        minValue(1, "Rating must be at least 1"),
+        maxValue(5, "Rating cannot exceed 5"),
+      ],
+      total_rating: [required("Total ratings is required"), minValue(0, "Cannot be negative")],
+      quantity:     [required("Stock quantity is required"), minValue(0, "Cannot be negative")],
+    });
 
-  const isAtLeastOneSizeSelected = productData.sizes.length > 0;
+  const isAtLeastOneSizeSelected = values.sizes.length > 0;
 
   const handleSizeChange = (e) => {
     const { value, checked } = e.target;
-    let newSize;
-    if (checked) {
-      newSize = [...productData.sizes, value];
-    } else {
-      newSize = productData.sizes.filter((size) => size !== value);
-    }
-    setProductData((prevData) => ({
-      ...prevData,
-      sizes: newSize,
+    setValues((prev) => ({
+      ...prev,
+      sizes: checked ? [...prev.sizes, value] : prev.sizes.filter((s) => s !== value),
     }));
   };
 
   const handleImageChange = (e) => {
-    const { value } = e.target;
-    const imageUrls = value.split(",").map((url) => url.trim());
-    setProductData((prevData) => ({
-      ...prevData,
-      images: imageUrls,
-    }));
+    const imageUrls = e.target.value.split(",").map((url) => url.trim());
+    setValues((prev) => ({ ...prev, images: imageUrls }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(handleAddProductData(productData));
+    if (!validateAll()) return;
+    if (values.sizes.length === 0) {
+      toast.error("Please select at least one size");
+      return;
+    }
+    dispatch(handleAddProductData(values));
+    toast.success("Product added successfully");
+    resetForm();
   };
 
-  // --- Shared input style object ---
-  const inputStyles = {
-    bg: inputBg,
-    border: "1px solid",
-    borderColor: cardBorder,
-    borderRadius: "lg",
-    _hover: { bg: inputHoverBg },
-    _focus: {
-      bg: cardBg,
-      borderColor: "accent.solid",
-      boxShadow: "0 0 0 1px var(--chakra-colors-accent-solid)",
-    },
-    _placeholder: { color: placeholderColor },
-  };
-
-  // --- Section header helper ---
-  const SectionHeader = ({ icon: Icon, label }) => (
-    <Flex align="center" gap={2} mb={3}>
-      <Flex
-        align="center"
-        justify="center"
-        w={7}
-        h={7}
-        borderRadius="md"
-        bg={headerBg}
-      >
-        <Icon size={14} color="var(--chakra-colors-accent-solid)" />
-      </Flex>
-      <Text
-        fontSize="xs"
-        fontWeight="700"
-        letterSpacing="wider"
-        textTransform="uppercase"
-        color={sectionLabel}
-      >
-        {label}
-      </Text>
-    </Flex>
-  );
+  const subcategories = data.subcategories?.[values.category.toLowerCase()] || [];
+  const brands        = data.brands?.[values.category.toLowerCase()] || [];
 
   return (
     <Box>
-      {/* Page heading */}
-      <Flex align="center" gap={3} mb={6}>
-        <Flex
-          align="center"
-          justify="center"
-          w={10}
-          h={10}
-          borderRadius="xl"
-          bg="accent.solid"
-        >
-          <FiPackage color="white" size={20} />
-        </Flex>
-        <Box>
-          <Text fontSize="xl" fontWeight="700" lineHeight="shorter">
-            Add New Product
-          </Text>
-          <Text fontSize="sm" color={helperColor}>
-            Fill in the details and watch the live preview update
-          </Text>
-        </Box>
-      </Flex>
-
-      {/* Two-column layout: form (wider) + preview */}
+      {/* Two-column layout: form + preview */}
       <Flex
         direction={{ base: "column", xl: "row" }}
-        gap={6}
+        gap={5}
         align="flex-start"
       >
         {/* ── LEFT: Form ── */}
-        <Box
-          flex="1"
-          bg={cardBg}
-          border="1px solid"
-          borderColor={cardBorder}
-          borderRadius="2xl"
-          p={{ base: 5, md: 7 }}
-          shadow="sm"
-        >
+        <Box flex="1" minW={0}>
           <form onSubmit={handleSubmit}>
-            <VStack spacing={0} align="stretch">
+            <VStack spacing={5} align="stretch">
 
-              {/* ─── SECTION: Basic Info ─── */}
-              <SectionHeader icon={FiPackage} label="Basic Info" />
-              <VStack spacing={4} align="stretch" mb={6}>
-                <FormControl isRequired>
-                  <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                    Product Title
-                  </FormLabel>
-                  <Input
-                    type="text"
+              {/* ─── Basic Info ─── */}
+              <SectionCard icon={FiPackage} label="Basic Information">
+                <VStack spacing={4} align="stretch">
+                  <FormField
+                    label="Product Title"
                     name="title"
+                    value={values.title}
                     onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.title}
                     placeholder="e.g. Classic Slim Fit Shirt"
-                    {...inputStyles}
+                    isRequired
                   />
-                </FormControl>
 
-                <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Category
-                      </FormLabel>
-                      <Select
+                  <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+                    <GridItem>
+                      <FormField
+                        label="Category"
                         name="category"
+                        type="select"
+                        value={values.category}
                         onChange={handleChange}
-                        {...inputStyles}
+                        onBlur={handleBlur}
+                        error={errors.category}
+                        isRequired
                       >
                         <option value="">Select Category</option>
                         {data.categories.map((item) => (
@@ -201,228 +132,240 @@ const AddProduct = () => {
                             {item.category}
                           </option>
                         ))}
-                      </Select>
-                    </FormControl>
-                  </GridItem>
+                      </FormField>
+                    </GridItem>
 
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Subcategory
-                      </FormLabel>
-                      <Select
+                    <GridItem>
+                      <FormField
+                        label="Subcategory"
                         name="subcategory"
+                        type="select"
+                        value={values.subcategory}
                         onChange={handleChange}
-                        {...inputStyles}
+                        onBlur={handleBlur}
+                        error={errors.subcategory}
+                        isDisabled={!values.category}
+                        isRequired
                       >
-                        <option value="">Select Subcategory</option>
-                        {data.subcategories &&
-                          data.subcategories[productData.category.toLowerCase()] &&
-                          data.subcategories[productData.category.toLowerCase()].map(
-                            (item) => (
-                              <option key={item._id} value={item.subcategory}>
-                                {item.subcategory}
-                              </option>
-                            )
-                          )}
-                      </Select>
-                    </FormControl>
-                  </GridItem>
+                        <option value="">
+                          {values.category ? "Select Subcategory" : "Select category first"}
+                        </option>
+                        {subcategories.map((item) => (
+                          <option key={item._id} value={item.subcategory}>
+                            {item.subcategory}
+                          </option>
+                        ))}
+                      </FormField>
+                    </GridItem>
 
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Brand
-                      </FormLabel>
-                      <Select
+                    <GridItem>
+                      <FormField
+                        label="Brand"
                         name="brand"
+                        type="select"
+                        value={values.brand}
                         onChange={handleChange}
-                        {...inputStyles}
+                        onBlur={handleBlur}
+                        error={errors.brand}
+                        isDisabled={!values.category}
+                        isRequired
                       >
-                        <option value="">Select Brand</option>
-                        {data.brands &&
-                          data.brands[productData.category.toLowerCase()] &&
-                          data.brands[productData.category.toLowerCase()].map(
-                            (item) => (
-                              <option key={item._id} value={item.brand}>
-                                {item.brand}
-                              </option>
-                            )
-                          )}
-                      </Select>
-                    </FormControl>
+                        <option value="">
+                          {values.category ? "Select Brand" : "Select category first"}
+                        </option>
+                        {brands.map((item) => (
+                          <option key={item._id} value={item.brand}>
+                            {item.brand}
+                          </option>
+                        ))}
+                      </FormField>
+                    </GridItem>
+                  </Grid>
+                </VStack>
+              </SectionCard>
+
+              {/* ─── Pricing ─── */}
+              <SectionCard icon={FiDollarSign} label="Pricing">
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                  <GridItem>
+                    <FormField
+                      label="Price ($)"
+                      name="price"
+                      type="number"
+                      value={values.price}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.price}
+                      placeholder="0.00"
+                      isRequired
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <FormField
+                      label="Discount (%)"
+                      name="discount"
+                      type="number"
+                      value={values.discount}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.discount}
+                      placeholder="0"
+                      isRequired
+                    />
                   </GridItem>
                 </Grid>
-              </VStack>
+              </SectionCard>
 
-              <Divider borderColor={dividerColor} mb={6} />
-
-              {/* ─── SECTION: Pricing ─── */}
-              <SectionHeader icon={FiPackage} label="Pricing" />
-              <HStack spacing={4} align="flex-start" mb={6}>
-                <FormControl isRequired>
-                  <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                    Price ($)
-                  </FormLabel>
-                  <Input
-                    type="number"
-                    name="price"
-                    onChange={handleChange}
-                    placeholder="0.00"
-                    {...inputStyles}
-                  />
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                    Discount (%)
-                  </FormLabel>
-                  <Input
-                    type="number"
-                    name="discount"
-                    onChange={handleChange}
-                    placeholder="0"
-                    {...inputStyles}
-                  />
-                </FormControl>
-              </HStack>
-
-              <Divider borderColor={dividerColor} mb={6} />
-
-              {/* ─── SECTION: Details ─── */}
-              <SectionHeader icon={FiPackage} label="Details" />
-              <VStack spacing={4} align="stretch" mb={6}>
-                <FormControl isRequired>
-                  <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                    Description
-                  </FormLabel>
-                  <Textarea
+              {/* ─── Details ─── */}
+              <SectionCard icon={FiFileText} label="Product Details">
+                <VStack spacing={4} align="stretch">
+                  <FormField
+                    label="Description"
                     name="description"
+                    type="textarea"
+                    value={values.description}
                     onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.description}
                     placeholder="Describe the product — material, fit, features..."
                     rows={4}
-                    resize="vertical"
-                    {...inputStyles}
+                    isRequired
                   />
-                </FormControl>
 
-                <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Rating
-                      </FormLabel>
-                      <Input
-                        type="number"
+                  <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+                    <GridItem>
+                      <FormField
+                        label="Rating"
                         name="rating"
-                        onChange={handleChange}
-                        placeholder="1 – 5"
-                        {...inputStyles}
-                      />
-                    </FormControl>
-                  </GridItem>
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Total Ratings
-                      </FormLabel>
-                      <Input
                         type="number"
+                        value={values.rating}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.rating}
+                        placeholder="1 - 5"
+                        min={1}
+                        max={5}
+                        isRequired
+                      />
+                    </GridItem>
+                    <GridItem>
+                      <FormField
+                        label="Total Ratings"
                         name="total_rating"
-                        onChange={handleChange}
-                        placeholder="e.g. 1200"
-                        {...inputStyles}
-                      />
-                    </FormControl>
-                  </GridItem>
-                  <GridItem>
-                    <FormControl isRequired>
-                      <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                        Quantity
-                      </FormLabel>
-                      <Input
                         type="number"
-                        name="quantity"
+                        value={values.total_rating}
                         onChange={handleChange}
-                        placeholder="Stock count"
-                        {...inputStyles}
+                        onBlur={handleBlur}
+                        error={errors.total_rating}
+                        placeholder="e.g. 1200"
+                        isRequired
                       />
-                    </FormControl>
-                  </GridItem>
-                </Grid>
-              </VStack>
+                    </GridItem>
+                    <GridItem>
+                      <FormField
+                        label="Stock Quantity"
+                        name="quantity"
+                        type="number"
+                        value={values.quantity}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.quantity}
+                        placeholder="Available stock"
+                        isRequired
+                      />
+                    </GridItem>
+                  </Grid>
+                </VStack>
+              </SectionCard>
 
-              <Divider borderColor={dividerColor} mb={6} />
+              {/* ─── Sizes ─── */}
+              <SectionCard icon={FiMaximize} label="Available Sizes">
+                <FormControl isInvalid={!isAtLeastOneSizeSelected}>
+                  <Flex wrap="wrap" gap={2}>
+                    {data.sizes.map((item) => {
+                      const isSelected = values.sizes.includes(item.size);
+                      return (
+                        <Box
+                          as="label"
+                          key={item._id}
+                          cursor="pointer"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          minW="44px"
+                          h="38px"
+                          px={3}
+                          borderRadius="lg"
+                          border="1.5px solid"
+                          borderColor={isSelected ? "accent.solid" : sizeIdleBorder}
+                          bg={isSelected ? sizeActiveBg : sizeIdleBg}
+                          color={isSelected ? sizeActiveText : sizeIdleText}
+                          fontWeight={isSelected ? "700" : "500"}
+                          fontSize="sm"
+                          transition="all 0.15s ease"
+                          _hover={{
+                            borderColor: "accent.solid",
+                            transform: "translateY(-1px)",
+                            shadow: "sm",
+                          }}
+                          position="relative"
+                        >
+                          <Checkbox
+                            value={item.size}
+                            isChecked={isSelected}
+                            onChange={handleSizeChange}
+                            display="none"
+                          />
+                          {item.size}
+                          {isSelected && (
+                            <Box
+                              position="absolute"
+                              top="-4px"
+                              right="-4px"
+                              w="14px"
+                              h="14px"
+                              bg="accent.solid"
+                              borderRadius="full"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                            >
+                              <Icon as={FiCheck} boxSize="8px" color="white" strokeWidth={3} />
+                            </Box>
+                          )}
+                        </Box>
+                      );
+                    })}
+                  </Flex>
+                  {!isAtLeastOneSizeSelected && (
+                    <FormErrorMessage mt={2} fontSize="xs">
+                      Select at least one size
+                    </FormErrorMessage>
+                  )}
+                  {isAtLeastOneSizeSelected && (
+                    <Text fontSize="xs" color={helperColor} mt={2}>
+                      {values.sizes.length} size{values.sizes.length !== 1 ? "s" : ""} selected
+                    </Text>
+                  )}
+                </FormControl>
+              </SectionCard>
 
-              {/* ─── SECTION: Sizes ─── */}
-              <SectionHeader icon={FiPackage} label="Sizes" />
-              <FormControl isInvalid={!isAtLeastOneSizeSelected} mb={6}>
-                <Flex wrap="wrap" gap={2}>
-                  {data.sizes.map((item) => {
-                    const isSelected = productData.sizes.includes(item.size);
-                    return (
-                      <Box
-                        as="label"
-                        key={item._id}
-                        cursor="pointer"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        minW="44px"
-                        h="36px"
-                        px={3}
-                        borderRadius="lg"
-                        border="1.5px solid"
-                        borderColor={isSelected ? "accent.solid" : sizeIdleBorder}
-                        bg={isSelected ? sizeActiveBg : sizeIdleBg}
-                        color={isSelected ? sizeActiveText : sizeIdleText}
-                        fontWeight={isSelected ? "700" : "500"}
-                        fontSize="sm"
-                        transition="all 0.15s ease"
-                        _hover={{
-                          borderColor: "accent.solid",
-                          transform: "translateY(-1px)",
-                          shadow: "sm",
-                        }}
-                      >
-                        <Checkbox
-                          value={item.size}
-                          isChecked={isSelected}
-                          onChange={handleSizeChange}
-                          display="none"
-                        />
-                        {item.size}
-                      </Box>
-                    );
-                  })}
-                </Flex>
-                {!isAtLeastOneSizeSelected && (
-                  <FormErrorMessage mt={2}>
-                    At least one size must be selected
-                  </FormErrorMessage>
-                )}
-              </FormControl>
-
-              <Divider borderColor={dividerColor} mb={6} />
-
-              {/* ─── SECTION: Images ─── */}
-              <SectionHeader icon={FiPackage} label="Images" />
-              <FormControl isRequired mb={8}>
-                <FormLabel fontSize="sm" fontWeight="600" color={labelColor} mb={1}>
-                  Image URLs
-                </FormLabel>
-                <Input
-                  type="text"
+              {/* ─── Images ─── */}
+              <SectionCard icon={FiImage} label="Product Images">
+                <FormField
+                  label="Image URLs"
                   name="images"
+                  value={values.images.join(", ")}
                   onChange={handleImageChange}
                   placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
-                  {...inputStyles}
+                  isRequired
                 />
                 <Text fontSize="xs" color={helperColor} mt={1.5}>
                   Separate multiple URLs with a comma
                 </Text>
-              </FormControl>
+              </SectionCard>
 
-              {/* Submit */}
+              {/* ─── Submit ─── */}
               <Button
                 type="submit"
                 size="lg"
@@ -432,6 +375,7 @@ const AddProduct = () => {
                 color="white"
                 fontWeight="700"
                 fontSize="md"
+                h={12}
                 leftIcon={<FiPlus size={18} />}
                 _hover={{
                   opacity: 0.9,
@@ -455,9 +399,9 @@ const AddProduct = () => {
           w={{ base: "100%", xl: "340px" }}
           flexShrink={0}
           position={{ base: "static", xl: "sticky" }}
-          top="24px"
+          top="80px"
         >
-          <Preview productData={productData} />
+          <Preview productData={values} />
         </Box>
       </Flex>
     </Box>
