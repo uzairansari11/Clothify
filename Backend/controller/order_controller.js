@@ -1,90 +1,79 @@
-const { OrderModel } = require("../model/order_model");
+const { OrderModel } = require('../model/order_model');
+const { sendSuccess, sendError } = require('../utils/response');
 
-// Get orders for a user
 const getOrder = async (req, res) => {
   try {
-    const orderData = await OrderModel.find({ user: req.user.id }).sort({
-      date: -1,
-      time: -1,
-    });
-    res.status(200).json(orderData);
+    const orderData = await OrderModel.find({ user: req.user.id }).sort({ date: -1, time: -1 });
+    return sendSuccess(res, orderData, 'Orders fetched successfully');
   } catch (error) {
-    res.status(500).json({ error: "Something Went Wrong" });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-// Place a new order
 const postOrder = async (req, res) => {
   const { items, name, email, address } = req.body;
 
-  if (items.length === 0 || !name || !email || !address) {
-    return res.status(400).json({ error: "Please provide all the details" });
-  } else {
-    try {
-      // Calculate total price for each item
-      const itemsWithTotalPrice = items.map(item => {
-        const totalItemPrice = item.price * item.quantity;
-        return { ...item, totalPrice: totalItemPrice };
-      });
+  if (!items?.length || !name || !email || !address) {
+    return sendError(res, 'Please provide all the details', 400);
+  }
 
-      // Calculate grand total
-      const grandTotal = itemsWithTotalPrice.reduce(
-        (acc, item) => acc + item.totalPrice,
-        0
-      );
+  try {
+    const itemsWithTotalPrice = items.map((item) => ({
+      ...item,
+      totalPrice: item.price * item.quantity,
+    }));
 
-      // Create new order
-      const orderDetail = await new OrderModel({
-        items: itemsWithTotalPrice,
-        name,
-        email,
-        address,
-        user: req.user._id,
-        date: new Date().toLocaleDateString("de-DE"),
-        time: new Date().toLocaleTimeString(),
-        grandTotal,
-      });
+    const grandTotal = itemsWithTotalPrice.reduce((acc, item) => acc + item.totalPrice, 0);
 
-      await orderDetail.save();
-      res.status(200).json(orderDetail);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "An error occurred while posting the new order" });
-    }
+    const order = new OrderModel({
+      items: itemsWithTotalPrice,
+      name, email, address,
+      user: req.user._id,
+      date: new Date().toLocaleDateString('de-DE'),
+      time: new Date().toLocaleTimeString(),
+      grandTotal,
+    });
+
+    await order.save();
+    return sendSuccess(res, order, 'Order placed successfully', 201);
+  } catch (error) {
+    return sendError(res, 'An error occurred while placing the order');
   }
 };
 
-// Update an order
-const updateOrder = async (req, res) => { };
-
-// Delete an order
-const deleteOrder = async (req, res) => {
-
-  
+const updateOrder = async (req, res) => {
+  try {
+    const order = await OrderModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!order) {
+      return sendError(res, 'Order not found', 404);
+    }
+    return sendSuccess(res, order, 'Order updated successfully');
+  } catch (error) {
+    return sendError(res, 'An error occurred while updating the order');
+  }
 };
 
-// Get orders grouped by user for admin
+const deleteOrder = async (req, res) => {
+  try {
+    const order = await OrderModel.findByIdAndDelete(req.params.id);
+    if (!order) {
+      return sendError(res, 'Order not found', 404);
+    }
+    return sendSuccess(res, order, 'Order deleted successfully');
+  } catch (error) {
+    return sendError(res, 'An error occurred while deleting the order');
+  }
+};
+
 const getOrderByAdmin = async (req, res) => {
   try {
     const orderData = await OrderModel.aggregate([
-      {
-        $group: {
-          _id: "$user",
-          orders: { $push: "$$ROOT" }
-        }
-      }
+      { $group: { _id: '$user', orders: { $push: '$$ROOT' } } },
     ]);
-    res.status(200).json(orderData);
+    return sendSuccess(res, orderData, 'Orders fetched successfully');
   } catch (error) {
-    res.status(500).json({ error: "Something Went Wrong" });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-module.exports = {
-  getOrder,
-  postOrder,
-  updateOrder,
-  deleteOrder,
-  getOrderByAdmin,
-};
+module.exports = { getOrder, postOrder, updateOrder, deleteOrder, getOrderByAdmin };

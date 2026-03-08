@@ -15,12 +15,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Home route
 app.get('/', (req, res) => {
   res.send('Welcome to the home page!');
 });
 
-// Routes
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/product', productRouter);
@@ -28,9 +26,13 @@ app.use('/cart', authorizedMiddleware, cartRouter);
 app.use('/order', orderRouter);
 app.use('/wishlist', authorizedMiddleware, WishlistRouter);
 
-// Not found route
 app.use((req, res) => {
-  res.status(404).send('Route not found');
+  res.status(404).json({ success: false, error: 'Route not found' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, error: 'Internal server error' });
 });
 
 app.listen(process.env.PORT, async () => {

@@ -1,137 +1,85 @@
 const { CartModel } = require('../model/cart_model');
+const { sendSuccess, sendError } = require('../utils/response');
 
-// Get cart items for a user
 const getCart = async (req, res) => {
   try {
     const cartData = await CartModel.find({ user: req.user.id });
-    res.status(200).json(cartData);
+    return sendSuccess(res, cartData, 'Cart fetched successfully');
   } catch (error) {
-    res.status(500).json({ error: 'Something Went Wrong' });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-// Add an item to the cart
 const postCart = async (req, res) => {
-  const {
-    title,
-    category,
-    subcategory,
-    brand,
-    price,
-    discount,
-    quantity,
-    images,
-    size,
-    productId,
-  } = req.body;
+  const { title, category, subcategory, brand, price, discount, quantity, images, size, productId } = req.body;
 
-  if (
-    !title ||
-    !category ||
-    !subcategory ||
-    !brand ||
-    !price ||
-    discount === undefined ||
-    !quantity ||
-    !images.length ||
-    !size ||
-    !productId
-  ) {
-    return res.status(400).json({ error: 'Please provide all the details' });
+  if (!title || !category || !subcategory || !brand || !price || discount === undefined || !quantity || !images?.length || !size || !productId) {
+    return sendError(res, 'Please provide all the details', 400);
   }
 
   try {
-    let cartItem = await CartModel.findOne({
-      user: req.user.id,
-      productId,
-      size,
-    }).lean();
+    let cartItem = await CartModel.findOne({ user: req.user.id, productId, size }).lean();
 
     if (cartItem) {
       if (cartItem.quantity >= 10) {
-        return res.status(400).json({ error: 'Quantity cannot exceed 10' });
+        return sendError(res, 'Quantity cannot exceed 10', 400);
       }
       cartItem = await CartModel.findOneAndUpdate(
         { user: req.user.id, productId, size },
         { $inc: { quantity: 1 } },
-        { new: true },
+        { new: true }
       ).lean();
-      res.status(200).json(cartItem);
-    } else {
-      const cartDetails = new CartModel({
-        title,
-        category,
-        subcategory,
-        brand,
-        price,
-        discount,
-        quantity,
-        images,
-        size,
-        user: req.user._id,
-        productId,
-      });
-
-      await cartDetails.save();
-      res.status(200).json(cartDetails);
+      return sendSuccess(res, cartItem, 'Cart item updated');
     }
+
+    const newCartItem = new CartModel({
+      title, category, subcategory, brand, price, discount,
+      quantity, images, size, user: req.user._id, productId,
+    });
+    await newCartItem.save();
+    return sendSuccess(res, newCartItem, 'Item added to cart', 201);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'An error occurred while posting the new product' });
+    return sendError(res, 'An error occurred while adding to cart');
   }
 };
 
-// Update cart item
 const updateCart = async (req, res) => {
-  const payload = req.body;
-  const productId = req.params.id;
   try {
-    const updatedItem = await CartModel.findByIdAndUpdate(
-      { _id: productId, user: req.user.id },
-      payload,
-      { new: true },
+    const updatedItem = await CartModel.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      req.body,
+      { new: true }
     );
     if (!updatedItem) {
-      res.status(400).json({ message: 'Item does not exist' });
-    } else {
-      res.status(200).json(updatedItem);
+      return sendError(res, 'Item does not exist', 404);
     }
+    return sendSuccess(res, updatedItem, 'Cart item updated');
   } catch (error) {
-    res.status(500).json({ error: 'Something Went Wrong' });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-// Delete cart item
 const deleteCart = async (req, res) => {
-  const productId = req.params.id;
   try {
-    const deletedItem = await CartModel.findByIdAndDelete(
-      { _id: productId },
-      { user: req.user.id },
-    );
+    const deletedItem = await CartModel.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user.id,
+    });
     if (!deletedItem) {
-      res.status(400).json({ message: 'Item does not exist' });
-    } else {
-      res
-        .status(200)
-        .json({ data: deletedItem, message: 'Item deleted successfully' });
+      return sendError(res, 'Item does not exist', 404);
     }
+    return sendSuccess(res, deletedItem, 'Item removed from cart');
   } catch (error) {
-    res.status(500).json({ error: 'Something Went Wrong' });
+    return sendError(res, 'Something went wrong');
   }
 };
 
 const deleteAllCart = async (req, res) => {
   try {
-    const deletedItem = await CartModel.deleteMany({ user: req.user.id });
-    if (!deletedItem) {
-      res.status(400).json({ message: 'Item does not exist' });
-    } else {
-      res.status(200).json({ data: [], message: 'Item deleted successfully' });
-    }
+    await CartModel.deleteMany({ user: req.user.id });
+    return sendSuccess(res, [], 'Cart cleared successfully');
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return sendError(res, error.message);
   }
 };
 

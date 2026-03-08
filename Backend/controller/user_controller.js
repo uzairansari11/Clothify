@@ -1,153 +1,99 @@
-const asyncHandler = require("express-async-handler");
-require("dotenv").config();
-const bcrypt = require("bcrypt");
-const { UserModel } = require("../model/user_model");
-const jwt = require("jsonwebtoken");
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { UserModel } = require('../model/user_model');
+const { sendSuccess, sendError } = require('../utils/response');
 
-// Register a new user
 const userRegister = asyncHandler(async (req, res) => {
   const { name, email, password, picture, mobile } = req.body;
 
   if (!name || !email || !password || !mobile) {
-    return res.status(400).json({ error: "Please provide all the details" });
+    return sendError(res, 'Please provide all the details', 400);
   }
 
-  // Check if the user already exists
   const isUserExists = await UserModel.findOne({ email });
   if (isUserExists) {
-    return res.status(400).json({ error: "User Already Exists" });
+    return sendError(res, 'User already exists', 400);
   }
 
   try {
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(
-      password,
-      parseInt(process.env.SALT_ROUNDS)
-    );
-
-    // Create a new user
+    const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS));
     const newUser = new UserModel({
-      name,
-      email,
-      password: hashedPassword,
-      picture,
-      mobile,
-      isAdmin: false,
+      name, email, password: hashedPassword, picture, mobile, isAdmin: false,
     });
 
-    // Save the user to the database
     const savedUser = await newUser.save();
     const userResponse = savedUser.toObject();
     delete userResponse.password;
 
-    res.status(200).json(userResponse);
+    return sendSuccess(res, userResponse, 'User registered successfully', 201);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while registering the user" });
+    return sendError(res, 'An error occurred while registering the user');
   }
 });
 
-// User login
 const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return sendError(res, 'Please provide all the details', 400);
+  }
+
   try {
-    if (!email || !password) {
-      return res.status(400).json({ error: "Please provide all the details" });
-    }
-
-    // Find the user by email
-    const user = await UserModel.findOne({ email: email });
-
+    const user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "User does not exist" });
+      return sendError(res, 'User does not exist', 400);
     }
 
-    // Compare the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
-      return res.status(400).json({ error: "Wrong password" });
+      return sendError(res, 'Wrong password', 401);
     }
 
-    // Generate JWT token
     const { password: _, mobile, ...userData } = user.toObject();
     const token = jwt.sign({ userID: user._id }, process.env.USER_SECRET_KEY, {
-      expiresIn: "10d",
+      expiresIn: '10d',
     });
-    const responseData = { ...userData, token };
 
-    return res.status(200).json(responseData);
+    return sendSuccess(res, { ...userData, token }, 'Login successful');
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ error: "An error occurred while logging in the user" });
+    return sendError(res, 'An error occurred while logging in');
   }
 });
 
-// Get all users
 const getUser = async (req, res) => {
   try {
-    const users = await UserModel.find();
-    return res.status(200).json(users);
+    const users = await UserModel.find().select('-password');
+    return sendSuccess(res, users, 'Users fetched successfully');
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error: "An error occurred while getting the users" });
+    return sendError(res, 'An error occurred while getting the users');
   }
 };
 
-// Delete a user
 const deleteUser = async (req, res) => {
-  const userId = req.params.id;
   try {
-    const deletedUser = await UserModel.findByIdAndDelete({ _id: userId });
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
     if (!deletedUser) {
-      res.status(400).json({ message: "User does not exist" });
-    } else {
-      res
-        .status(200)
-        .json({ data: deletedUser, message: "User deleted successfully" });
+      return sendError(res, 'User does not exist', 404);
     }
+    return sendSuccess(res, deletedUser, 'User deleted successfully');
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error: "An error occurred while deleting the user" });
+    return sendError(res, 'An error occurred while deleting the user');
   }
 };
 
-// Update a user
 const updateUser = async (req, res) => {
-  const userId = req.params.id;
-  const payload = req.body;
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
-      { _id: userId },
-      payload,
-      {
-        new: true,
-      }
+      req.params.id, req.body, { new: true }
     );
     if (!updatedUser) {
-      res.status(400).json({ message: "User does not exist" });
-    } else {
-      res
-        .status(200)
-        .json({ data: updatedUser, message: "User updated successfully" });
+      return sendError(res, 'User does not exist', 404);
     }
+    return sendSuccess(res, updatedUser, 'User updated successfully');
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error: "An error occurred while updating the user" });
+    return sendError(res, 'An error occurred while updating the user');
   }
 };
 
-module.exports = {
-  userRegister,
-  userLogin,
-  getUser,
-  deleteUser,
-  updateUser,
-};
+module.exports = { userRegister, userLogin, getUser, deleteUser, updateUser };

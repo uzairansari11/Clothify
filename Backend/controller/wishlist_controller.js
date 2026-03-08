@@ -1,132 +1,77 @@
-const { WishlistModel } = require("../model/wishlist_model");
+const { WishlistModel } = require('../model/wishlist_model');
+const { sendSuccess, sendError } = require('../utils/response');
 
-// Get wishlist items for the logged-in user
 const getWishlist = async (req, res) => {
   try {
     const wishData = await WishlistModel.find({ user: req.user.id });
-    res.status(200).json(wishData);
+    return sendSuccess(res, wishData, 'Wishlist fetched successfully');
   } catch (error) {
-    res.status(500).json({ error: "Something Went Wrong" });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-// Add a product to the wishlist
 const postWishlist = async (req, res) => {
-  const {
-    title,
-    category,
-    subcategory,
-    brand,
-    price,
-    discount,
-    quantity,
-    images,
-    size,
-    productId,
-  } = req.body;
+  const { title, category, subcategory, brand, price, discount, quantity, images, size, productId } = req.body;
 
-  if (
-    !title ||
-    !category ||
-    !subcategory ||
-    !brand ||
-    !price ||
-    discount === undefined ||
-    quantity === undefined ||
-    images.length === 0 ||
-    !size ||
-    !productId
-  ) {
-    return res.status(400).json({ error: "Please provide all the details" });
-  } else {
-    try {
-      let wishlistItem = await WishlistModel.findOne({
-        user: req.user.id,
-        productId,
-        size,
-      }).lean();
+  if (!title || !category || !subcategory || !brand || !price || discount === undefined || quantity === undefined || !images?.length || !size || !productId) {
+    return sendError(res, 'Please provide all the details', 400);
+  }
 
-      if (wishlistItem) {
-        if (wishlistItem.quantity >= 1) {
-          return res.status(400).json({ error: "Quantity cannot exceed 1" });
-        }
-        wishlistItem = await WishlistModel.findOneAndUpdate(
-          { user: req.user.id, productId, size },
-          { $inc: { quantity: 1 } },
-          { new: true }
-        ).lean();
-        res.status(200).json(wishlistItem);
-      } else {
-        const wishlistDetails = new WishlistModel({
-          title,
-          category,
-          subcategory,
-          brand,
-          price,
-          discount,
-          quantity,
-          images,
-          size,
-          user: req.user._id,
-          productId,
-        });
+  try {
+    let wishlistItem = await WishlistModel.findOne({ user: req.user.id, productId, size }).lean();
 
-        await wishlistDetails.save();
-        res.status(200).json(wishlistDetails);
+    if (wishlistItem) {
+      if (wishlistItem.quantity >= 1) {
+        return sendError(res, 'Item already in wishlist', 400);
       }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "An error occurred while posting the new product" });
+      wishlistItem = await WishlistModel.findOneAndUpdate(
+        { user: req.user.id, productId, size },
+        { $inc: { quantity: 1 } },
+        { new: true }
+      ).lean();
+      return sendSuccess(res, wishlistItem, 'Wishlist item updated');
     }
+
+    const newItem = new WishlistModel({
+      title, category, subcategory, brand, price, discount,
+      quantity, images, size, user: req.user._id, productId,
+    });
+    await newItem.save();
+    return sendSuccess(res, newItem, 'Item added to wishlist', 201);
+  } catch (error) {
+    return sendError(res, 'An error occurred while adding to wishlist');
   }
 };
 
-// Update a wishlist item
 const updateWishlist = async (req, res) => {
-  const payload = req.body;
-  const productId = req.params.id;
   try {
-    const updatedItem = await WishlistModel.findByIdAndUpdate(
-      { _id: productId, user: req.user.id },
-      payload,
-      {
-        new: true,
-      }
+    const updatedItem = await WishlistModel.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      req.body,
+      { new: true }
     );
     if (!updatedItem) {
-      res.status(400).json({ message: "Item does not exist" });
-    } else {
-      res.status(200).json(updatedItem);
+      return sendError(res, 'Item does not exist', 404);
     }
+    return sendSuccess(res, updatedItem, 'Wishlist item updated');
   } catch (error) {
-    res.status(500).json({ error: "Something Went Wrong" });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-// Delete a wishlist item
 const deleteWishlist = async (req, res) => {
-  const productId = req.params.id;
   try {
-    const deletedItem = await WishlistModel.findByIdAndDelete(
-      { _id: productId },
-      { user: req.user.id }
-    );
+    const deletedItem = await WishlistModel.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user.id,
+    });
     if (!deletedItem) {
-      res.status(400).json({ message: "Item does not exist" });
-    } else {
-      res
-        .status(200)
-        .json({ data: deletedItem, message: "Item deleted successfully" });
+      return sendError(res, 'Item does not exist', 404);
     }
+    return sendSuccess(res, deletedItem, 'Item removed from wishlist');
   } catch (error) {
-    res.status(500).json({ error: "Something Went Wrong" });
+    return sendError(res, 'Something went wrong');
   }
 };
 
-module.exports = {
-  getWishlist,
-  postWishlist,
-  updateWishlist,
-  deleteWishlist,
-};
+module.exports = { getWishlist, postWishlist, updateWishlist, deleteWishlist };

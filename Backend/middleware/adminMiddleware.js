@@ -1,35 +1,24 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 const { AdminModel } = require('../model/admin_mode');
-require("dotenv").config();
+const { sendError } = require('../utils/response');
 
-// Middleware to verify and authenticate admin
 const adminMiddleware = async (req, res, next) => {
-    var token;
+  if (!req.headers.authorization) {
+    return sendError(res, 'Not authorized, no token provided', 401);
+  }
 
-    // Check if Authorization header is present
-    if (req.headers.authorization) {
-        try {
-            // Extract token from Authorization header
-            token = req.headers.authorization.split(" ")[1];
-            // Verify and decode the token using the admin secret key
-            var decoded = await jwt.verify(token, process.env.ADMIN_SECRET_KEY);
-            if (decoded) {
-                // Find the admin based on the decoded admin ID
-                const admin = await AdminModel.findById(decoded.adminID);
-                // Attach the admin object to the request for further use
-                req.admin = admin;
-                next(); // Proceed to the next middleware or route handler
-            } else {
-                // Token verification failed
-                return res.status(401).json({ message: "Not Authorized" });
-            }
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    } else {
-        // Authorization header is missing
-        return res.status(401).json({ message: "Not Authorized, no token provided" });
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.ADMIN_SECRET_KEY);
+    const admin = await AdminModel.findById(decoded.adminID);
+    if (!admin) {
+      return sendError(res, 'Not authorized', 401);
     }
+    req.admin = admin;
+    next();
+  } catch (error) {
+    return sendError(res, 'Not authorized, invalid token', 401);
+  }
 };
 
 module.exports = { adminMiddleware };
