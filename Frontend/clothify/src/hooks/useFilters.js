@@ -13,7 +13,7 @@ const fetchFilters = async (category) => {
  * Data is cached for 10 minutes since categories/brands rarely change.
  */
 const useFilters = (category) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["filters", category],
     queryFn: () => fetchFilters(category),
     staleTime: 10 * 60 * 1000,
@@ -23,6 +23,7 @@ const useFilters = (category) => {
     subcategories: data?.subcategories ?? [],
     brands: data?.brands ?? [],
     isLoading,
+    isError,
   };
 };
 

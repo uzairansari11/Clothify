@@ -114,6 +114,12 @@ const Homepage = () => {
     Women: womenQuery.isLoading,
     Kids: kidsQuery.isLoading,
   };
+  const sectionError = {
+    "New Arrival": menQuery.isError && womenQuery.isError && kidsQuery.isError,
+    Men: menQuery.isError,
+    Women: womenQuery.isError,
+    Kids: kidsQuery.isError,
+  };
 
   /* ── Color tokens — ALL at top level ────── */
   const pageBg              = useColorModeValue("white",      "gray.900");
@@ -527,8 +533,23 @@ const Homepage = () => {
               </Text>
             </Flex>
 
-            {/* Carousel or loading state */}
-            {sectionLoading[category] ? (
+            {/* Carousel or loading/error state */}
+            {sectionError[category] ? (
+              <Flex direction="column" align="center" py={10}>
+                <Icon as={FiRefreshCw} boxSize={8} color="gray.400" mb={3} />
+                <Text color="gray.500" fontSize="sm" mb={3}>
+                  Unable to load {title.toLowerCase()}. Please try again.
+                </Text>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  borderRadius="full"
+                  onClick={() => window.location.reload()}
+                >
+                  Retry
+                </Button>
+              </Flex>
+            ) : sectionLoading[category] ? (
               <LoadingSpinner />
             ) : (
               <>

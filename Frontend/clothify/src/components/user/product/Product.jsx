@@ -24,7 +24,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { FiFilter, FiRefreshCcw, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiFilter, FiRefreshCcw, FiChevronDown, FiChevronUp, FiAlertCircle } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
 import useProducts from "../../../hooks/useProducts";
 import useFilters from "../../../hooks/useFilters";
@@ -32,6 +32,7 @@ import CardItem from "../card/CardItem";
 import Pagination from "../product/Pagination";
 import LoadingSpinner from "../spinner/Spinner";
 import NotFound from "./NotFound";
+import EmptyState from "../../common/EmptyState";
 
 const Product = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,7 +60,7 @@ const Product = ({ category }) => {
   const { subcategories, brands, isLoading: filtersLoading } = useFilters(category);
 
   // Products via React Query
-  const { products, totalCount, isLoading: productsLoading } = useProducts({
+  const { products, totalCount, isLoading: productsLoading, isError: productsError } = useProducts({
     category,
     subcategory: selectedCategory,
     brand: selectedBrand,
@@ -383,7 +384,15 @@ const Product = ({ category }) => {
 
         {/* Product Grid */}
         <Box flex="1" p={{ base: 3, md: 5 }} minH="100vh">
-          {productsLoading ? (
+          {productsError ? (
+            <EmptyState
+              icon={FiAlertCircle}
+              title="Failed to load products"
+              message="Something went wrong while fetching products. Please check your connection and try again."
+              actionLabel="Retry"
+              onAction={() => window.location.reload()}
+            />
+          ) : productsLoading ? (
             <LoadingSpinner />
           ) : products?.length > 0 ? (
             <>
