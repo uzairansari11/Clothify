@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Flex,
+  HStack,
+  IconButton,
   Image,
   Modal,
   ModalBody,
@@ -9,9 +11,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Text,
   Tooltip,
+  useColorModeValue,
+  Badge,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,6 +22,7 @@ import {
   AiOutlineDollar,
   AiOutlineTag,
 } from "react-icons/ai";
+import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -37,8 +41,35 @@ const CartItemCard = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleQuantity = (e) => {
-    const newQuantity = parseInt(e.target.value);
+  // Color mode values
+  const cardBg = useColorModeValue("white", "gray.800");
+  const cardBorder = "accent.subtle";
+  const cardShadow = useColorModeValue(
+    "0 2px 12px rgba(128, 90, 213, 0.08)",
+    "0 2px 12px rgba(0,0,0,0.4)"
+  );
+  const titleColor = useColorModeValue("gray.800", "whiteAlpha.900");
+  const metaColor = useColorModeValue("gray.500", "gray.400");
+  const priceColor = "accent.text";
+  const qtyBg = "accent.bg";
+  const qtyBorder = "accent.subtle";
+  const qtyText = useColorModeValue("accent.text", "accent.bg");
+  const modalBg = useColorModeValue("white", "gray.800");
+  const modalHeaderColor = useColorModeValue("gray.800", "whiteAlpha.900");
+  const modalBodyColor = useColorModeValue("gray.600", "gray.300");
+  const imageBg = useColorModeValue("gray.50", "gray.700");
+
+  const handleQuantityDecrement = () => {
+    if (selectedQuantity <= 1) return;
+    const newQuantity = selectedQuantity - 1;
+    const payload = { quantity: newQuantity };
+    handleQuantityChange(_id, payload);
+    setSelectedQuantity(newQuantity);
+  };
+
+  const handleQuantityIncrement = () => {
+    if (selectedQuantity >= 10) return;
+    const newQuantity = selectedQuantity + 1;
     const payload = { quantity: newQuantity };
     handleQuantityChange(_id, payload);
     setSelectedQuantity(newQuantity);
@@ -49,92 +80,222 @@ const CartItemCard = ({
     setIsModalOpen(false);
   };
 
-  useEffect(() => { }, [selectedQuantity]);
+  useEffect(() => {}, [selectedQuantity]);
 
   return (
     <Box
+      bg={cardBg}
       borderWidth="1px"
-      borderRadius="lg"
-      p={4}
+      borderColor={cardBorder}
+      borderRadius="2xl"
+      p={{ base: 3, sm: 4 }}
       width="100%"
-      marginBottom={4}
-      bg="white"
+      mb={4}
+      boxShadow={cardShadow}
+      transition="box-shadow 0.2s ease, transform 0.2s ease"
+      _hover={{ boxShadow: "0 4px 20px rgba(128, 90, 213, 0.18)", transform: "translateY(-1px)" }}
     >
-      <Flex flexWrap="wrap" justifyContent="space-between">
+      <Flex gap={{ base: 3, sm: 4 }} align="flex-start">
+        {/* Product Image */}
         <Link to={`/product/${productId}`}>
-          <Image
-            src={images?.[0]}
-            alt={title}
-            boxSize={{ base: "120px", sm: "150px" }}
-            objectFit="contain"
-            mb={{ base: 4, sm: 0 }}
-          />
+          <Box
+            bg={imageBg}
+            borderRadius="xl"
+            overflow="hidden"
+            flexShrink={0}
+            w={{ base: "90px", sm: "120px" }}
+            h={{ base: "90px", sm: "120px" }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image
+              src={images?.[0]}
+              alt={title}
+              w="100%"
+              h="100%"
+              objectFit="contain"
+              transition="transform 0.25s ease"
+              _hover={{ transform: "scale(1.05)" }}
+            />
+          </Box>
         </Link>
-        <Box ml={4} flex="1">
-          <Text fontWeight="bold" fontSize="xl" mb={2} textAlign="left">
-            {title}
-          </Text>
-          <Flex align="center" justify="space-between">
-            <Flex align="center">
-              <Tooltip label="Price" aria-label="Price">
-                <Flex align="center" mr={4}>
-                  <AiOutlineDollar size={18} />
-                  <Text fontSize="lg" ml={2}>
-                    {price}
-                  </Text>
-                </Flex>
-              </Tooltip>
-              <Tooltip label="Size" aria-label="Size">
-                <Flex align="center">
-                  <AiOutlineTag size={18} />
-                  <Text fontSize="lg" ml={2}>
-                    {size}
-                  </Text>
-                </Flex>
-              </Tooltip>
-            </Flex>
-            <Flex align="center">
-              <Select
-                value={selectedQuantity}
-                onChange={handleQuantity}
-                variant="outline"
-                colorScheme="green"
-                size="sm"
+
+        {/* Details */}
+        <Flex flex="1" direction="column" gap={2} minW={0}>
+          {/* Title */}
+          <Link to={`/product/${productId}`}>
+            <Text
+              fontWeight="700"
+              fontSize={{ base: "sm", sm: "md" }}
+              color={titleColor}
+              noOfLines={2}
+              lineHeight="1.4"
+              _hover={{ color: "accent.solid" }}
+              transition="color 0.15s"
+            >
+              {title}
+            </Text>
+          </Link>
+
+          {/* Price + Size row */}
+          <HStack spacing={3} flexWrap="wrap">
+            <Flex align="center" gap={1}>
+              <Box color={metaColor} fontSize="sm">
+                <AiOutlineDollar />
+              </Box>
+              <Text
+                fontWeight="800"
+                fontSize={{ base: "md", sm: "lg" }}
+                color={priceColor}
+                letterSpacing="-0.5px"
               >
-                {[...Array(10)].map((_, index) => (
-                  <option key={index} value={index + 1}>
-                    {index + 1}
-                  </option>
-                ))}
-              </Select>
-              <Tooltip label="Delete Item" aria-label="Delete Item">
-                <Box ml={4}>
-                  <AiOutlineDelete
-                    size={24}
-                    color="red"
-                    cursor="pointer"
-                    onClick={() => setIsModalOpen(true)}
-                  />
-                </Box>
-              </Tooltip>
+                ₹{Number(price).toLocaleString("en-IN")}
+              </Text>
             </Flex>
+
+            <Flex align="center" gap={1}>
+              <Box color={metaColor} fontSize="sm">
+                <AiOutlineTag />
+              </Box>
+              <Badge
+                                variant="subtle"
+                borderRadius="md"
+                px={2}
+                fontSize="xs"
+                fontWeight="600"
+                textTransform="uppercase"
+                letterSpacing="0.5px"
+              >
+                {size}
+              </Badge>
+            </Flex>
+          </HStack>
+
+          {/* Quantity controls + Delete */}
+          <Flex
+            align="center"
+            justify="space-between"
+            mt={{ base: 1, sm: 2 }}
+            flexWrap="wrap"
+            gap={2}
+          >
+            {/* +/- Quantity Selector */}
+            <HStack
+              spacing={0}
+              bg={qtyBg}
+              borderWidth="1px"
+              borderColor={qtyBorder}
+              borderRadius="lg"
+              overflow="hidden"
+            >
+              <IconButton
+                icon={<FiMinus size={12} />}
+                size="sm"
+                variant="ghost"
+                                borderRadius="none"
+                onClick={handleQuantityDecrement}
+                isDisabled={selectedQuantity <= 1}
+                aria-label="Decrease quantity"
+                _hover={{ bg: "accent.subtle" }}
+                h="32px"
+                minW="32px"
+              />
+              <Box
+                px={3}
+                py={1}
+                borderX="1px"
+                borderColor={qtyBorder}
+              >
+                <Text
+                  fontSize="sm"
+                  fontWeight="700"
+                  color={qtyText}
+                  minW="16px"
+                  textAlign="center"
+                >
+                  {selectedQuantity}
+                </Text>
+              </Box>
+              <IconButton
+                icon={<FiPlus size={12} />}
+                size="sm"
+                variant="ghost"
+                                borderRadius="none"
+                onClick={handleQuantityIncrement}
+                isDisabled={selectedQuantity >= 10}
+                aria-label="Increase quantity"
+                _hover={{ bg: "accent.subtle" }}
+                h="32px"
+                minW="32px"
+              />
+            </HStack>
+
+            {/* Delete button */}
+            <Tooltip label="Remove item" placement="top" hasArrow>
+              <IconButton
+                icon={<AiOutlineDelete size={17} />}
+                size="sm"
+                variant="ghost"
+                colorScheme="red"
+                borderRadius="lg"
+                onClick={() => setIsModalOpen(true)}
+                aria-label="Delete item"
+                _hover={{ bg: "red.50", color: "red.600" }}
+              />
+            </Tooltip>
           </Flex>
-        </Box>
+        </Flex>
       </Flex>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete this item from your cart?
+      {/* Confirmation Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        isCentered
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay bg="blackAlpha.400" backdropFilter="blur(4px)" />
+        <ModalContent
+          bg={modalBg}
+          borderRadius="2xl"
+          mx={4}
+          boxShadow="2xl"
+          overflow="hidden"
+        >
+          <Box h="3px" bg="linear-gradient(90deg, #805AD5, #B794F4)" />
+          <ModalHeader
+            fontSize="lg"
+            fontWeight="700"
+            color={modalHeaderColor}
+            pb={2}
+          >
+            Remove from Cart?
+          </ModalHeader>
+          <ModalBody color={modalBodyColor} fontSize="sm" pb={4}>
+            Are you sure you want to remove{" "}
+            <Text as="span" fontWeight="600" color={titleColor}>
+              {title}
+            </Text>{" "}
+            from your cart? This action cannot be undone.
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={() => handleDelete(_id)}>
-              Delete
-            </Button>
-            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
+          <ModalFooter gap={2} pt={2}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsModalOpen(false)}
+              borderRadius="lg"
+            >
               Cancel
+            </Button>
+            <Button
+              colorScheme="red"
+              size="sm"
+              onClick={() => handleDelete(_id)}
+              borderRadius="lg"
+              fontWeight="600"
+            >
+              Remove
             </Button>
           </ModalFooter>
         </ModalContent>
