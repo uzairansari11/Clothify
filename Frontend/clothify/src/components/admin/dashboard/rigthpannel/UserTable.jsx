@@ -1,27 +1,12 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Avatar,
   Badge,
   Box,
-  Button,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
+  Icon,
   IconButton,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -32,7 +17,7 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit2, FiTrash2, FiUsers } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -40,19 +25,35 @@ import {
   handleGetUser,
   handleUpdateUser,
 } from "../../../../redux/Admin_Redux/users/action";
+import ConfirmDialog from "../../../common/ConfirmDialog";
+import EditModal from "../../../common/EditModal";
+import FormField from "../../../common/FormField";
+import SearchInput from "../../../common/SearchInput";
+import { isEmail, isPhone, required } from "../../../common/validators";
+import { useFormValidation } from "../../../common/useFormValidation";
 import Pagination from "./Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
+const VALIDATION_RULES = {
+  name: [required("Full name is required")],
+  email: [required("Email is required"), isEmail()],
+  mobile: [isPhone()],
+};
+
 const UserTable = () => {
-  const { users } = useSelector((store) => store.userReducer);
+  const { users, isLoading, isError, totalCount } = useSelector((store) => store.userReducer);
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const cancelRef = useRef();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const { values, errors, handleChange, handleBlur, validateAll, setValues, resetForm } =
+    useFormValidation({ name: "", email: "", mobile: "" }, VALIDATION_RULES);
 
   // All useColorModeValue calls at top level
   const headerBg = useColorModeValue("gray.50", "gray.700");
@@ -66,7 +67,6 @@ const UserTable = () => {
   const emptyTextColor = useColorModeValue("gray.500", "gray.400");
   const sectionBg = useColorModeValue("white", "gray.800");
   const sectionBorderColor = useColorModeValue("gray.200", "gray.700");
-  const inputFocusBorder = "accent.solid";
 
   const onDelete = (id) => {
     dispatch(handleDeleteUser(id));
@@ -76,21 +76,23 @@ const UserTable = () => {
 
   const handleEditClick = (user) => {
     setSelectedUser(user);
+    setValues({ name: user.name || "", email: user.email || "", mobile: user.mobile || "" });
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setSelectedUser(null);
+    resetForm();
     setIsModalOpen(false);
   };
 
   const handleSaveChanges = () => {
-    const payload = {
-      name: selectedUser.name,
-      email: selectedUser.email,
-      mobile: selectedUser.mobile,
-    };
-    dispatch(handleUpdateUser(selectedUser._id, payload));
+    if (!validateAll()) return;
+    dispatch(handleUpdateUser(selectedUser._id, {
+      name: values.name,
+      email: values.email,
+      mobile: values.mobile,
+    }));
     handleCloseModal();
   };
 
@@ -114,18 +116,13 @@ const UserTable = () => {
       .toUpperCase();
   };
 
-  const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
-  const paginatedUsers = users.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   const handlePageChange = (newPage) => setPage(newPage);
 
   useEffect(() => {
-    dispatch(handleGetUser());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(handleGetUser({ page, limit: ITEMS_PER_PAGE, search: debouncedSearch }));
+  }, [page, debouncedSearch, dispatch]);
 
   return (
     <Box
@@ -161,19 +158,48 @@ const UserTable = () => {
           </Text>
         </HStack>
         <Badge
-                    variant="subtle"
+          variant="subtle"
           borderRadius="full"
           px={3}
           py={1}
           fontSize="sm"
           fontWeight="600"
         >
-          {users.length} {users.length === 1 ? "User" : "Users"}
+          {totalCount} {totalCount === 1 ? "User" : "Users"}
         </Badge>
       </Flex>
 
+      {/* Search Bar */}
+      <Flex px={6} py={3} borderBottom="1px solid" borderColor={borderColor}>
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onSearch={(val) => { setPage(1); setDebouncedSearch(val); }}
+          placeholder="Search by name, email, or phone..."
+        />
+      </Flex>
+
+      {/* Loading State */}
+      {isLoading && (
+        <Flex align="center" justify="center" py={16} gap={3}>
+          <Spinner size="md" color="accent.solid" thickness="2px" />
+          <Text fontSize="sm" color={emptyTextColor} fontWeight="500">Loading users...</Text>
+        </Flex>
+      )}
+
+      {/* Error State */}
+      {isError && !isLoading && (
+        <Flex direction="column" align="center" justify="center" py={16} gap={3}>
+          <Flex align="center" justify="center" w={16} h={16} bg="red.50" borderRadius="full">
+            <Icon as={FiUsers} boxSize={7} color="red.400" />
+          </Flex>
+          <Text fontSize="md" fontWeight="600" color="red.500">Failed to load users</Text>
+          <Text fontSize="sm" color={emptyTextColor}>Please refresh or try again.</Text>
+        </Flex>
+      )}
+
       {/* Table */}
-      <Box overflowX="auto">
+      {!isLoading && !isError && <Box overflowX="auto">
         <Table variant="unstyled" size="md">
           <Thead bg={headerBg}>
             <Tr>
@@ -213,7 +239,7 @@ const UserTable = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {paginatedUsers.map((user) => (
+            {users.map((user) => (
               <Tr
                 key={user._id}
                 borderTop="1px solid"
@@ -259,7 +285,7 @@ const UserTable = () => {
                       icon={<FiEdit2 size={15} />}
                       size="sm"
                       variant="ghost"
-                                            borderRadius="md"
+                      borderRadius="md"
                       onClick={() => handleEditClick(user)}
                       _hover={{ bg: "accent.bg" }}
                     />
@@ -303,14 +329,14 @@ const UserTable = () => {
               No users found
             </Text>
             <Text fontSize="sm" color={emptyTextColor}>
-              Users will appear here once they register.
+              {searchQuery ? "Try adjusting your search." : "Users will appear here once they register."}
             </Text>
           </Flex>
         )}
-      </Box>
+      </Box>}
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {!isLoading && !isError && totalPages > 1 && (
         <Box px={6} py={4} borderTop="1px solid" borderColor={borderColor}>
           <Pagination
             currentPage={page}
@@ -321,152 +347,59 @@ const UserTable = () => {
       )}
 
       {/* Edit Modal */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} isCentered size="md">
-        <ModalOverlay backdropFilter="blur(4px)" />
-        <ModalContent borderRadius="xl" overflow="hidden">
-          <ModalHeader
-            fontSize="lg"
-            fontWeight="700"
-            pb={3}
-            borderBottom="1px solid"
-            borderColor={borderColor}
-          >
-            Edit User
-          </ModalHeader>
-          <ModalCloseButton top={4} right={4} />
-          <ModalBody py={6}>
-            {selectedUser && (
-              <VStack spacing={5}>
-                <FormControl>
-                  <FormLabel fontSize="sm" fontWeight="600" color={headerColor} mb={1}>
-                    Full Name
-                  </FormLabel>
-                  <Input
-                    value={selectedUser.name}
-                    onChange={(e) =>
-                      setSelectedUser({ ...selectedUser, name: e.target.value })
-                    }
-                    placeholder="Enter full name"
-                    borderRadius="lg"
-                    size="md"
-                    focusBorderColor={inputFocusBorder}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel fontSize="sm" fontWeight="600" color={headerColor} mb={1}>
-                    Email Address
-                  </FormLabel>
-                  <Input
-                    value={selectedUser.email}
-                    onChange={(e) =>
-                      setSelectedUser({ ...selectedUser, email: e.target.value })
-                    }
-                    placeholder="Enter email address"
-                    borderRadius="lg"
-                    size="md"
-                    focusBorderColor={inputFocusBorder}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel fontSize="sm" fontWeight="600" color={headerColor} mb={1}>
-                    Phone Number
-                  </FormLabel>
-                  <Input
-                    value={selectedUser.mobile}
-                    onChange={(e) =>
-                      setSelectedUser({ ...selectedUser, mobile: e.target.value })
-                    }
-                    placeholder="Enter phone number"
-                    borderRadius="lg"
-                    size="md"
-                    focusBorderColor={inputFocusBorder}
-                  />
-                </FormControl>
-              </VStack>
-            )}
-          </ModalBody>
-          <ModalFooter
-            gap={3}
-            borderTop="1px solid"
-            borderColor={borderColor}
-            pt={4}
-          >
-            <Button
-              variant="ghost"
-              onClick={handleCloseModal}
-              borderRadius="lg"
-              fontWeight="600"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSaveChanges}
-              isDisabled={!selectedUser}
-              borderRadius="lg"
-              fontWeight="600"
-              px={6}
-            >
-              Save Changes
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <EditModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveChanges}
+        title="Edit User"
+        isSaveDisabled={!selectedUser}
+      >
+        {selectedUser && (
+          <>
+            <FormField
+              label="Full Name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.name}
+              placeholder="Enter full name"
+              isRequired
+            />
+            <FormField
+              label="Email Address"
+              name="email"
+              type="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.email}
+              placeholder="Enter email address"
+              isRequired
+            />
+            <FormField
+              label="Phone Number"
+              name="mobile"
+              type="tel"
+              value={values.mobile}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.mobile}
+              placeholder="Enter phone number"
+            />
+          </>
+        )}
+      </EditModal>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog
+      <ConfirmDialog
         isOpen={isDeleteConfirmationOpen}
-        leastDestructiveRef={cancelRef}
         onClose={handleCloseDeleteConfirmation}
-        isCentered
-      >
-        <AlertDialogOverlay backdropFilter="blur(4px)">
-          <AlertDialogContent borderRadius="xl">
-            <AlertDialogHeader
-              fontSize="lg"
-              fontWeight="700"
-              borderBottom="1px solid"
-              borderColor={borderColor}
-              pb={3}
-            >
-              Delete User
-            </AlertDialogHeader>
-            <AlertDialogBody py={5}>
-              <Text fontSize="sm" color={phoneColor}>
-                Are you sure you want to delete{" "}
-                <Text as="span" fontWeight="600" color={nameColor}>
-                  {selectedUser?.name}
-                </Text>
-                ? This action cannot be undone.
-              </Text>
-            </AlertDialogBody>
-            <AlertDialogFooter
-              gap={3}
-              borderTop="1px solid"
-              borderColor={borderColor}
-              pt={4}
-            >
-              <Button
-                ref={cancelRef}
-                variant="ghost"
-                onClick={handleCloseDeleteConfirmation}
-                borderRadius="lg"
-                fontWeight="600"
-              >
-                Cancel
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => onDelete(selectedUser._id)}
-                borderRadius="lg"
-                fontWeight="600"
-                px={6}
-              >
-                Delete User
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        onConfirm={() => onDelete(selectedUser._id)}
+        title="Delete User"
+        itemName={selectedUser?.name}
+        confirmLabel="Delete User"
+      />
     </Box>
   );
 };

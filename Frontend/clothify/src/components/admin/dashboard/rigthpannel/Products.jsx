@@ -1,41 +1,30 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Badge,
   Box,
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
+  Icon,
   IconButton,
   Image,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Select,
+  Spinner,
   Table,
   Tbody,
   Td,
   Text,
-  Textarea,
   Th,
   Thead,
   Tr,
-  VStack,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { FiEdit2, FiPackage, FiTrash2 } from "react-icons/fi";
+import React, { useEffect, useState, useCallback } from "react";
+import { FiEdit2, FiPackage, FiSearch, FiTrash2, FiX } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -44,10 +33,13 @@ import {
   handleUpdateProductData,
 } from "../../../../redux/Admin_Redux/admin_products/action";
 import Pagination from "./Pagination";
+import ConfirmDialog from "../../../common/ConfirmDialog";
+import EditModal from "../../../common/EditModal";
+import FormField from "../../../common/FormField";
 
 // Row-level component that holds its own modal state
 // All useColorModeValue calls are at the top level of this component
-const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, emailColor, phoneColor, priceColor, sectionBorderColor, inputFocusBorder, onDelete, onUpdate }) => {
+const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, emailColor, phoneColor, priceColor, onDelete, onUpdate }) => {
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -58,8 +50,6 @@ const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, ema
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
-
-  const cancelRef = React.useRef();
 
   const [editFields, setEditFields] = useState({
     editTitle: product.title,
@@ -149,7 +139,7 @@ const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, ema
         <Td px={4} py={3}>
           <Badge
             variant="subtle"
-                        borderRadius="full"
+            borderRadius="full"
             px={2}
             py={0.5}
             fontSize="xs"
@@ -196,7 +186,7 @@ const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, ema
               icon={<FiEdit2 size={14} />}
               size="sm"
               variant="ghost"
-                            borderRadius="md"
+              borderRadius="md"
               onClick={onEditOpen}
               _hover={{ bg: "accent.bg" }}
             />
@@ -215,198 +205,101 @@ const ProductRow = ({ product, headerBg, borderColor, rowHoverBg, nameColor, ema
       </Tr>
 
       {/* Edit Modal */}
-      <Modal isOpen={isEditOpen} onClose={onEditClose} isCentered size="md">
-        <ModalOverlay backdropFilter="blur(4px)" />
-        <ModalContent borderRadius="xl" overflow="hidden">
-          <ModalHeader
-            fontSize="lg"
-            fontWeight="700"
-            pb={3}
-            borderBottom="1px solid"
-            borderColor={borderColor}
-          >
-            Edit Product
-          </ModalHeader>
-          <ModalCloseButton top={4} right={4} />
-          <ModalBody py={6}>
-            <VStack spacing={4}>
-              <FormControl>
-                <FormLabel fontSize="sm" fontWeight="600" color={emailColor} mb={1}>
-                  Title
-                </FormLabel>
-                <Input
-                  name="editTitle"
-                  value={editFields.editTitle}
-                  onChange={handleInputChange}
-                  placeholder="Enter product title"
-                  borderRadius="lg"
-                  focusBorderColor={inputFocusBorder}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel fontSize="sm" fontWeight="600" color={emailColor} mb={1}>
-                  Description
-                </FormLabel>
-                <Textarea
-                  name="editDescription"
-                  value={editFields.editDescription}
-                  onChange={handleInputChange}
-                  placeholder="Enter product description"
-                  borderRadius="lg"
-                  focusBorderColor={inputFocusBorder}
-                  rows={3}
-                  resize="vertical"
-                />
-              </FormControl>
-              <HStack spacing={4} w="100%">
-                <FormControl>
-                  <FormLabel fontSize="sm" fontWeight="600" color={emailColor} mb={1}>
-                    Price ($)
-                  </FormLabel>
-                  <Input
-                    name="editPrice"
-                    value={editFields.editPrice}
-                    onChange={handleInputChange}
-                    placeholder="0.00"
-                    borderRadius="lg"
-                    focusBorderColor={inputFocusBorder}
-                    type="number"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel fontSize="sm" fontWeight="600" color={emailColor} mb={1}>
-                    Discount (%)
-                  </FormLabel>
-                  <Input
-                    name="editDiscount"
-                    value={editFields.editDiscount}
-                    onChange={handleInputChange}
-                    placeholder="0"
-                    borderRadius="lg"
-                    focusBorderColor={inputFocusBorder}
-                    type="number"
-                  />
-                </FormControl>
-              </HStack>
-            </VStack>
-          </ModalBody>
-          <ModalFooter
-            gap={3}
-            borderTop="1px solid"
-            borderColor={borderColor}
-            pt={4}
-          >
-            <Button
-              variant="ghost"
-              onClick={onEditClose}
-              borderRadius="lg"
-              fontWeight="600"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleEditSave}
-              borderRadius="lg"
-              fontWeight="600"
-              px={6}
-            >
-              Save Changes
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <EditModal
+        isOpen={isEditOpen}
+        onClose={onEditClose}
+        onSave={handleEditSave}
+        title="Edit Product"
+      >
+        <FormField
+          label="Title"
+          name="editTitle"
+          value={editFields.editTitle}
+          onChange={handleInputChange}
+          placeholder="Enter product title"
+        />
+        <FormField
+          label="Description"
+          name="editDescription"
+          type="textarea"
+          value={editFields.editDescription}
+          onChange={handleInputChange}
+          placeholder="Enter product description"
+          rows={3}
+        />
+        <HStack spacing={4} w="100%">
+          <FormField
+            label="Price ($)"
+            name="editPrice"
+            type="number"
+            value={editFields.editPrice}
+            onChange={handleInputChange}
+            placeholder="0.00"
+          />
+          <FormField
+            label="Discount (%)"
+            name="editDiscount"
+            type="number"
+            value={editFields.editDiscount}
+            onChange={handleInputChange}
+            placeholder="0"
+          />
+        </HStack>
+      </EditModal>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog
+      <ConfirmDialog
         isOpen={isDeleteOpen}
-        leastDestructiveRef={cancelRef}
         onClose={onDeleteClose}
-        isCentered
-      >
-        <AlertDialogOverlay backdropFilter="blur(4px)">
-          <AlertDialogContent borderRadius="xl">
-            <AlertDialogHeader
-              fontSize="lg"
-              fontWeight="700"
-              borderBottom="1px solid"
-              borderColor={borderColor}
-              pb={3}
-            >
-              Delete Product
-            </AlertDialogHeader>
-            <AlertDialogBody py={5}>
-              <Text fontSize="sm" color={phoneColor}>
-                Are you sure you want to delete{" "}
-                <Text as="span" fontWeight="600" color={nameColor}>
-                  {product.title}
-                </Text>
-                ? This action cannot be undone.
-              </Text>
-            </AlertDialogBody>
-            <AlertDialogFooter
-              gap={3}
-              borderTop="1px solid"
-              borderColor={borderColor}
-              pt={4}
-            >
-              <Button
-                ref={cancelRef}
-                variant="ghost"
-                onClick={onDeleteClose}
-                borderRadius="lg"
-                fontWeight="600"
-              >
-                Cancel
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={handleDeleteConfirm}
-                borderRadius="lg"
-                fontWeight="600"
-                px={6}
-              >
-                Delete Product
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        onConfirm={handleDeleteConfirm}
+        title="Delete Product"
+        itemName={product.title}
+        confirmLabel="Delete Product"
+      />
     </>
   );
 };
 
 export const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialLimit = Number(searchParams.get("limit")) || 10;
-  const initialPage = Number(searchParams.get("page")) || 1;
-  const [page, setPage] = useState(initialPage);
-  const [limit] = useState(initialLimit);
+  const initialLimit    = Number(searchParams.get("limit")) || 10;
+  const initialPage     = Number(searchParams.get("page")) || 1;
+  const initialSearch   = searchParams.get("search") || "";
+  const initialCategory = searchParams.get("category") || "";
+  const initialSort     = searchParams.get("sortOrder") || "";
+  const [page, setPage]               = useState(initialPage);
+  const [limit]                        = useState(initialLimit);
+  const [search, setSearch]           = useState(initialSearch);
+  const [searchInput, setSearchInput] = useState(initialSearch);
+  const [category, setCategory]       = useState(initialCategory);
+  const [sortOrder, setSortOrder]     = useState(initialSort);
 
-  const { products, totalCount } = useSelector(
+  const { products, totalCount, isLoading, isError } = useSelector(
     (store) => store.adminProductReducer
   );
   const dispatch = useDispatch();
 
   // All useColorModeValue calls at top level of Products component
-  const headerBg = useColorModeValue("gray.50", "gray.700");
-  const headerColor = useColorModeValue("gray.500", "gray.400");
-  const borderColor = useColorModeValue("gray.100", "gray.700");
-  const rowHoverBg = useColorModeValue("gray.50", "gray.700");
-  const nameColor = useColorModeValue("gray.800", "white");
-  const emailColor = useColorModeValue("gray.500", "gray.400");
-  const phoneColor = useColorModeValue("gray.600", "gray.300");
-  const priceColor = useColorModeValue("green.600", "green.300");
-  const sectionBg = useColorModeValue("white", "gray.800");
+  const headerBg           = useColorModeValue("gray.50", "gray.700");
+  const headerColor        = useColorModeValue("gray.500", "gray.400");
+  const borderColor        = useColorModeValue("gray.100", "gray.700");
+  const rowHoverBg         = useColorModeValue("gray.50", "gray.700");
+  const nameColor          = useColorModeValue("gray.800", "white");
+  const emailColor         = useColorModeValue("gray.500", "gray.400");
+  const phoneColor         = useColorModeValue("gray.600", "gray.300");
+  const priceColor         = useColorModeValue("green.600", "green.300");
+  const sectionBg          = useColorModeValue("white", "gray.800");
   const sectionBorderColor = useColorModeValue("gray.200", "gray.700");
-  const inputFocusBorder = "accent.solid";
-  const emptyIconColor = useColorModeValue("gray.300", "gray.600");
-  const emptyTextColor = useColorModeValue("gray.500", "gray.400");
+  const inputFocusBorder   = "accent.solid";
+  const emptyIconColor     = useColorModeValue("gray.300", "gray.600");
+  const emptyTextColor     = useColorModeValue("gray.500", "gray.400");
+  const filterInputBg      = useColorModeValue("gray.50", "gray.700");
+  const filterInputBorder  = useColorModeValue("gray.200", "gray.600");
 
   const totalPages = Math.ceil(totalCount / limit);
 
   const handlePageChange = (data) => {
     setPage(data);
-    setSearchParams({ page: data, limit });
   };
 
   const handleDelete = (id) => {
@@ -417,12 +310,33 @@ export const Products = () => {
     dispatch(handleUpdateProductData(id, payload));
   };
 
+  const handleSearch = useCallback(() => {
+    setSearch(searchInput);
+    setPage(1);
+  }, [searchInput]);
+
+  const handleClearFilters = () => {
+    setSearchInput("");
+    setSearch("");
+    setCategory("");
+    setSortOrder("");
+    setPage(1);
+  };
+
+  const hasActiveFilters = search || category || sortOrder;
+
   useEffect(() => {
     const params = { limit, page };
+    if (search) params.search = search;
+    if (category) params.category = category;
+    if (sortOrder) {
+      params.sortField = "price";
+      params.sortOrder = sortOrder;
+    }
     setSearchParams(params);
     dispatch(handleProductData(params));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, search, category, sortOrder]);
 
   return (
     <Box
@@ -458,7 +372,7 @@ export const Products = () => {
           </Text>
         </HStack>
         <Badge
-                    variant="subtle"
+          variant="subtle"
           borderRadius="full"
           px={3}
           py={1}
@@ -469,143 +383,198 @@ export const Products = () => {
         </Badge>
       </Flex>
 
-      {/* Table */}
-      <Box overflowX="auto">
-        <Table variant="unstyled" size="sm">
-          <Thead bg={headerBg}>
-            <Tr>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-                w="72px"
-              >
-                Image
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Title
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Brand
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Category
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Price
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Discount
-              </Th>
-              <Th
-                color={headerColor}
-                fontSize="xs"
-                fontWeight="700"
-                letterSpacing="0.08em"
-                textTransform="uppercase"
-                py={3}
-                px={4}
-              >
-                Actions
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {products.map((product) => (
-              <ProductRow
-                key={product._id}
-                product={product}
-                headerBg={headerBg}
-                borderColor={borderColor}
-                rowHoverBg={rowHoverBg}
-                nameColor={nameColor}
-                emailColor={emailColor}
-                phoneColor={phoneColor}
-                priceColor={priceColor}
-                sectionBorderColor={sectionBorderColor}
-                inputFocusBorder={inputFocusBorder}
-                onDelete={handleDelete}
-                onUpdate={handleUpdate}
+      {/* Filter Bar */}
+      <Flex
+        px={6}
+        py={3}
+        gap={3}
+        borderBottom="1px solid"
+        borderColor={borderColor}
+        align="center"
+        wrap="wrap"
+      >
+        <InputGroup maxW="280px" size="sm">
+          <InputLeftElement pointerEvents="none">
+            <Icon as={FiSearch} color={emailColor} boxSize={3.5} />
+          </InputLeftElement>
+          <Input
+            placeholder="Search products..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            bg={filterInputBg}
+            border="1px solid"
+            borderColor={filterInputBorder}
+            borderRadius="lg"
+            fontSize="sm"
+            _focus={{ borderColor: inputFocusBorder, boxShadow: `0 0 0 1px var(--chakra-colors-accent-solid)` }}
+          />
+          {searchInput && (
+            <InputRightElement>
+              <IconButton
+                aria-label="Clear search"
+                icon={<FiX size={12} />}
+                size="xs"
+                variant="ghost"
+                onClick={() => { setSearchInput(""); setSearch(""); setPage(1); }}
               />
-            ))}
-          </Tbody>
-        </Table>
+            </InputRightElement>
+          )}
+        </InputGroup>
 
-        {/* Empty State */}
-        {products.length === 0 && (
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            py={16}
-            gap={3}
+        <Select
+          size="sm"
+          maxW="150px"
+          borderRadius="lg"
+          bg={filterInputBg}
+          border="1px solid"
+          borderColor={filterInputBorder}
+          fontSize="sm"
+          value={category}
+          onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+          _focus={{ borderColor: inputFocusBorder }}
+        >
+          <option value="">All Categories</option>
+          <option value="Men">Men</option>
+          <option value="Women">Women</option>
+          <option value="Kids">Kids</option>
+        </Select>
+
+        <Select
+          size="sm"
+          maxW="160px"
+          borderRadius="lg"
+          bg={filterInputBg}
+          border="1px solid"
+          borderColor={filterInputBorder}
+          fontSize="sm"
+          value={sortOrder}
+          onChange={(e) => { setSortOrder(e.target.value); setPage(1); }}
+          _focus={{ borderColor: inputFocusBorder }}
+        >
+          <option value="">Sort by Price</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </Select>
+
+        <Button
+          size="sm"
+          borderRadius="lg"
+          fontWeight="600"
+          onClick={handleSearch}
+          px={4}
+        >
+          Search
+        </Button>
+
+        {hasActiveFilters && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorScheme="red"
+            borderRadius="lg"
+            fontWeight="600"
+            onClick={handleClearFilters}
+            leftIcon={<FiX size={14} />}
           >
-            <Flex
-              align="center"
-              justify="center"
-              w={16}
-              h={16}
-              bg={headerBg}
-              borderRadius="full"
-            >
-              <FiPackage size={28} color={emptyIconColor} />
-            </Flex>
-            <Text fontSize="md" fontWeight="600" color={emptyTextColor}>
-              No products found
-            </Text>
-            <Text fontSize="sm" color={emptyTextColor}>
-              Products will appear here once added to the catalog.
-            </Text>
-          </Flex>
+            Clear
+          </Button>
         )}
-      </Box>
+      </Flex>
+
+      {/* Loading State */}
+      {isLoading && (
+        <Flex align="center" justify="center" py={16} gap={3}>
+          <Spinner size="md" color="accent.solid" thickness="2px" />
+          <Text fontSize="sm" color={emptyTextColor} fontWeight="500">Loading products...</Text>
+        </Flex>
+      )}
+
+      {/* Error State */}
+      {isError && !isLoading && (
+        <Flex direction="column" align="center" justify="center" py={16} gap={3}>
+          <Flex align="center" justify="center" w={16} h={16} bg="red.50" borderRadius="full">
+            <Icon as={FiPackage} boxSize={7} color="red.400" />
+          </Flex>
+          <Text fontSize="md" fontWeight="600" color="red.500">Failed to load products</Text>
+          <Text fontSize="sm" color={emptyTextColor}>Please refresh or try again.</Text>
+        </Flex>
+      )}
+
+      {/* Table */}
+      {!isLoading && !isError && (
+        <Box overflowX="auto">
+          <Table variant="unstyled" size="sm">
+            <Thead bg={headerBg}>
+              <Tr>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4} w="72px">
+                  Image
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Title
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Brand
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Category
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Price
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Discount
+                </Th>
+                <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={4}>
+                  Actions
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {products.map((product) => (
+                <ProductRow
+                  key={product._id}
+                  product={product}
+                  headerBg={headerBg}
+                  borderColor={borderColor}
+                  rowHoverBg={rowHoverBg}
+                  nameColor={nameColor}
+                  emailColor={emailColor}
+                  phoneColor={phoneColor}
+                  priceColor={priceColor}
+                  onDelete={handleDelete}
+                  onUpdate={handleUpdate}
+                />
+              ))}
+            </Tbody>
+          </Table>
+
+          {/* Empty State */}
+          {products.length === 0 && (
+            <Flex direction="column" align="center" justify="center" py={16} gap={3}>
+              <Flex align="center" justify="center" w={16} h={16} bg={headerBg} borderRadius="full">
+                <FiPackage size={28} color={emptyIconColor} />
+              </Flex>
+              <Text fontSize="md" fontWeight="600" color={emptyTextColor}>
+                No products found
+              </Text>
+              <Text fontSize="sm" color={emptyTextColor}>
+                {hasActiveFilters
+                  ? "Try adjusting your filters."
+                  : "Products will appear here once added to the catalog."}
+              </Text>
+              {hasActiveFilters && (
+                <Button size="sm" variant="ghost" onClick={handleClearFilters} leftIcon={<FiX size={14} />}>
+                  Clear filters
+                </Button>
+              )}
+            </Flex>
+          )}
+        </Box>
+      )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {!isLoading && !isError && totalPages > 1 && (
         <Box
           borderTop="1px solid"
           borderColor={borderColor}

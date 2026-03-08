@@ -37,12 +37,13 @@ import {
 } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetOrderData } from "../../../../redux/Admin_Redux/order/action";
+import SearchInput from "../../../common/SearchInput";
 import Pagination from "./Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
 const formatDate = (dateStr) => {
-  if (!dateStr) return "—";
+  if (!dateStr) return "\u2014";
   const parts = dateStr.split(".");
   if (parts.length === 3) {
     const [day, month, year] = parts;
@@ -64,33 +65,29 @@ const shortId = (id = "") =>
 
 const OrderTable = () => {
   const dispatch = useDispatch();
-  const { orderData, isLoading, isError } = useSelector(
+  const { orderData, isLoading, isError, totalCount } = useSelector(
     (store) => store.adminOrderReducer
   );
   const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // All useColorModeValue at top level
-  const cardBg         = useColorModeValue("white",      "gray.800");
-  const cardBorder     = useColorModeValue("gray.200",   "gray.700");
-  const thBg           = useColorModeValue("gray.50",    "gray.700");
-  const thColor        = useColorModeValue("gray.500",   "gray.400");
-  const tdColor        = useColorModeValue("gray.700",   "gray.200");
-  const subtitleColor  = useColorModeValue("gray.500",   "gray.400");
-  const rowHoverBg     = useColorModeValue("accent.bg",  "gray.700");
-  const rowBorderColor = useColorModeValue("gray.100",   "gray.700");
-  const emptyIconBg    = "accent.bg";
-  const emptyIconColor = "accent.solid";
+  const sectionBg      = useColorModeValue("white",      "gray.800");
+  const sectionBorder  = useColorModeValue("gray.200",   "gray.700");
+  const headerBg       = useColorModeValue("gray.50",    "gray.700");
+  const headerColor    = useColorModeValue("gray.500",   "gray.400");
+  const borderColor    = useColorModeValue("gray.100",   "gray.700");
+  const nameColor      = useColorModeValue("gray.800",   "white");
+  const emailColor     = useColorModeValue("gray.500",   "gray.400");
+  const phoneColor     = useColorModeValue("gray.600",   "gray.300");
+  const rowHoverBg     = useColorModeValue("gray.50",    "gray.700");
   const emptyTextColor = useColorModeValue("gray.500",   "gray.400");
-  const countBg        = "accent.bg";
-  const countColor     = "accent.text";
+  const emptyIconColor = useColorModeValue("gray.300",   "gray.600");
   const amountColor    = useColorModeValue("green.600",  "green.300");
-  const emailColor     = useColorModeValue("gray.400",   "gray.500");
   const idColor        = "accent.text";
-  const dateColor      = useColorModeValue("gray.500",   "gray.400");
-  const spinnerColor   = "accent.solid";
-  const avatarBg       = "accent.bg";
   const modalLabelColor = useColorModeValue("gray.500",  "gray.400");
   const modalValueColor = useColorModeValue("gray.800",  "white");
   const itemBg         = useColorModeValue("gray.50",    "gray.700");
@@ -98,34 +95,25 @@ const OrderTable = () => {
   const dividerColor   = useColorModeValue("gray.200",   "gray.600");
 
   useEffect(() => {
-    dispatch(handleGetOrderData());
-  }, [dispatch]);
+    dispatch(handleGetOrderData({ page, limit: ITEMS_PER_PAGE, search: debouncedSearch }));
+  }, [page, debouncedSearch, dispatch]);
 
-  // Flatten order groups into flat rows — keep raw items for detail view
-  const flatRows = Array.isArray(orderData)
-    ? orderData.flatMap((group) => {
-        const orders = Array.isArray(group.orders) ? group.orders : [];
-        return orders.map((order) => ({
-          orderId:   order?._id || "",
-          customer:  order?.name || "Unknown",
-          email:     order?.email || "",
-          address:   order?.address || "",
-          items:     Array.isArray(order?.items) ? order.items : [],
-          itemCount: Array.isArray(order?.items) ? order.items.length : 0,
-          total:     order?.grandTotal ?? 0,
-          date:      order?.date || "",
-          time:      order?.time || "",
-        }));
-      })
+  // Map order data to display rows (backend handles pagination & search)
+  const rows = Array.isArray(orderData)
+    ? orderData.map((order) => ({
+        orderId:   order?._id || "",
+        customer:  order?.name || "Unknown",
+        email:     order?.email || "",
+        address:   order?.address || "",
+        items:     Array.isArray(order?.items) ? order.items : [],
+        itemCount: Array.isArray(order?.items) ? order.items.length : 0,
+        total:     order?.grandTotal ?? 0,
+        date:      order?.date || "",
+        time:      order?.time || "",
+      }))
     : [];
 
-  const totalOrders = flatRows.length;
-  const totalPages = Math.ceil(totalOrders / ITEMS_PER_PAGE);
-  const paginatedRows = flatRows.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
-
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   const handlePageChange = (newPage) => setPage(newPage);
 
   const handleRowClick = (row) => {
@@ -138,210 +126,205 @@ const OrderTable = () => {
     setSelectedOrder(null);
   };
 
-  if (isLoading) {
-    return (
-      <Flex align="center" justify="center" minH="50vh" direction="column" gap={4}>
-        <Spinner size="lg" color={spinnerColor} thickness="3px" />
-        <Text color={subtitleColor} fontWeight="500" fontSize="sm">
-          Loading orders...
-        </Text>
-      </Flex>
-    );
-  }
-
-  if (isError) {
-    return (
-      <Flex align="center" justify="center" minH="50vh" direction="column" gap={3}>
-        <Flex align="center" justify="center" w={16} h={16} borderRadius="full" bg="red.50">
-          <Icon as={FiShoppingBag} boxSize={7} color="red.400" />
-        </Flex>
-        <Text color="red.500" fontWeight="600">Failed to load orders</Text>
-        <Text color={subtitleColor} fontSize="sm">Please refresh or try again later.</Text>
-      </Flex>
-    );
-  }
-
   return (
-    <Box>
-      {/* Section header */}
-      <Flex align="center" justify="space-between" mb={5} wrap="wrap" gap={3}>
-        <Flex align="center" gap={3}>
+    <Box
+      bg={sectionBg}
+      borderRadius="xl"
+      border="1px solid"
+      borderColor={sectionBorder}
+      overflow="hidden"
+      boxShadow="sm"
+    >
+      {/* Section Header */}
+      <Flex
+        align="center"
+        justify="space-between"
+        px={6}
+        py={4}
+        borderBottom="1px solid"
+        borderColor={borderColor}
+      >
+        <HStack spacing={3}>
           <Flex
             align="center"
             justify="center"
-            w={10}
-            h={10}
-            borderRadius="xl"
-            bg="accent.solid"
+            w={9}
+            h={9}
+            bg="accent.bg"
+            borderRadius="lg"
           >
-            <Icon as={FiShoppingBag} color="white" boxSize={5} />
+            <FiShoppingBag size={18} color="var(--chakra-colors-accent-solid)" />
           </Flex>
-          <Box>
-            <Text fontSize="lg" fontWeight="700" lineHeight="shorter">
-              Order Management
-            </Text>
-            <Text fontSize="sm" color={subtitleColor}>
-              All customer orders at a glance
-            </Text>
-          </Box>
-        </Flex>
-
-        <Flex
-          align="center"
-          gap={2}
-          bg={countBg}
-          color={countColor}
-          px={4}
-          py={2}
-          borderRadius="xl"
-          fontWeight="700"
+          <Text fontSize="lg" fontWeight="600" color={nameColor}>
+            Order Management
+          </Text>
+        </HStack>
+        <Badge
+          variant="subtle"
+          borderRadius="full"
+          px={3}
+          py={1}
           fontSize="sm"
+          fontWeight="600"
         >
-          <Icon as={FiPackage} boxSize={4} />
-          {totalOrders} {totalOrders === 1 ? "Order" : "Orders"}
-        </Flex>
+          {totalCount} {totalCount === 1 ? "Order" : "Orders"}
+        </Badge>
       </Flex>
 
-      {/* Table card */}
-      <Box
-        bg={cardBg}
-        border="1px solid"
-        borderColor={cardBorder}
-        borderRadius="xl"
-        overflow="hidden"
-        shadow="sm"
-      >
-        {flatRows.length === 0 ? (
-          <Flex direction="column" align="center" justify="center" py={20} gap={4}>
-            <Flex align="center" justify="center" w={20} h={20} borderRadius="full" bg={emptyIconBg}>
-              <Icon as={FiShoppingBag} boxSize={9} color={emptyIconColor} />
-            </Flex>
-            <Box textAlign="center">
-              <Text fontSize="lg" fontWeight="700" mb={1}>No Orders Yet</Text>
-              <Text fontSize="sm" color={emptyTextColor} maxW="280px">
-                Customer orders will appear here once they start placing them.
-              </Text>
-            </Box>
+      {/* Search Bar */}
+      <Flex px={6} py={3} borderBottom="1px solid" borderColor={borderColor}>
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onSearch={(val) => { setPage(1); setDebouncedSearch(val); }}
+          placeholder="Search by customer, email, or order ID..."
+        />
+      </Flex>
+
+      {/* Loading State */}
+      {isLoading && (
+        <Flex align="center" justify="center" py={16} gap={3}>
+          <Spinner size="md" color="accent.solid" thickness="2px" />
+          <Text fontSize="sm" color={emptyTextColor} fontWeight="500">Loading orders...</Text>
+        </Flex>
+      )}
+
+      {/* Error State */}
+      {isError && !isLoading && (
+        <Flex direction="column" align="center" justify="center" py={16} gap={3}>
+          <Flex align="center" justify="center" w={16} h={16} bg="red.50" borderRadius="full">
+            <Icon as={FiShoppingBag} boxSize={7} color="red.400" />
           </Flex>
-        ) : (
-          <>
-            <Box overflowX="auto">
-              <Table variant="unstyled" size="md">
-                <Thead>
-                  <Tr bg={thBg}>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor}>
-                      Order ID
-                    </Th>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor}>
-                      Customer
-                    </Th>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor} isNumeric>
-                      Items
-                    </Th>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor} isNumeric>
-                      Total
-                    </Th>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor}>
-                      Date
-                    </Th>
-                    <Th py={3} px={5} fontSize="2xs" fontWeight="700" letterSpacing="wider" textTransform="uppercase" color={thColor} borderBottom="1px solid" borderColor={rowBorderColor}>
-                      Details
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {paginatedRows.map((row, idx) => (
-                    <Tr
-                      key={`${row.orderId}-${idx}`}
-                      borderBottom="1px solid"
-                      borderColor={rowBorderColor}
-                      _hover={{ bg: rowHoverBg }}
-                      transition="background 0.15s ease"
-                      cursor="pointer"
-                      onClick={() => handleRowClick(row)}
-                    >
-                      <Td py={3.5} px={5}>
-                        <Text fontSize="sm" fontWeight="600" color={idColor} fontFamily="mono">
-                          {shortId(row.orderId)}
+          <Text fontSize="md" fontWeight="600" color="red.500">Failed to load orders</Text>
+          <Text fontSize="sm" color={emptyTextColor}>Please refresh or try again.</Text>
+        </Flex>
+      )}
+
+      {/* Table */}
+      {!isLoading && !isError && <Box overflowX="auto">
+        <Table variant="unstyled" size="md">
+          <Thead bg={headerBg}>
+            <Tr>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6}>
+                Order ID
+              </Th>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6}>
+                Customer
+              </Th>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6} isNumeric>
+                Items
+              </Th>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6} isNumeric>
+                Total
+              </Th>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6}>
+                Date
+              </Th>
+              <Th color={headerColor} fontSize="xs" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" py={3} px={6}>
+                Details
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {rows.map((row, idx) => (
+              <Tr
+                key={`${row.orderId}-${idx}`}
+                borderTop="1px solid"
+                borderColor={borderColor}
+                _hover={{ bg: rowHoverBg }}
+                transition="background 0.15s"
+                cursor="pointer"
+                onClick={() => handleRowClick(row)}
+              >
+                <Td px={6} py={4}>
+                  <Text fontSize="sm" fontWeight="600" color={idColor} fontFamily="mono">
+                    {shortId(row.orderId)}
+                  </Text>
+                </Td>
+                <Td px={6} py={4}>
+                  <Flex align="center" gap={3}>
+                    <Avatar size="sm" name={row.customer} bg="accent.solid" color="white" fontWeight="600" fontSize="xs" />
+                    <VStack align="flex-start" spacing={0}>
+                      <Text fontSize="sm" fontWeight="600" color={nameColor} lineHeight="1.3">
+                        {row.customer}
+                      </Text>
+                      {row.email && (
+                        <Text fontSize="xs" color={emailColor} lineHeight="1.3">
+                          {row.email}
                         </Text>
-                      </Td>
+                      )}
+                    </VStack>
+                  </Flex>
+                </Td>
+                <Td px={6} py={4} isNumeric>
+                  <Badge variant="subtle" borderRadius="md" px={2} py={0.5} fontSize="xs" fontWeight="600">
+                    {row.itemCount} {row.itemCount === 1 ? "item" : "items"}
+                  </Badge>
+                </Td>
+                <Td px={6} py={4} isNumeric>
+                  <Text fontSize="sm" fontWeight="700" color={amountColor}>
+                    ${Number(row.total).toFixed(2)}
+                  </Text>
+                </Td>
+                <Td px={6} py={4}>
+                  <VStack align="flex-start" spacing={0}>
+                    <Text fontSize="sm" color={phoneColor}>
+                      {formatDate(row.date)}
+                    </Text>
+                    {row.time && (
+                      <Text fontSize="xs" color={emailColor}>
+                        {row.time}
+                      </Text>
+                    )}
+                  </VStack>
+                </Td>
+                <Td px={6} py={4}>
+                  <Flex
+                    align="center"
+                    justify="center"
+                    w={8}
+                    h={8}
+                    borderRadius="lg"
+                    bg="accent.bg"
+                    color="accent.solid"
+                    transition="all 0.15s"
+                  >
+                    <Icon as={FiEye} boxSize={4} />
+                  </Flex>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
 
-                      <Td py={3.5} px={5}>
-                        <Flex align="center" gap={3}>
-                          <Avatar size="sm" name={row.customer} bg={avatarBg} color="accent.text" />
-                          <VStack align="flex-start" spacing={0}>
-                            <Text fontSize="sm" fontWeight="600" color={tdColor} lineHeight="shorter">
-                              {row.customer}
-                            </Text>
-                            {row.email && (
-                              <Text fontSize="xs" color={emailColor}>
-                                {row.email}
-                              </Text>
-                            )}
-                          </VStack>
-                        </Flex>
-                      </Td>
-
-                      <Td py={3.5} px={5} isNumeric>
-                        <Badge  variant="subtle" borderRadius="md" px={2} py={0.5} fontSize="xs" fontWeight="600">
-                          {row.itemCount} {row.itemCount === 1 ? "item" : "items"}
-                        </Badge>
-                      </Td>
-
-                      <Td py={3.5} px={5} isNumeric>
-                        <Text fontSize="sm" fontWeight="700" color={amountColor}>
-                          ${Number(row.total).toFixed(2)}
-                        </Text>
-                      </Td>
-
-                      <Td py={3.5} px={5}>
-                        <VStack align="flex-start" spacing={0}>
-                          <Text fontSize="sm" color={dateColor}>
-                            {formatDate(row.date)}
-                          </Text>
-                          {row.time && (
-                            <Text fontSize="xs" color={emailColor}>
-                              {row.time}
-                            </Text>
-                          )}
-                        </VStack>
-                      </Td>
-
-                      <Td py={3.5} px={5}>
-                        <Flex
-                          align="center"
-                          justify="center"
-                          w={8}
-                          h={8}
-                          borderRadius="lg"
-                          bg="accent.bg"
-                          color="accent.solid"
-                          _hover={{ bg: "accent.bg" }}
-                          transition="all 0.15s"
-                        >
-                          <Icon as={FiEye} boxSize={4} />
-                        </Flex>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </Box>
-
-            {totalPages > 1 && (
-              <Box px={5} py={4} borderTop="1px solid" borderColor={rowBorderColor}>
-                <Pagination
-                  currentPage={page}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                />
-              </Box>
-            )}
-          </>
+        {/* Empty State */}
+        {rows.length === 0 && (
+          <Flex direction="column" align="center" justify="center" py={16} gap={3}>
+            <Flex align="center" justify="center" w={16} h={16} bg={headerBg} borderRadius="full">
+              <FiShoppingBag size={28} color={emptyIconColor} />
+            </Flex>
+            <Text fontSize="md" fontWeight="600" color={emptyTextColor}>
+              No orders found
+            </Text>
+            <Text fontSize="sm" color={emptyTextColor}>
+              {searchQuery ? "Try adjusting your search." : "Orders will appear here once customers place them."}
+            </Text>
+          </Flex>
         )}
-      </Box>
+      </Box>}
 
-      {/* ── Order Detail Modal ── */}
+      {/* Pagination */}
+      {!isLoading && !isError && totalPages > 1 && (
+        <Box px={6} py={4} borderTop="1px solid" borderColor={borderColor}>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </Box>
+      )}
+
+      {/* Order Detail Modal */}
       <Modal isOpen={isOpen} onClose={handleModalClose} isCentered size="lg" scrollBehavior="inside">
         <ModalOverlay backdropFilter="blur(4px)" />
         <ModalContent borderRadius="xl" overflow="hidden" maxH="85vh">
@@ -443,7 +426,6 @@ const OrderTable = () => {
                           gap={3}
                           align="center"
                         >
-                          {/* Item Image */}
                           <Box
                             w="56px"
                             h="56px"
@@ -460,21 +442,19 @@ const OrderTable = () => {
                               h="100%"
                               objectFit="cover"
                               fallback={
-                                <Flex w="100%" h="100%" align="center" justify="center" bg={thBg}>
+                                <Flex w="100%" h="100%" align="center" justify="center" bg={headerBg}>
                                   <Icon as={FiPackage} boxSize={5} color={emailColor} />
                                 </Flex>
                               }
                             />
                           </Box>
-
-                          {/* Item Details */}
                           <Box flex={1} minW={0}>
                             <Text fontSize="sm" fontWeight="600" color={modalValueColor} noOfLines={1}>
                               {item.brand || "Product"}
                             </Text>
                             <HStack spacing={2} mt={1} flexWrap="wrap">
                               {item.size && (
-                                <Badge variant="subtle"  fontSize="2xs" borderRadius="md">
+                                <Badge variant="subtle" fontSize="2xs" borderRadius="md">
                                   Size: {item.size}
                                 </Badge>
                               )}
@@ -488,8 +468,6 @@ const OrderTable = () => {
                               )}
                             </HStack>
                           </Box>
-
-                          {/* Item Price */}
                           <VStack spacing={0} align="flex-end" flexShrink={0}>
                             <Text fontSize="sm" fontWeight="700" color={amountColor}>
                               ${Number(item.totalPrice || item.price * (item.quantity || 1)).toFixed(2)}
