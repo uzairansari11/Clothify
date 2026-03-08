@@ -1,29 +1,24 @@
-import {
-  Box,
-  Center,
-  Divider,
-  Flex,
-  Grid,
-  Heading,
-  ScaleFade,
-  Text,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { Box, Divider, Grid, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { FiHeart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingSpinner from "../components/user/spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+import EmptyState from "../components/common/EmptyState";
+import LoadingScreen from "../components/common/LoadingScreen";
 import WishlistCard from "../components/user/wishlist/WishlistCard";
 import { handleAddToCartData } from "../redux/User_Redux/cart/action";
-import {
-  handleDeleteToWishlistData,
-} from "../redux/User_Redux/wishlist/action";
+import { handleDeleteToWishlistData } from "../redux/User_Redux/wishlist/action";
 
 const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { wishlistData } = useSelector((store) => store.wishlistReducer);
   const { isAuth } = useSelector((store) => store.authReducer);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const pageBg = useColorModeValue("white", "gray.900");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const subtextColor = useColorModeValue("gray.500", "gray.400");
 
   const handleRemoveItem = (itemId) => {
     dispatch(handleDeleteToWishlistData(itemId));
@@ -32,101 +27,60 @@ const WishlistPage = () => {
   const handleAddToCart = (payload) => {
     dispatch(handleAddToCartData(payload));
   };
-  useEffect(() => {
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setTimeout(() => setIsLoading(false), 500);
   }, []);
+
   if (!isAuth) {
-    // Redirect or display message indicating that the user needs to log in
     return (
-      <Box p={4}>
-        <Heading
-          as="h1"
-          mb={4}
-          size="xl"
-          textAlign="center"
-          color="teal.500"
-          fontFamily={"cursive"}
-          fontSize={"xl"}
-          fontWeight={"extrabold"}
-        >
-          Your Wishlist
-        </Heading>
-        <Divider my={4} />
-        <Flex justifyContent="center" alignItems="center" minHeight="200px">
-          <Text fontSize="xl" textAlign="center" color="gray.500">
-            Please log in to view your wishlist.
-          </Text>
-        </Flex>
-      </Box>
+      <EmptyState
+        icon={FiHeart}
+        title="Your Wishlist"
+        message="Please log in to view your wishlist."
+        actionLabel="Login"
+        onAction={() => navigate("/login", { state: { data: "/wishlist" } })}
+      />
     );
   }
-  return (
-    <Box p={4}>
-      <Heading
-        as="h1"
-        mb={4}
-        size="xl"
-        textAlign="center"
-        color="teal.500"
-        fontFamily="cursive"
-        fontSize="xl"
-        fontWeight="extrabold"
-      >
-        Your Wishlist
-      </Heading>
-      <Divider my={4} />
 
-      {isLoading ? (
-        <Center minHeight="200px">
-          <LoadingSpinner />
-        </Center>
-      ) : wishlistData?.length ? (
-        <Flex
-          flexDirection="row"
-          flexWrap="wrap"
-          justifyContent="center"
-          alignItems="flex-start"
+  if (isLoading) {
+    return <LoadingScreen message="Loading your wishlist..." />;
+  }
+
+  return (
+    <Box p={{ base: 4, md: 6 }} maxW="1200px" mx="auto" bg={pageBg}>
+      <Heading size="lg" mb={2} color={headingColor} fontWeight="700">
+        My Wishlist
+      </Heading>
+      <Text color={subtextColor} fontSize="sm" mb={4}>
+        {wishlistData?.length || 0} item{wishlistData?.length !== 1 ? "s" : ""} saved
+      </Text>
+      <Divider mb={6} />
+
+      {wishlistData?.length ? (
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          gap={4}
         >
-          <Grid
-            gridTemplateColumns={{
-              base: "repeat(1,1fr)",
-              md: "repeat(2,1fr)",
-              lg: "repeat(3,1fr)",
-            }}
-            gap={{ sm: "4" }}
-          >
-            {wishlistData.length &&
-              wishlistData.map((ele) => (
-                <WishlistCard
-                  key={ele._id}
-                  {...ele}
-                  handleRemoveItem={handleRemoveItem}
-                  handleAddToCart={handleAddToCart}
-                />
-              ))}
-          </Grid>
-        </Flex>
+          {wishlistData.map((ele) => (
+            <WishlistCard
+              key={ele._id}
+              {...ele}
+              handleRemoveItem={handleRemoveItem}
+              handleAddToCart={handleAddToCart}
+            />
+          ))}
+        </Grid>
       ) : (
-        <Flex justifyContent="center" alignItems="center" minHeight="200px">
-          <ScaleFade initialScale={0.9} in>
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.5,
-                type: "spring",
-                stiffness: 150,
-              }}
-            >
-              <Text fontSize="xl" textAlign="center" color="gray.500">
-                Your Wishlist Is Empty !
-              </Text>
-            </motion.div>
-          </ScaleFade>
-        </Flex>
+        <EmptyState
+          icon={FiHeart}
+          title="Your wishlist is empty"
+          message="Save items you love by clicking the heart icon on any product."
+          actionLabel="Browse Products"
+          onAction={() => navigate("/men")}
+        />
       )}
     </Box>
   );
