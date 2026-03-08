@@ -1,21 +1,28 @@
-import { Avatar, Box, Stack, Tooltip } from "@chakra-ui/react";
-import React from "react";
+import { Avatar, Box, Text, Flex, useColorModeValue } from "@chakra-ui/react";
 
 const AdminAvatar = ({ adminDetails }) => {
+  const namColor = useColorModeValue("gray.700", "gray.200");
+  const roleColor = useColorModeValue("gray.400", "gray.500");
+
   return (
-    <Stack direction="row" align="center" spacing={2} cursor="pointer">
-      <Box as="span" display="inline-block">
-        <Tooltip label={adminDetails?.name}>
-          <Avatar
-            size={{ base: "xs", md: "sm" }}
-            fontWeight={"bold"}
-            fontStyle={"italic"}
-            name={adminDetails?.name}
-            boxShadow="md"
-          />
-        </Tooltip>
+    <Flex align="center" gap={3} cursor="pointer" _hover={{ opacity: 0.85 }} transition="opacity 0.2s">
+      <Box textAlign="right" display={{ base: "none", md: "block" }}>
+        <Text fontSize="sm" fontWeight={600} color={namColor} lineHeight={1.2}>
+          {adminDetails?.name || "Admin"}
+        </Text>
+        <Text fontSize="xs" color={roleColor} lineHeight={1.4}>
+          Administrator
+        </Text>
       </Box>
-    </Stack>
+      <Avatar
+        size={{ base: "sm", md: "sm" }}
+        name={adminDetails?.name}
+        bg="accent.solid"
+        color="white"
+        fontWeight="bold"
+        boxShadow="0 0 0 2px var(--chakra-colors-accent-bg)"
+      />
+    </Flex>
   );
 };
 
