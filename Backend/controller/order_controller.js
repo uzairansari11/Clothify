@@ -67,10 +67,25 @@ const deleteOrder = async (req, res) => {
 
 const getOrderByAdmin = async (req, res) => {
   try {
-    const orderData = await OrderModel.aggregate([
-      { $group: { _id: '$user', orders: { $push: '$$ROOT' } } },
+    const { page = 1, limit = 10, search } = req.query;
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.max(1, Math.min(100, Number(limit)));
+
+    const filter = {};
+    if (search) {
+      const regex = new RegExp(search, 'i');
+      filter.$or = [{ name: regex }, { email: regex }];
+    }
+
+    const [orders, totalCount] = await Promise.all([
+      OrderModel.find(filter)
+        .skip((pageNum - 1) * limitNum)
+        .limit(limitNum)
+        .sort({ createdAt: -1 }),
+      OrderModel.countDocuments(filter),
     ]);
-    return sendSuccess(res, orderData, 'Orders fetched successfully');
+
+    return sendSuccess(res, { orders, totalCount, page: pageNum, limit: limitNum }, 'Orders fetched successfully');
   } catch (error) {
     return sendError(res, 'An error occurred while fetching admin orders');
   }

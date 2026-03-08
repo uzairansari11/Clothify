@@ -5,6 +5,7 @@ const {
   getAdmin,
   deleteAdmin,
   updateAdmin,
+  getDashboardStats,
 } = require('../controller/admin_controller');
 const { adminMiddleware } = require('../middleware/adminMiddleware');
 
@@ -13,6 +14,8 @@ const adminRouter = express.Router();
 adminRouter.post('/register', adminRegister);
 
 adminRouter.post('/login', adminLogin);
+
+adminRouter.get('/dashboard-stats', adminMiddleware, getDashboardStats);
 
 adminRouter.get('/', adminMiddleware, getAdmin);
 

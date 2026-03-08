@@ -63,8 +63,26 @@ const userLogin = asyncHandler(async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const users = await UserModel.find().select('-password');
-    return sendSuccess(res, users, 'Users fetched successfully');
+    const { page = 1, limit = 10, search } = req.query;
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.max(1, Math.min(100, Number(limit)));
+
+    const filter = {};
+    if (search) {
+      const regex = new RegExp(search, 'i');
+      filter.$or = [{ name: regex }, { email: regex }, { mobile: regex }];
+    }
+
+    const [users, totalCount] = await Promise.all([
+      UserModel.find(filter)
+        .select('-password')
+        .skip((pageNum - 1) * limitNum)
+        .limit(limitNum)
+        .sort({ createdAt: -1 }),
+      UserModel.countDocuments(filter),
+    ]);
+
+    return sendSuccess(res, { users, totalCount, page: pageNum, limit: limitNum }, 'Users fetched successfully');
   } catch (error) {
     return sendError(res, 'An error occurred while getting the users');
   }
